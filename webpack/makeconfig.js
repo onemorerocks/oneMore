@@ -1,31 +1,24 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import NyanProgressPlugin from 'nyan-progress-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import constants from './constants';
 import path from 'path';
 import webpack from 'webpack';
+import ip from 'ip';
 
-// Webpack does not like npm link
-// https://github.com/webpack/webpack/issues/784#issuecomment-126835731
-const babelLoader = require.resolve('babel-loader');
-
-const devtools = process.env.CONTINUOUS_INTEGRATION
-  ? 'inline-source-map'
-  // cheap-module-eval-source-map, because we want original source, but we don't
-  // care about columns, which makes this devtool faster than eval-source-map.
-  // http://webpack.github.io/docs/configuration.html#devtool
-  : 'cheap-module-eval-source-map';
+const devtools = 'inline-source-map';
 
 const loaders = {
   'css': '',
   'scss': '!sass-loader'
 };
 
+const serverIp = ip.address();
+
 export default function makeConfig(isDevelopment) {
 
   function stylesLoaders() {
     return Object.keys(loaders).map(ext => {
-      var prefix = 'css-loader?sourceMap!postcss-loader';
+      const prefix = 'css-loader!postcss-loader';
       const extLoaders = prefix + loaders[ext];
       const loader = isDevelopment
         ? `style-loader!${extLoaders}`
@@ -44,7 +37,7 @@ export default function makeConfig(isDevelopment) {
     devtool: isDevelopment ? devtools : '',
     entry: {
       app: isDevelopment ? [
-        `webpack-hot-middleware/client?path=http://localhost:${constants.HOT_RELOAD_PORT}/__webpack_hmr`,
+        `webpack-hot-middleware/client?path=http://${serverIp}:${constants.HOT_RELOAD_PORT}/__webpack_hmr`,
         path.join(constants.SRC_DIR, 'client/main.js')
       ] : [
         path.join(constants.SRC_DIR, 'client/main.js')
@@ -56,7 +49,22 @@ export default function makeConfig(isDevelopment) {
         test: /\.(gif|jpg|png|woff|woff2|eot|ttf|svg)$/
       }, {
         exclude: /node_modules/,
-        loaders: [babelLoader],
+        loader: 'babel',
+        query: {
+          "env": {
+            "development": {
+              "plugins": [
+                ["react-transform", {
+                  "transforms": [{
+                    "transform": "react-transform-hmr",
+                    "imports": ["react"],
+                    "locals": ["module"]
+                  }]
+                }]
+              ]
+            }
+          }
+        },
         test: /\.js$/
       }].concat(stylesLoaders())
     },
@@ -64,10 +72,10 @@ export default function makeConfig(isDevelopment) {
       path: constants.BUILD_DIR,
       filename: '[name].js',
       chunkFilename: '[name]-[chunkhash].js',
-      publicPath: `http://localhost:${constants.HOT_RELOAD_PORT}` + `/build/`
+      publicPath: `http://${serverIp}:${constants.HOT_RELOAD_PORT}/build/`
     } : {
       path: constants.BUILD_DIR,
-      filename: '[name].js',
+      filename: '[name]-[hash].js',
       chunkFilename: '[name]-[chunkhash].js'
     },
     plugins: (() => {
@@ -87,7 +95,7 @@ export default function makeConfig(isDevelopment) {
       else plugins.push(
         // Render styles into separate cacheable file to prevent FOUC and
         // optimize for critical rendering path.
-        new ExtractTextPlugin('app.css', {
+        new ExtractTextPlugin('app-[hash].css', {
           allChunks: true
         }),
         new webpack.optimize.DedupePlugin(),

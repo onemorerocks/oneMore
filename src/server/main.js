@@ -1,6 +1,5 @@
 import Hapi from 'hapi';
 import Inert from 'inert';
-//import Poop from 'poop';
 import Path from 'path';
 import jwt from 'hapi-auth-jwt2';
 
