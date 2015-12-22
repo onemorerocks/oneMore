@@ -1,9 +1,10 @@
 {
-  "aerospikeAddress": "192.168.99.101",
+  "aerospikeAddress": "192.168.99.100",
   "aerospikePort": 3000,
   "port": 8000,
-  "gmailUser": "my@email.com",
-  "gmailClientId": "SomeId",
-  "gmailClientSecret": "SomeSecret",
-  "gmailRefreshToken": "SomeRefreshToken"
+  "emailFrom": "my@email.com",
+  "emailUser": "username",
+  "emailPassword": "password",
+  "emailHost": "smtp.someone.com",
+  "emailPort": 25
 }

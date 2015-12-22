@@ -1,22 +1,17 @@
 import nodemailer from 'nodemailer';
-import xoauth2 from 'xoauth2';
+import smtpTransport from 'nodemailer-smtp-transport';
 import config from '../config';
 
 export default class Email {
 
   constructor() {
 
-    const generator = xoauth2.createXOAuth2Generator({
-      user: config.gmailUser,
-      clientId: config.gmailClientId,
-      clientSecret: config.gmailClientSecret,
-      refreshToken: config.gmailRefreshToken
-    });
-
-    this.transporter = nodemailer.createTransport(({
-      service: 'gmail',
+    this.transporter = nodemailer.createTransport(smtpTransport({
+      host: config.emailHost,
+      port: config.emailPort,
       auth: {
-        xoauth2: generator
+        user: config.emailUser,
+        pass: config.emailPassword
       }
     }));
 
@@ -25,14 +20,14 @@ export default class Email {
   sendEmail(to, subject, html) {
     return new Promise((resolve, reject) => {
       this.transporter.sendMail({
-        from: config.gmailUser,
+        from: config.emailFrom,
         to: to,
         subject: subject,
         generateTextFromHTML: true,
         html: html
       }, (error, response) => {
         if (error) {
-          reject(error);
+          reject(new Error(error));
         } else {
           resolve(response);
         }

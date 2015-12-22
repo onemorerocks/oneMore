@@ -18,15 +18,15 @@ export default class SignupIndex extends Component {
     };
   }
 
-  handleChange(prop) {
+  handleChange = (prop) => {
     return (event) => {
       const newState = {};
       newState[prop] = event.target.value;
       this.setState(newState);
     };
-  }
+  };
 
-  submit(event) {
+  submit = (event) => {
     event.preventDefault();
 
     const errors = [];
@@ -61,7 +61,7 @@ export default class SignupIndex extends Component {
       });
     }
 
-  }
+  };
 
   render() {
 

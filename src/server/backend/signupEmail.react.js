@@ -17,9 +17,8 @@ export default class SignupEmail extends Component {
       <body>
 
       <h1>Welcome to StickyBros</h1>
-      <p>Click
-        <a href={`http://localhost:8000/?key=${hashedKey}`}>this link</a>
-        to get started by making a profile.</p>
+      <p>Click <a href={`http://stickybros.org/email-verify?key=${hashedKey}`}>this link</a> to
+        get started by making a profile.</p>
       </body>
       </html>
     );

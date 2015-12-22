@@ -19,24 +19,36 @@ export default class Auth {
 
     return this._checkPassword(password).then((isPasswordWeak) => {
       if (isPasswordWeak) {
-        return 'weak-password';
+        return {status: 'weak-password'};
       } else {
         const signingKey = crypto.randomBytes(32).toString('hex');
-        const salt = crypto.randomBytes(32).toString('hex');
-        const passwordHash = this._hashPassword(password, salt);
+        const passwordSalt = crypto.randomBytes(32).toString('hex');
+        const passwordHash = this._hashPassword(password, passwordSalt);
 
         const data = {
           email: email,
           passwordHash: passwordHash,
           signingKey: signingKey,
-          passwordSalt: salt
+          passwordSalt: passwordSalt,
+          emailVerified: 0
         };
 
-        return this.dao.createIfDoesNotExist('logins', email.toLowerCase(), data).then((didCreate) => {
+        const key = email.toLowerCase();
+
+        return this.dao.createIfDoesNotExist('logins', key, data).then((didCreate) => {
           if (didCreate) {
-            return 'success:' + this._emailVerificationHash(signingKey, salt);
+            return {status: 'success', hash: this._emailVerificationHash(signingKey, passwordSalt)};
           } else {
-            return 'exists';
+            return this.dao.get('logins', key).then((existingLogin) => {
+              if (existingLogin.emailVerified) {
+                return {status: 'exists'};
+              } else {
+                return {
+                  status: 'resend',
+                  hash: this._emailVerificationHash(existingLogin.signingKey, existingLogin.passwordSalt)
+                };
+              }
+            });
           }
         });
       }
@@ -82,12 +94,12 @@ export default class Auth {
         } else if (data.indexOf('0') >= 0) {
           resolve(false);
         } else {
-          reject('Unexpected result: ' + data);
+          reject(new Error('Unexpected result: ' + data));
         }
       });
 
       ps.stderr.on('data', (data) => {
-        reject(data);
+        reject(new Error(data));
       });
 
     });

@@ -5,17 +5,16 @@ export default class Dao {
 
   _connect() {
 
-    const client = aerospike.client({
+    const rawClient = aerospike.client({
       hosts: [{addr: config.aerospikeAddress, port: config.aerospikePort}]
     });
 
-
     return new Promise((resolve, reject) => {
-      client.connect((err, client) => {
+      rawClient.connect((err, client) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(client);
         } else {
-          reject(err);
+          reject(new Error(err));
         }
       });
     });
@@ -29,9 +28,9 @@ export default class Dao {
           if (err.code === aerospike.status.AEROSPIKE_OK) {
             resolve(record);
           } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
-            resolve();
+            reject(new Error('Record not found in table: ' + table + '.' + key));
           } else {
-            reject(err);
+            reject(new Error(err));
           }
           client.close();
         });
@@ -49,9 +48,9 @@ export default class Dao {
           if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
             client.put(dbkey, data, (err, putKey) => {
               if (err.code === aerospike.status.AEROSPIKE_OK) {
-                resolve(true);
+                resolve(putKey);
               } else {
-                reject(err);
+                reject(new Error(err));
               }
               client.close();
             });
@@ -59,7 +58,7 @@ export default class Dao {
             resolve(false);
             client.close();
           } else {
-            reject(err);
+            reject(new Error(err));
             client.close();
           }
 

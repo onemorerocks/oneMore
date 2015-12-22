@@ -17,7 +17,7 @@ server.connection({port: config.port});
 server.register([Inert, jwt], (error) => {
 
   if (error) {
-    console.log(error); // eslint-disable-line
+    console.error(error); // eslint-disable-line
   }
 
   const auth = new Auth();
@@ -64,6 +64,32 @@ server.register([Inert, jwt], (error) => {
     method: 'GET',
     path: '/{path*}',
     handler: render
+  });
+
+  server.ext('onPreResponse', (request, reply) => {
+
+    const response = request.response;
+
+    if (!response.isBoom) {
+      reply.continue();
+    } else {
+      console.error(response.stack); // eslint-disable-line
+      reply(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <title>Server Error</title>
+          <link href="/_assets/app.css" rel="stylesheet"/>
+      </head>
+      <body>
+        <div class="row">
+          <h1>Sorry, there's been a server side error.</h1>
+          <p><a href="/">Click here to go back home.</a></p>
+        </div>
+      </body>
+      </html>`).code(500);
+    }
   });
 
   server.start(() => {
