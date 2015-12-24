@@ -18,6 +18,10 @@ export default class SignupIndex extends Component {
     };
   }
 
+  static propTypes = {
+    history: React.PropTypes.object
+  };
+
   handleChange = (prop) => {
     return (event) => {
       const newState = {};
@@ -50,6 +54,7 @@ export default class SignupIndex extends Component {
         password: this.state.password1
       }).then((result) => {
         this.setState({submitDisabled: false});
+        this.props.history.replaceState(null, '/email-sent');
       }).catch((err) => {
         if (err.status === 409) {
           this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
