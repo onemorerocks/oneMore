@@ -16,7 +16,7 @@ export default class EmailSent extends Component {
         <div className="row">
           <div className="small-12 columns">
             <p>Alright, cool. We sent a verification email to your address.</p>
-            <p>If you don't see it after a few minutes it might be in your spam folder.</p>
+            <p>If you don't see it after a few minutes, check your spam folder.</p>
             <p>Still can't find it?  Just signup again and another email will go out.</p>
           </div>
         </div>
