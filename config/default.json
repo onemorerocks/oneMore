@@ -6,5 +6,6 @@
   "emailUser": "username",
   "emailPassword": "password",
   "emailHost": "smtp.someone.com",
-  "emailPort": 25
+  "emailPort": 25,
+  "domain": "http://localhost:8000"
 }

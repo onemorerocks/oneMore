@@ -65,7 +65,6 @@ export default class SignupIndex extends Component {
         }
       });
     }
-
   };
 
   render() {

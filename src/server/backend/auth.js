@@ -23,6 +23,7 @@ export default class Auth {
       } else {
         const signingKey = crypto.randomBytes(32).toString('hex');
         const passwordSalt = crypto.randomBytes(32).toString('hex');
+        const emailVerificationKey = crypto.randomBytes(32).toString('hex');
         const passwordHash = this._hashPassword(password, passwordSalt);
 
         const data = {
@@ -30,6 +31,7 @@ export default class Auth {
           passwordHash: passwordHash,
           signingKey: signingKey,
           passwordSalt: passwordSalt,
+          emailVeriKey: emailVerificationKey,
           emailVerified: 0
         };
 
@@ -37,7 +39,7 @@ export default class Auth {
 
         return this.dao.createIfDoesNotExist('logins', key, data).then((didCreate) => {
           if (didCreate) {
-            return {status: 'success', hash: this._emailVerificationHash(signingKey, passwordSalt)};
+            return {status: 'success', hash: emailVerificationKey};
           } else {
             return this.dao.get('logins', key).then((existingLogin) => {
               if (existingLogin.emailVerified) {
@@ -45,7 +47,7 @@ export default class Auth {
               } else {
                 return {
                   status: 'resend',
-                  hash: this._emailVerificationHash(existingLogin.signingKey, existingLogin.passwordSalt)
+                  emailVerificationKey: existingLogin.emailVeriKey
                 };
               }
             });
@@ -105,11 +107,17 @@ export default class Auth {
     });
   }
 
-  _emailVerificationHash(signingKey, salt) {
-    const sha = crypto.createHash('sha256');
-    sha.update(signingKey);
-    sha.update(salt);
-    return sha.digest('hex');
+  verifyEmail(email, emailKey) {
+    const key = email.toLowerCase();
+    return this.dao.get('logins', key).then((record) => {
+      if (record.emailVeriKey === emailKey) {
+        return this.dao.blindSet('logins', key, {emailVerified: 1}).then(() => {
+          return true;
+        });
+      } else {
+        return false;
+      }
+    });
   }
 
 }

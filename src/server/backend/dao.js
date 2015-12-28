@@ -73,4 +73,23 @@ export default class Dao {
     });
   }
 
+  _setPolicy = {
+    exists: aerospike.policy.exists.UPDATE
+  };
+
+  blindSet(table, key, data) {
+    return this._connectPromise((client, resolve, reject) => {
+      const dbkey = aerospike.key('stickybros', table, key);
+      client.put(dbkey, data, null, this._setPolicy, (err, putKey) => {
+        if (err.code === aerospike.status.AEROSPIKE_OK) {
+          resolve(putKey);
+        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
+          reject(newError('Record not found in table: ' + table + '.' + key));
+        } else {
+          reject(newError(err));
+        }
+      });
+    });
+  }
+
 }

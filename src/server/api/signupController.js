@@ -34,9 +34,9 @@ export default function signupController(req, reply) {
     return;
   }
 
-  const sendVerificationEmail = (result, code) => {
-    const key = result.hash;
-    const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail hashedKey={key}/>);
+  const sendVerificationEmail = (result, email, code) => {
+    const key = result.emailVerificationKey;
+    const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={email} emailVerificationKey={key}/>);
     return emailService.sendEmail(email, 'Welcome to StickyBros', html).then(() => {
       return req.generateResponse().code(code);
     });
@@ -44,11 +44,11 @@ export default function signupController(req, reply) {
 
   const promise = authService.signup(email, password).then((result) => {
     if (result.status === 'success') {
-      return sendVerificationEmail(result, 200);
+      return sendVerificationEmail(result, email, 200);
     } else if (result.status === 'exists') {
       return req.generateResponse('This email is already verified!').code(409);
     } else if (result.status === 'resend') {
-      return sendVerificationEmail(result, 202);
+      return sendVerificationEmail(result, email, 202);
     } else if (result.status === 'weak-password') {
       return req.generateResponse('Bad password').code(403);
     } else {

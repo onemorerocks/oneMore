@@ -7,6 +7,7 @@ import config from './config';
 import render from './frontend/render';
 import loginController from './api/loginController';
 import signupController from './api/signupController';
+import verifyEmailController from './api/verifyEmailController';
 
 import Auth from './backend/auth';
 
@@ -37,6 +38,12 @@ server.register([Inert, jwt], (error) => {
     method: 'POST',
     path: '/api/signup',
     handler: signupController
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/email-verify/{param*}',
+    handler: verifyEmailController
   });
 
   server.route({
