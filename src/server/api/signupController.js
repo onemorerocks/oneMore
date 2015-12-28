@@ -3,6 +3,7 @@ import Email from '../backend/email';
 import SignupEmail from '../backend/signupEmail.react';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+import config from '../config';
 
 const emailService = new Email();
 const authService = new Auth();
@@ -35,11 +36,15 @@ export default function signupController(req, reply) {
   }
 
   const sendVerificationEmail = (result, email, code) => {
-    const key = result.emailVerificationKey;
-    const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={email} emailVerificationKey={key}/>);
-    return emailService.sendEmail(email, 'Welcome to StickyBros', html).then(() => {
+    if (config.sendEmail) {
+      const key = result.emailVerificationKey;
+      const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={email} emailVerificationKey={key}/>);
+      return emailService.sendEmail(email, 'Welcome to StickyBros', html).then(() => {
+        return req.generateResponse().code(code);
+      });
+    } else {
       return req.generateResponse().code(code);
-    });
+    }
   };
 
   const promise = authService.signup(email, password).then((result) => {

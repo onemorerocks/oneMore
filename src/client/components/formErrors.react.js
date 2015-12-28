@@ -13,10 +13,10 @@ export default class FormErrors extends Component {
 
     if (this.props.errors.length > 0) {
       errorElement = (
-        <div className="alert alert-box radius">
+        <div className="alert callout">
           <ul>
             {this.props.errors.map((error, index) => {
-              return <li key={'error' + index}>{error}</li>;
+              return <li key={'error' + index} dangerouslySetInnerHTML={{__html: error}} />;
             })}
           </ul>
         </div>);

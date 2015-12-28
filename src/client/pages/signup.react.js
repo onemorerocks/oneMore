@@ -54,12 +54,17 @@ export default class SignupIndex extends Component {
         password: this.state.password1
       }).then((result) => {
         this.setState({submitDisabled: false});
-        this.props.history.replaceState(null, '/email-sent');
+        this.props.history.pushState(null, '/email-sent');
       }).catch((err) => {
         if (err.status === 409) {
           this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
         } else if (err.status === 403) {
-          this.setState({errors: ['That password is hackable.  Try another.'], submitDisabled: false});
+          this.setState({
+            errors: [
+              `That password is vulnerable to dictionary attacks.  Try another. <br />(A dictionary attack is a hacking
+              technique which uses a list of common passwords in an attempt to guess the user's password.)`],
+            submitDisabled: false
+          });
         } else {
           this.setState({errors: ['There was a server side error.'], submitDisabled: false});
         }
@@ -76,7 +81,7 @@ export default class SignupIndex extends Component {
         <div className="row">
           <div className="small-12 columns">
             <h1>Sign Up</h1>
-            <FormErrors errors={state.errors} />
+            <FormErrors errors={state.errors}/>
             <form onSubmit={this.submit}>
 
               <label htmlFor="email">Email Address</label>
