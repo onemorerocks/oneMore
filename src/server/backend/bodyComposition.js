@@ -21,4 +21,4 @@ export default (bodyFatPercentage, heightInCm, weightInKg) => {
   const comparitiveMuscleMass = Math.round(((muscleMassPercent / 0.42) - 1) * 100);
 
   return comparitiveMuscleMass;
-}
+};

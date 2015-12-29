@@ -8,6 +8,7 @@ import render from './frontend/render';
 import loginController from './api/loginController';
 import signupController from './api/signupController';
 import verifyEmailController from './api/verifyEmailController';
+import brosController from './api/brosController';
 
 import Auth from './backend/auth';
 
@@ -22,9 +23,9 @@ server.register([Inert, jwt], (error) => {
 
   const auth = new Auth();
 
-  server.auth.strategy('jwt', 'jwt', {
-    key: 'NeverShareYourSecret',
-    validateFunc: auth.validate,
+  server.auth.strategy('jwt', 'jwt', false, {
+    key: auth.getJwtKey.bind(auth),
+    validateFunc: auth.validateJwt.bind(auth),
     verifyOptions: {algorithms: ['HS256']}
   });
 
@@ -38,6 +39,13 @@ server.register([Inert, jwt], (error) => {
     method: 'POST',
     path: '/api/signup',
     handler: signupController
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/api/bros',
+    config: {auth: 'jwt'},
+    handler: brosController
   });
 
   server.route({
@@ -77,6 +85,8 @@ server.register([Inert, jwt], (error) => {
     const response = request.response;
 
     if (!response.isBoom) {
+      reply.continue();
+    } else if (response.message === 'Invalid token' || response.message === 'Missing authentication') {
       reply.continue();
     } else {
       console.error(response.stack); // eslint-disable-line

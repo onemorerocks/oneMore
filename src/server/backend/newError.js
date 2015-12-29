@@ -16,7 +16,7 @@ export default (messageOrNestedError, optionalNestedError) => {
   } else if (message) {
     return new Error(message + '\ncaused by:\n' + nestedError.stack);
   } else {
-    return nestedError;
+    return new Error(nestedError.stack);
   }
 
 };

@@ -19,6 +19,12 @@ export default class Email {
 
   sendEmail(to, subject, html) {
     return new Promise((resolve, reject) => {
+
+      if (!config.sendEmails) {
+        resolve(false);
+        return;
+      }
+
       this.transporter.sendMail({
         from: config.emailFrom,
         to: to,

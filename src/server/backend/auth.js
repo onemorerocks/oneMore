@@ -2,6 +2,7 @@ import crypto from 'crypto';
 
 import Dao from './dao';
 import jwt from 'jsonwebtoken';
+import newError from './newError';
 import childProcess from 'child_process';
 const spawn = childProcess.spawn;
 
@@ -11,8 +12,25 @@ export default class Auth {
     this.dao = new Dao();
   }
 
-  validate(decoded, request, callback) {
+  getJwtKey(decoded, callback) {
+    const email = decoded.email;
+    if (email) {
+      this.dao.get('logins', email).then((record) => {
+        if (record) {
+          callback(null, record.signingKey);
+        } else {
+          callback(newError('Email from Jwt has no db record.'));
+        }
+      }).catch((err) => {
+        callback(newError(err));
+      });
+    } else {
+      callback(newError('No email found in the Jwt'));
+    }
+  }
 
+  validateJwt(decoded, request, callback) {
+    callback(null, true);
   }
 
   signup(email, password) {
@@ -39,7 +57,8 @@ export default class Auth {
 
         return this.dao.createIfDoesNotExist('logins', key, data).then((didCreate) => {
           if (didCreate) {
-            return {status: 'success', hash: emailVerificationKey};
+            const jwt = this._buildJwt(key, signingKey);
+            return {status: 'success', emailVerificationKey: emailVerificationKey, jwt: jwt};
           } else {
             return this.dao.get('logins', key).then((existingLogin) => {
               if (existingLogin.emailVerified) {
@@ -72,10 +91,8 @@ export default class Auth {
 
       if (data) {
         const passwordHash = this._hashPassword(password, data.passwordSalt);
-
         if (passwordHash === data.passwordHash) {
-          const payload = {email: lcaseEmail};
-          return jwt.sign(payload, data.signingKey, {expiresIn: '14d'});
+          return this._buildJwt(lcaseEmail, data.signingKey);
         } else {
           return false;
         }
@@ -83,6 +100,11 @@ export default class Auth {
         return false;
       }
     });
+  }
+
+  _buildJwt(lcaseEmail, signingKey) {
+    const payload = {email: lcaseEmail};
+    return jwt.sign(payload, signingKey, {expiresIn: '14d'});
   }
 
   _checkPassword(password) {

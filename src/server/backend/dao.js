@@ -46,7 +46,7 @@ export default class Dao {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(record);
         } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
-          reject(newError('Record not found in table: ' + table + '.' + key));
+          resolve(false);
         } else {
           reject(newError(err));
         }
