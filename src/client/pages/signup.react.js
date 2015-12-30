@@ -60,7 +60,8 @@ export default class SignupIndex extends Component {
 
     Request.post('/api/signup', {
       email: this.state.email,
-      password: this.state.password1
+      password: this.state.password1,
+      nickname: this.state.nickname
     }).then((result) => {
       this.setState({submitDisabled: false});
       this.props.history.pushState(null, '/email-sent');
@@ -96,8 +97,8 @@ export default class SignupIndex extends Component {
               <input id="email" type="email" value={state.email} onChange={this.handleChange('email')}
                      required="true" placeholder="example@address.com" maxLength="100"/>
 
-              <label htmlFor="email">Nickname (Bros WILL see this)</label>
-              <input id="email" type="email" value={state.nickname} onChange={this.handleChange('nickname')}
+              <label htmlFor="nickname">Nickname (Bros WILL see this)</label>
+              <input id="nickname" type="text" value={state.nickname} onChange={this.handleChange('nickname')}
                      required="true" placeholder="e.g. Handsome Joe" maxLength="20"/>
 
               <label htmlFor="password1">Password</label>

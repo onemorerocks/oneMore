@@ -26,17 +26,14 @@ export default function signupController(req, reply) {
   }
 
   if (isBadLength(email, 'Email', 5, 100)) {
-    reply('Bad email length').code(500);
     return;
   }
 
   if (isBadLength(password, 'Password', 8, 100)) {
-    reply('Bad password length').code(500);
     return;
   }
 
   if (isBadLength(nickname, 'Nickname', 2, 20)) {
-    reply('Bad nickname length').code(500);
     return;
   }
 
@@ -48,7 +45,7 @@ export default function signupController(req, reply) {
     });
   };
 
-  const promise = authService.signup(email, password).then((result) => {
+  const promise = authService.signup(email, password, nickname).then((result) => {
     if (result.status === 'success') {
       return sendVerificationEmail(result, email, 200).then((response) => {
         const cookieOptions = {

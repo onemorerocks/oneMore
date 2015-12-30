@@ -33,7 +33,7 @@ export default class Auth {
     callback(null, true);
   }
 
-  signup(email, password) {
+  signup(email, password, nickname) {
 
     return this._checkPassword(password).then((isPasswordWeak) => {
       if (isPasswordWeak) {
@@ -46,6 +46,7 @@ export default class Auth {
 
         const data = {
           email: email,
+          nickname: nickname,
           passwordHash: passwordHash,
           signingKey: signingKey,
           passwordSalt: passwordSalt,
