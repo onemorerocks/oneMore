@@ -11,6 +11,7 @@ export default function signupController(req, reply) {
 
   const email = req.payload.email;
   const password = req.payload.password;
+  const nickname = req.payload.nickname;
 
   function isBadLength(value, name, min, max) {
     if (!value || value.length < min) {
@@ -31,6 +32,11 @@ export default function signupController(req, reply) {
 
   if (isBadLength(password, 'Password', 8, 100)) {
     reply('Bad password length').code(500);
+    return;
+  }
+
+  if (isBadLength(nickname, 'Nickname', 2, 20)) {
+    reply('Bad nickname length').code(500);
     return;
   }
 

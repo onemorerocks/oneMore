@@ -13,6 +13,7 @@ export default class SignupIndex extends Component {
       email: '',
       password1: '',
       password2: '',
+      nickname: '',
       errors: [],
       submitDisabled: false
     };
@@ -43,34 +44,41 @@ export default class SignupIndex extends Component {
       errors.push('Passwords must be at least 8 characters');
     }
 
+    if (this.state.nickname.length < 2) {
+      errors.push('Nickname must be at least 2 characters');
+    }
+
     this.setState({errors: errors});
 
     if (errors.length === 0) {
-
-      this.setState({submitDisabled: true});
-
-      Request.post('/api/signup', {
-        email: this.state.email,
-        password: this.state.password1
-      }).then((result) => {
-        this.setState({submitDisabled: false});
-        this.props.history.pushState(null, '/email-sent');
-      }).catch((err) => {
-        if (err.status === 409) {
-          this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
-        } else if (err.status === 403) {
-          this.setState({
-            errors: [
-              `That password is vulnerable to dictionary attacks.  Try another. <br />(A dictionary attack is a hacking
-              technique which uses a list of common passwords in an attempt to guess the user's password.)`],
-            submitDisabled: false
-          });
-        } else {
-          this.setState({errors: ['There was a server side error.'], submitDisabled: false});
-        }
-      });
+      this._sendData();
     }
   };
+
+  _sendData() {
+    this.setState({submitDisabled: true});
+
+    Request.post('/api/signup', {
+      email: this.state.email,
+      password: this.state.password1
+    }).then((result) => {
+      this.setState({submitDisabled: false});
+      this.props.history.pushState(null, '/email-sent');
+    }).catch((err) => {
+      if (err.status === 409) {
+        this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
+      } else if (err.status === 403) {
+        this.setState({
+          errors: [
+            `That password is vulnerable to dictionary attacks.  Try another. <br />(A dictionary attack is a hacking
+              technique which uses a list of common passwords in an attempt to guess the user's password.)`],
+          submitDisabled: false
+        });
+      } else {
+        this.setState({errors: ['There was a server side error.'], submitDisabled: false});
+      }
+    });
+  }
 
   render() {
 
@@ -84,9 +92,13 @@ export default class SignupIndex extends Component {
             <FormErrors errors={state.errors}/>
             <form onSubmit={this.submit}>
 
-              <label htmlFor="email">Email Address</label>
+              <label htmlFor="email">Email Address (Bros won't see this)</label>
               <input id="email" type="email" value={state.email} onChange={this.handleChange('email')}
                      required="true" placeholder="example@address.com" maxLength="100"/>
+
+              <label htmlFor="email">Nickname (Bros WILL see this)</label>
+              <input id="email" type="email" value={state.nickname} onChange={this.handleChange('nickname')}
+                     required="true" placeholder="e.g. Handsome Joe" maxLength="20"/>
 
               <label htmlFor="password1">Password</label>
               <input id="password1" type="password" value={state.password1}
