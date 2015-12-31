@@ -103,7 +103,7 @@ export default class Auth {
     });
   }
 
-  _buildJwt(lcaseEmail, signingKey) {
+  _buildJwt(lcaseEmail, signingKey, emailValidated) {
     const payload = {email: lcaseEmail};
     return jwt.sign(payload, signingKey, {expiresIn: '14d'});
   }

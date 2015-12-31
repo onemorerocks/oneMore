@@ -1,4 +1,5 @@
 import Auth from '../backend/auth';
+import cookies from '../backend/cookies';
 
 const authService = new Auth();
 
@@ -8,7 +9,11 @@ export default function verifyEmailController(req, reply) {
   const emailKey = req.query.key;
 
   const promsie = authService.verifyEmail(email, emailKey).then((didVerify) => {
-    return req.generateResponse().redirect('/');
+    const response = req.generateResponse();
+    if (didVerify) {
+      cookies.decorateGrant(response, true);
+    }
+    return response.redirect('/');
   });
 
   reply(promsie);

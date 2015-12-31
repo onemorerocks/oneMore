@@ -5,12 +5,11 @@ import ReactDOMServer from 'react-dom/server';
 import config from '../config';
 import createHistory from 'history/lib/createHistory';
 import createRoutes from '../../client/createRoutes';
-// import useragent from 'useragent';
 import constants from '../../../webpack/constants';
 import {RoutingContext, match} from 'react-router';
 
 export default function renderPage(req, reply) {
-  const routes = createRoutes();
+  const routes = createRoutes(req.state.grant);
   const location = createHistory().createLocation(req.url.path);
 
   const promise = new Promise((resolve, reject) => {

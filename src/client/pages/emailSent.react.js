@@ -2,8 +2,6 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 
-import './home.scss';
-
 export default class EmailSent extends Component {
 
   constructor(props) {

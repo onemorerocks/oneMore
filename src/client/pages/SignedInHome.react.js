@@ -13,7 +13,7 @@ export default class Home extends Component {
   render() {
     return (
       <DocumentTitle title="StickyBros - Home">
-        <div>hello</div>
+        <div>Signed in</div>
       </DocumentTitle>
     );
   }

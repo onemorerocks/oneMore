@@ -10,6 +10,7 @@
     "npm": "^3.3.9"
   },
   "dependencies": {
+    "Base64": "^0.3.0",
     "aerospike": "^1.0.53",
     "autoprefixer": "^6.2.1",
     "axios": "^0.8.1",

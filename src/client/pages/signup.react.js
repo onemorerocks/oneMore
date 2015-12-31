@@ -64,7 +64,7 @@ export default class SignupIndex extends Component {
       nickname: this.state.nickname
     }).then((result) => {
       this.setState({submitDisabled: false});
-      this.props.history.pushState(null, '/email-sent');
+      this.props.history.pushState(null, '/');
     }).catch((err) => {
       if (err.status === 409) {
         this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
