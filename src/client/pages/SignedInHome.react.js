@@ -2,6 +2,9 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 
+import TopBar from '../components/TopBar.react';
+import Tabs from '../components/Tabs.react';
+
 import './home.scss';
 
 export default class Home extends Component {
@@ -13,7 +16,15 @@ export default class Home extends Component {
   render() {
     return (
       <DocumentTitle title="StickyBros - Home">
-        <div>Signed in</div>
+        <div>
+          <TopBar />
+          <Tabs activeTab="home"/>
+          <div className="row">
+            <div className="small-12 columns">
+              <div>Signed in</div>
+            </div>
+          </div>
+        </div>
       </DocumentTitle>
     );
   }
