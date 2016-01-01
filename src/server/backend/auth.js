@@ -93,7 +93,7 @@ export default class Auth {
       if (data) {
         const passwordHash = this._hashPassword(password, data.passwordSalt);
         if (passwordHash === data.passwordHash) {
-          return this._buildJwt(lcaseEmail, data.signingKey);
+          return {jwt: this._buildJwt(lcaseEmail, data.signingKey), emailValidated: !!data.emailVerified};
         } else {
           return false;
         }
@@ -103,7 +103,7 @@ export default class Auth {
     });
   }
 
-  _buildJwt(lcaseEmail, signingKey, emailValidated) {
+  _buildJwt(lcaseEmail, signingKey) {
     const payload = {email: lcaseEmail};
     return jwt.sign(payload, signingKey, {expiresIn: '14d'});
   }

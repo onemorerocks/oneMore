@@ -9,6 +9,7 @@ import loginController from './api/loginController';
 import signupController from './api/signupController';
 import verifyEmailController from './api/verifyEmailController';
 import brosController from './api/brosController';
+import logoutController from './api/logoutController';
 
 import Auth from './backend/auth';
 
@@ -46,6 +47,12 @@ server.register([Inert, jwt], (error) => {
     path: '/api/bros',
     config: {auth: 'jwt'},
     handler: brosController
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/api/logout',
+    handler: logoutController
   });
 
   server.route({

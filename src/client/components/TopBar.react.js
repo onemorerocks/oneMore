@@ -9,6 +9,14 @@ export default class TopBar extends Component {
     super(props);
   }
 
+  static propTypes = {
+    history: React.PropTypes.object
+  };
+
+  _handleLogout = () => {
+    window.location.href = '/api/logout';
+  };
+
   render() {
     return (
       <div className="title-bar">
@@ -17,7 +25,7 @@ export default class TopBar extends Component {
           <span className="title-bar-title">StickyBros</span>
         </div>
         <div className="title-bar-right">
-          <button className="small button">Logout</button>
+          <button className="small button" onClick={this._handleLogout}>Logout</button>
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ import Tabs from '../components/Tabs.react';
 
 import './home.scss';
 
-export default class Home extends Component {
+export default class SignedInHome extends Component {
 
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ export default class Home extends Component {
     return (
       <DocumentTitle title="StickyBros - Home">
         <div>
-          <TopBar />
+          <TopBar history={this.props.history} />
           <Tabs activeTab="home"/>
           <div className="row">
             <div className="small-12 columns">

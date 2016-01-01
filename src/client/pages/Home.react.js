@@ -5,7 +5,7 @@ import Request from 'axios';
 
 import FormErrors from '../components/formErrors.react';
 
-export default class SignupIndex extends Component {
+export default class Home extends Component {
 
   constructor(props) {
     super(props);
@@ -15,7 +15,6 @@ export default class SignupIndex extends Component {
       errors: [],
       submitDisabled: false
     };
-
   }
 
   handleChange(prop) {
@@ -35,7 +34,7 @@ export default class SignupIndex extends Component {
       email: this.state.email,
       password: this.state.password
     }).then((result) => {
-      this.props.history.pushState(null, '/');
+      this.props.history.replaceState(null, '/');
     }).catch((err) => {
       if (err.status === 401) {
         this.setState({errors: ['Email or password was not valid'], submitDisabled: false});
@@ -49,7 +48,7 @@ export default class SignupIndex extends Component {
     const state = this.state;
 
     return (
-      <DocumentTitle title="StickyBros - Login">
+      <DocumentTitle title="StickyBros">
         <div className="row">
           <div className="small-12 columns">
             <h1>Login</h1>

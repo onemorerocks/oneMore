@@ -6,13 +6,7 @@ import createRoutes from './createRoutes';
 
 const app = document.getElementById('app');
 
-const getCookie = (name) => {
-  var value = '; ' + document.cookie;
-  var parts = value.split('; ' + name + '=');
-  if (parts.length === 2) return parts.pop().split(';').shift();
-};
-
-const routes = createRoutes(getCookie('grant'));
+const routes = createRoutes();
 
 ReactDOM.render(
   <Router history={createBrowserHistory()}>
