@@ -1,6 +1,6 @@
 {
-  "aerospikeAddress": "192.168.99.100",
-  "aerospikePort": 3000,
+  "dbAddress": "192.168.99.100",
+  "dbPort": 8182,
   "port": 8000,
   "emailFrom": "my@email.com",
   "emailUser": "username",

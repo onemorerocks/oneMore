@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import Dao from './dao';
+import Dao from './titanDao';
 import jwt from 'jsonwebtoken';
 import newError from './newError';
 import childProcess from 'child_process';
