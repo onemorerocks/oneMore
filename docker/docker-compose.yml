@@ -4,27 +4,7 @@ elasticsearch:
     - "9200:9200"
     - "9300:9300"
 
-cassandra:
-  image: abh1nav/cassandra
+dynamodb:
+  image: deangiberson/aws-dynamodb-local
   ports:
-    - "7000:7000"
-    - "7001:7001"
-    - "7199:7199"
-    - "9042:9042"
-    - "9160:9160"
-
-opscenter:
-  image: abh1nav/opscenter
-  ports:
-    - "8888:8888"
-
-titan:
-  build: ./titan-gremlin
-  ports:
-    - "8182:8182"
-    - "8184:8184"
-  environment:
-    CASSANDRA_PORT_9160_TCP_ADDR: docker_cassandra_1
-    CASSANDRA_PORT_9160_TCP_PORT: "9160"
-    ELASTICSEARCH_PORT_9200_TCP_ADDR: docker_elasticsearch_1
-    ELASTICSEARCH_PORT_9200_TCP_PORT: "9200"
+    - "3333:8000"

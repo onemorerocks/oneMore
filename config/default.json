@@ -1,6 +1,6 @@
 {
-  "dbAddress": "192.168.99.100",
-  "dbPort": 8182,
+  "accessKeyId": "somekey",
+  "secretAccessKey": "secret",
   "port": 8000,
   "emailFrom": "my@email.com",
   "emailUser": "username",
