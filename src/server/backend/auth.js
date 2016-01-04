@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import Dao from './DynamoDao';
+import Dao from './dao';
 import jwt from 'jsonwebtoken';
 import newError from './newError';
 import childProcess from 'child_process';
