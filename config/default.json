@@ -1,6 +1,6 @@
 {
-  "aerospikeAddress": "192.168.99.100",
-  "aerospikePort": 3000,
+  "accessKeyId": "somekey",
+  "secretAccessKey": "secret",
   "port": 8000,
   "emailFrom": "my@email.com",
   "emailUser": "username",
