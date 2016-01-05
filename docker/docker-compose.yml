@@ -37,3 +37,11 @@ rocketchat:
   environment:
     MONGO_URL: "mongodb://docker_mongo_1:27017/rocketchat"
     ROOT_URL: "http://192.168.99.100:8080"
+
+errbit:
+  image: griff/errbit
+  ports:
+    - "5000:5000"
+  environment:
+    PORT: 5000
+    MONGODB_URL: "mongodb://docker_mongo_1/errbit"
