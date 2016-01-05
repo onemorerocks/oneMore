@@ -17,7 +17,7 @@ export default class SignedInHome extends Component {
     return (
       <DocumentTitle title="StickyBros - Home">
         <div>
-          <TopBar history={this.props.history} />
+          <TopBar />
           <Tabs activeTab="home"/>
           <div className="row">
             <div className="small-12 columns">

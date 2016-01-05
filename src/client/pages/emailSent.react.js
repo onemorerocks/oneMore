@@ -2,6 +2,8 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 
+import TopBar from '../components/TopBar.react';
+
 export default class EmailSent extends Component {
 
   constructor(props) {
@@ -12,6 +14,7 @@ export default class EmailSent extends Component {
     return (
       <DocumentTitle title="StickyBros - Email Sent">
         <div className="row">
+          <TopBar />
           <div className="small-12 columns">
             <p>Alright, cool. We sent a verification email to your address.</p>
             <p>If you don't see it after a few minutes, check your spam folder.</p>

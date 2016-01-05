@@ -9,10 +9,6 @@ export default class TopBar extends Component {
     super(props);
   }
 
-  static propTypes = {
-    history: React.PropTypes.object
-  };
-
   _handleLogout = () => {
     window.location.href = '/api/logout';
   };
@@ -21,10 +17,11 @@ export default class TopBar extends Component {
     return (
       <div className="title-bar">
         <div className="title-bar-left">
-          <button className="menu-icon show-for-small-only" type="button"></button>
+          <button className="menu-icon show-for-small-only" type="button" />
           <span className="title-bar-title">StickyBros</span>
         </div>
         <div className="title-bar-right">
+          <span>test@test.com</span>
           <button className="small button" onClick={this._handleLogout}>Logout</button>
         </div>
       </div>
