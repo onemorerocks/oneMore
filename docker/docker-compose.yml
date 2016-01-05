@@ -23,3 +23,17 @@ thumbor:
     - "80:80"
   environment:
     DETECTORS: "['thumbor.detectors.face_detector','thumbor.detectors.feature_detector',]"
+
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
+  command: mongod --smallfiles --oplogSize 128
+
+rocketchat:
+  image: rocketchat/rocket.chat
+  ports:
+    - "8080:3000"
+  environment:
+    MONGO_URL: "mongodb://docker_mongo_1:27017/rocketchat"
+    ROOT_URL: "http://192.168.99.100:8080"
