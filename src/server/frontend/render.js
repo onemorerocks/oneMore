@@ -7,6 +7,11 @@ import createHistory from 'history/lib/createHistory';
 import createRoutes from '../../client/createRoutes';
 import constants from '../../../webpack/constants';
 import {RoutingContext, match} from 'react-router';
+import getAssets from './assets';
+
+const assets = getAssets();
+const appJsFilename = assets.js;
+const appCss = assets.css;
 
 export default function renderPage(req, reply) {
   const routes = createRoutes(req.state.grant);
@@ -50,8 +55,8 @@ function getAppHtml(renderProps) {
 function getPageHtml(appHtml, hostname) {
 
   const appScriptSrc = config.isProduction
-    ? '/_assets/app.js?' + config.assetsHashes.appJs
-    : `//${hostname}:${constants.HOT_RELOAD_PORT}` + `/build/app.js`;
+    ? `/_assets/${appJsFilename}`
+    : `//${hostname}:${constants.HOT_RELOAD_PORT}/build/app.js`;
 
   const scriptHtml = `<script src="${appScriptSrc}"></script>`;
 
@@ -59,7 +64,7 @@ function getPageHtml(appHtml, hostname) {
 
   return '<!DOCTYPE html>' + ReactDOMServer.renderToStaticMarkup(
       <Html
-        appCssHash={config.assetsHashes.appCss}
+        appCssHash={appCss}
         bodyHtml={`<div id="app">${appHtml}</div>` + scriptHtml}
         isProduction={config.isProduction}
         title={title}

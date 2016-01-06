@@ -50,7 +50,7 @@ export default function makeConfig(isDevelopment) {
       }, {
         exclude: /node_modules/,
         loader: 'babel',
-        query: {
+        query: isDevelopment ? {
           "env": {
             "development": {
               "plugins": [
@@ -64,7 +64,7 @@ export default function makeConfig(isDevelopment) {
               ]
             }
           }
-        },
+        }: {},
         test: /\.js$/
       }].concat(stylesLoaders())
     },

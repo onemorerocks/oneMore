@@ -3,6 +3,7 @@ import eslint from 'gulp-eslint';
 import gulp from 'gulp';
 import runSequence from 'run-sequence';
 import webpackBuild from './webpack/build';
+import fs from 'fs-extra';
 
 const linting = require('./linting.babel');
 
@@ -22,7 +23,10 @@ gulp.task('set-dev-environment', () => {
   process.env.NODE_ENV = 'development'; // eslint-disable-line no-undef
 });
 
-gulp.task('build', webpackBuild);
+gulp.task('build', (done) => {
+  fs.removeSync('build');
+  webpackBuild(done);
+});
 
 gulp.task('server-hot', bg('node', './webpack/server'));
 
