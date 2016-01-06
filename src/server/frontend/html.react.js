@@ -19,7 +19,7 @@ export default class Html extends Component {
     // Only for production. For dev, it's handled by webpack with livereload.
     const linkStyles = isProduction &&
       <link
-        href={'/_assets/app.css?' + appCssHash}
+        href={'/_assets/' + appCssHash}
         rel="stylesheet"
       />;
 

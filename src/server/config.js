@@ -5,11 +5,6 @@ var hashFile = require('hash-file');
 
 var isProduction = process.env.NODE_ENV === 'production';
 
-config.assetsHashes = {
-  appCss: isProduction ? hashFile.sync('build/app.css') : '',
-  appJs: isProduction ? hashFile.sync('build/app.js') : ''
-};
-
 config.isProduction = isProduction;
 
 config.piping = {
