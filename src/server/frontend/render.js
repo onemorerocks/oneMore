@@ -1,73 +1,94 @@
+import IsomorphicRouter from 'isomorphic-relay-router';
 import DocumentTitle from 'react-document-title';
 import Html from './html.react';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import config from '../config';
 import createHistory from 'history/lib/createHistory';
-import createRoutes from '../../client/createRoutes';
 import constants from '../../../webpack/constants';
-import {RoutingContext, match} from 'react-router';
+import {match} from 'react-router';
 import getAssets from './assets';
+import newError from '../backend/newError';
+import routes from '../../routes';
+import Relay from 'react-relay';
+import RelayStoreData from 'react-relay/lib/RelayStoreData';
 
 const assets = getAssets();
 const appJsFilename = assets.js;
 const appCss = assets.css;
 
+
+const GRAPHQL_URL = `http://localhost:8000/api/graphql`;
+
+RelayStoreData.getDefaultInstance().getChangeEmitter().injectBatchingStrategy(() => {
+});
+
 export default function renderPage(req, reply) {
-  const routes = createRoutes(req.state.grant);
   const location = createHistory().createLocation(req.url.path);
 
   const promise = new Promise((resolve, reject) => {
     match({routes, location}, (error, redirectLocation, renderProps) => {
 
       if (redirectLocation) {
-        resolve(reply.redirect(redirectLocation.pathname + redirectLocation.search).permanent(true));
-        return;
+        const response = req.generateResponse().redirect(302, redirectLocation.pathname + redirectLocation.search);
+        resolve(response);
+      } else if (error) {
+        reject(newError(error));
+      } else if (renderProps) {
+        Relay.injectNetworkLayer(
+          new Relay.DefaultNetworkLayer(GRAPHQL_URL, {
+            headers: {
+              token: req.state.token
+            }
+          })
+        );
+        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then((data) => {
+          const appHtml = getAppHtml(renderProps);
+          return getPageHtml(appHtml, req.info.hostname, JSON.stringify(data));
+        });
+        resolve(nestedPromise);
+      } else {
+        const response = req.generateResponse('Not Found').code(404);
+        resolve(response);
       }
 
-      if (error) {
-        resolve(reply(new Error('unexpect error')));
-        return;
-      }
-
-      if (renderProps == null) {
-        resolve(reply('The page was not found').code(404));
-        return;
-      }
-
-      //const ua = useragent.is(req.headers['user-agent']);
-
-      let appHtml = getAppHtml(renderProps);
-      const html = getPageHtml(appHtml, req.info.hostname);
-      resolve(html);
     });
   });
 
-  reply(promise);
+  reply(promise.catch((error) => {
+    throw newError(error);
+  }));
 }
 
 function getAppHtml(renderProps) {
   return ReactDOMServer.renderToString(
-    <RoutingContext {...renderProps} />
+    <IsomorphicRouter.RouterContext {...renderProps} />
   );
 }
 
-function getPageHtml(appHtml, hostname) {
+function getPageHtml(appHtml, hostname, preloadedData) {
 
   const appScriptSrc = config.isProduction
     ? `/_assets/${appJsFilename}`
     : `//${hostname}:${constants.HOT_RELOAD_PORT}/build/app.js`;
 
-  const scriptHtml = `<script src="${appScriptSrc}"></script>`;
+  const scriptHtml = `
+    <script id="preloadedData" type="application/json">
+        ${preloadedData}
+    </script>
+    <script src="${appScriptSrc}"></script>
+  `;
 
   const title = DocumentTitle.rewind();
+
+  const outputHtml = `<div id="app">${appHtml}</div>` + scriptHtml.trim();
 
   return '<!DOCTYPE html>' + ReactDOMServer.renderToStaticMarkup(
       <Html
         appCssHash={appCss}
-        bodyHtml={`<div id="app">${appHtml}</div>` + scriptHtml}
+        bodyHtml={outputHtml}
         isProduction={config.isProduction}
         title={title}
-        />
+      />
     );
 }

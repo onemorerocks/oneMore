@@ -1,15 +1,5 @@
 const TWO_WEEKS = 1000 * 60 * 60 * 24 * 14;
 
-const GRANT_COOKIE_OPTIONS = {
-  ttl: TWO_WEEKS,
-  isSecure: false,      // warm & fuzzy feelings
-  isHttpOnly: false,    // prevent client alteration
-  clearInvalid: true, // remove invalid cookies
-  strictHeader: true,   // don't allow violations of RFC 6265
-  path: '/',
-  encoding: 'base64json'
-};
-
 const JWT_COOKIE_OPTIONS = {
   ttl: TWO_WEEKS,
   encoding: 'none',    // we already used JWT to encode
@@ -28,7 +18,7 @@ const CLEAR_COOKIE_OPTIONS = {
 export default {
 
   decorateGrant: (response, emailValidated, email) => {
-    response.state('grant', {emailValidated: emailValidated, email: email}, GRANT_COOKIE_OPTIONS);
+    //response.state('grant', {emailValidated: emailValidated, email: email}, GRANT_COOKIE_OPTIONS);
   },
 
   decorateJwt: (response, jwt) => {
@@ -37,7 +27,7 @@ export default {
 
   clear(response) {
     response.state('token', null, CLEAR_COOKIE_OPTIONS);
-    response.state('grant', null, CLEAR_COOKIE_OPTIONS);
+    //response.state('grant', null, CLEAR_COOKIE_OPTIONS);
   }
 
 };

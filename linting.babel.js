@@ -22,6 +22,7 @@ import htmlLintIgnore from './.html-lint.js';
 const runEslint = () => {
   return gulp.src([
       'src/**/*.js',
+      'src/**/*.jsx',
       '!**/__tests__/*.*'
     ])
     .pipe(eslint())
@@ -59,7 +60,7 @@ gulp.task('watch', () => {
   const writeLine = () =>
     console.log(colors.blue("--------------------------------------------------------------------------------"));
 
-  gulp.watch(['./src/client/**/*.js', './src/server/**/*.js']).on('change', () => {
+  gulp.watch(['./src/client/**/*.js', './src/client/**/*.jsx', './src/server/**/*.js']).on('change', () => {
 
     writeLine();
 

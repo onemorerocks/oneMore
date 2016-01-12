@@ -48,24 +48,22 @@ export default function makeConfig(isDevelopment) {
         loader: 'url-loader?limit=100000',
         test: /\.(gif|jpg|png|woff|woff2|eot|ttf|svg)$/
       }, {
-        exclude: /node_modules/,
         loader: 'babel',
+        exclude: /node_modules/,
         query: isDevelopment ? {
-          "env": {
-            "development": {
-              "plugins": [
-                ["react-transform", {
-                  "transforms": [{
-                    "transform": "react-transform-hmr",
-                    "imports": ["react"],
-                    "locals": ["module"]
-                  }]
-                }]
-              ]
-            }
-          }
-        }: {},
-        test: /\.js$/
+          "plugins": [
+            ["react-transform", {
+              "transforms": [{
+                "transform": "react-transform-hmr",
+                "imports": ["react"],
+                "locals": ["module"]
+              }]
+            }]
+          ]
+        } : {
+          "plugins": []
+        },
+        test: /\.(js|jsx)$/
       }].concat(stylesLoaders())
     },
     output: isDevelopment ? {
@@ -113,7 +111,7 @@ export default function makeConfig(isDevelopment) {
       return [autoprefixer({remove: false, browsers: 'last 2 version, ie > 8, > 1% in CA, iOS > 6'})];
     },
     resolve: {
-      extensions: ['', '.js', '.json'],
+      extensions: ['', '.js', '.jsx', '.json'],
       modulesDirectories: ['src', 'node_modules'],
       root: constants.ABSOLUTE_BASE,
       alias: {

@@ -1,36 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Router from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import createRoutes from './createRoutes';
+import IsomorphicRelay from 'isomorphic-relay';
+import IsomorphicRouter from 'isomorphic-relay-router';
+import Relay from 'react-relay';
 
-if (process.env.NODE_ENV === 'production') {
-  const AirbrakeClient = require('airbrake-js');
-  const airbrake = new AirbrakeClient();
-  airbrake.setHost('http://192.168.99.100:5000');
-  airbrake.setProject('105cd6c8fb856a26f8ab0fa2f866337a', '105cd6c8fb856a26f8ab0fa2f866337a');
+import {browserHistory} from 'react-router';
+import errorReporting from './lib/errorReporting';
+import routes from '../routes';
 
-  airbrake.addFilter((notice) => {
-    notice.context.version = '1.0.0';
-    return notice;
-  });
+errorReporting();
 
-  window.onerror = (errorMsg, url, lineNumber, column, errorObj) => {
-    if (errorObj) {
-      airbrake.notify(errorObj);
-    } else {
-      airbrake.notify('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber);
-    }
-  };
-}
+Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer('/api/graphql', {
+  credentials: 'same-origin'
+}));
+
+const data = JSON.parse(document.getElementById('preloadedData').textContent);
+
+IsomorphicRelay.injectPreparedData(data);
 
 const app = document.getElementById('app');
 
-const routes = createRoutes();
-
 ReactDOM.render(
-  <Router history={createBrowserHistory()}>
-    {routes}
-  </Router>,
+  <IsomorphicRouter.Router routes={routes} history={browserHistory}/>,
   app
 );

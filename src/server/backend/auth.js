@@ -1,10 +1,10 @@
 import crypto from 'crypto';
-
-import Dao from './dao';
-import jwt from 'jsonwebtoken';
-import newError from './newError';
+import jsonwebtoken from 'jsonwebtoken';
 import childProcess from 'child_process';
 const spawn = childProcess.spawn;
+
+import Dao from './dao';
+import newError from './newError';
 
 export default class Auth {
 
@@ -12,25 +12,40 @@ export default class Auth {
     this.dao = new Dao();
   }
 
-  getJwtKey(decoded, callback) {
-    const email = decoded.email;
-    if (email) {
-      this.dao.get('logins', email).then((record) => {
-        if (record) {
-          callback(null, record.signingKey);
-        } else {
-          callback(newError('Email from Jwt has no db record.'));
+  validateEncodedJwt(encoded) {
+    const jwt = jsonwebtoken.decode(encoded);
+    if (jwt) {
+      return this._getJwtKey(jwt).then((key) => {
+        if (key) {
+          return new Promise((resolve) => {
+            jsonwebtoken.verify(encoded, key, (err, decoded) => {
+              if (!err) {
+                resolve(decoded);
+              } else {
+                resolve(false);
+              }
+            });
+          });
         }
-      }).catch((err) => {
-        callback(newError(err));
       });
     } else {
-      callback(newError('No email found in the Jwt'));
+      return new Promise((resolve) => resolve());
     }
   }
 
-  validateJwt(decoded, request, callback) {
-    callback(null, true);
+  _getJwtKey(jwt) {
+    const email = jwt.email;
+    if (email) {
+      return this.dao.get('logins', email).then((record) => {
+        if (record) {
+          return record.signingKey;
+        } else {
+          return false;
+        }
+      });
+    } else {
+      throw newError('No email found in the Jwt');
+    }
   }
 
   signup(email, password, nickname) {
@@ -105,7 +120,7 @@ export default class Auth {
 
   _buildJwt(lcaseEmail, signingKey) {
     const payload = {email: lcaseEmail};
-    return jwt.sign(payload, signingKey, {expiresIn: '14d'});
+    return jsonwebtoken.sign(payload, signingKey, {expiresIn: '14d'});
   }
 
   _checkPassword(password) {

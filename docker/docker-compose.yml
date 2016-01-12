@@ -30,6 +30,13 @@ mongo:
     - "27017:27017"
   command: mongod --smallfiles --oplogSize 128
 
+mongo-express:
+  image: knickers/mongo-express
+  ports:
+    - "5001:8081"
+  environment:
+    ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
+
 rocketchat:
   image: rocketchat/rocket.chat
   ports:
