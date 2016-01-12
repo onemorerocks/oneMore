@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 
 import './tabs.scss';
 
@@ -41,7 +42,7 @@ export default class Tabs extends Component {
       }
       return (
         <li key={tab.id} className={liClass}>
-          <a href={tab.url} aria-selected={selected}>{tab.label}</a>
+          <Link to={tab.url} aria-selected={selected}>{tab.label}</Link>
         </li>
       );
     };

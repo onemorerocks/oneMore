@@ -64,14 +64,14 @@ export default class SignupIndex extends Component {
       nickname: this.state.nickname
     }).then((result) => {
       this.setState({submitDisabled: false});
-      this.props.history.pushState(null, '/');
+      window.location.href = '/';
     }).catch((err) => {
       if (err.status === 409) {
         this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
       } else if (err.status === 403) {
         this.setState({
           errors: [
-            `That password is vulnerable to dictionary attacks.  Try another. <br />(A dictionary attack is a hacking
+            `That password is vulnerable to dictionary attacks.  Try another.<br />(A dictionary attack is a hacking
               technique which uses a list of common passwords in an attempt to guess the user's password.)`],
           submitDisabled: false
         });
@@ -93,11 +93,11 @@ export default class SignupIndex extends Component {
             <FormErrors errors={state.errors}/>
             <form onSubmit={this.submit}>
 
-              <label htmlFor="email">Email Address (Bros won't see this)</label>
+              <label htmlFor="email">Email Address (People won't see this)</label>
               <input id="email" type="email" value={state.email} onChange={this.handleChange('email')}
                      required="true" placeholder="example@address.com" maxLength="100"/>
 
-              <label htmlFor="nickname">Nickname (Bros WILL see this)</label>
+              <label htmlFor="nickname">Nickname (People WILL see this)</label>
               <input id="nickname" type="text" value={state.nickname} onChange={this.handleChange('nickname')}
                      required="true" placeholder="e.g. Handsome Joe" maxLength="20"/>
 
