@@ -1,10 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class Html extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   static propTypes = {
     appCssHash: PropTypes.string.isRequired,
@@ -13,8 +9,12 @@ export default class Html extends Component {
     isProduction: PropTypes.bool.isRequired
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    const {appCssHash, bodyHtml, isProduction, title} = this.props;
+    const { appCssHash, bodyHtml, isProduction, title } = this.props;
 
     // Only for production. For dev, it's handled by webpack with livereload.
     const linkStyles = isProduction &&
@@ -25,13 +25,13 @@ export default class Html extends Component {
 
     return (
       <html lang="en">
-        <head>
-          <meta charSet="utf-8" />
-          <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-          <title>{title}</title>
-          {linkStyles}
-        </head>
-        <body dangerouslySetInnerHTML={{__html: bodyHtml}} />
+      <head>
+        <meta charSet="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+        <title>{title}</title>
+        {linkStyles}
+      </head>
+      <body dangerouslySetInnerHTML={{ __html: bodyHtml }}/>
       </html>
     );
   }

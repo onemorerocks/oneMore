@@ -1,17 +1,17 @@
-import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import './tabs.scss';
 
 export default class Tabs extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   static propTypes = {
     activeTab: PropTypes.string.isRequired
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   static _tabs = [{
     id: 'home',

@@ -1,9 +1,20 @@
-import {graphql} from 'graphql';
-import {schema} from '../backend/graphqlSchema';
+import { graphql } from 'graphql';
+import { schema } from '../backend/graphqlSchema';
 import newError from '../backend/newError';
-import Auth from '../backend/auth';
+import Auth from '../backend/Auth';
 
 const auth = new Auth();
+
+function doQuery(req, token) {
+  const { query } = req.payload;
+  const result = graphql(schema, query, token);
+  return result.then((data) => {
+    if (data.errors) {
+      return newError(data.errors);
+    }
+    return data;
+  });
+}
 
 export default function graphqlController(req, reply) {
 
@@ -14,15 +25,4 @@ export default function graphqlController(req, reply) {
   });
 
   reply(promise);
-}
-
-function doQuery(req, token) {
-  const {query} = req.payload;
-  const result = graphql(schema, query, token);
-  return result.then((data) => {
-    if (data.errors) {
-      return newError(data.errors);
-    }
-    return data;
-  });
 }

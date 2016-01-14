@@ -26,7 +26,7 @@ export default (bodyFatPercentage, heightInCm, weightInKg) => {
   return comparitiveMuscleMass;
 };
 
-/*function estimateBodyfat(waistInCm, weightInKg, heightInCm) {
+/* function estimateBodyfat(waistInCm, weightInKg, heightInCm) {
 
   const waistInMeters = waistInCm / 100;
 

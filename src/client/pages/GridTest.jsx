@@ -4,7 +4,7 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 
-export default class GridTestIndex extends Component {
+export default class GridTest extends Component {
 
   render() {
 

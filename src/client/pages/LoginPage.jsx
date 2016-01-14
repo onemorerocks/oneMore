@@ -3,9 +3,9 @@ import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Request from 'axios';
 
-import FormErrors from '../components/formErrors.react.js';
+import FormErrors from '../components/FormErrors.jsx';
 
-export default class Home extends Component {
+export default class LoginPage extends Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ export default class Home extends Component {
   submit(event) {
     event.preventDefault();
 
-    this.setState({errors: [], submitDisabled: true});
+    this.setState({ errors: [], submitDisabled: true });
 
     Request.post('/api/login', {
       email: this.state.email,
@@ -37,9 +37,9 @@ export default class Home extends Component {
       window.location.href = '/';
     }).catch((err) => {
       if (err.status === 401) {
-        this.setState({errors: ['Email or password was not valid'], submitDisabled: false});
+        this.setState({ errors: ['Email or password was not valid'], submitDisabled: false });
       } else {
-        this.setState({errors: ['There was an error on the server.  Try again shortly.'], submitDisabled: false});
+        this.setState({ errors: ['There was an error on the server.  Try again shortly.'], submitDisabled: false });
       }
     });
 

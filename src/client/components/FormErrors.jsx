@@ -16,7 +16,7 @@ export default class FormErrors extends Component {
         <div className="alert callout">
           <ul>
             {this.props.errors.map((error, index) => {
-              return <li key={'error' + index} dangerouslySetInnerHTML={{__html: error}} />;
+              return <li key={'error' + index} dangerouslySetInnerHTML={{ __html: error }}/>;
             })}
           </ul>
         </div>);

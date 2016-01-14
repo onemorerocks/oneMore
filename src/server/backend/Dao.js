@@ -7,7 +7,7 @@ export default class Dao {
   _connect() {
 
     const rawClient = aerospike.client({
-      hosts: [{addr: config.aerospikeAddress, port: config.aerospikePort}]
+      hosts: [{ addr: config.aerospikeAddress, port: config.aerospikePort }]
     });
 
     return new Promise((resolve, reject) => {

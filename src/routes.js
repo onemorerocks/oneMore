@@ -1,10 +1,10 @@
 import React from 'react';
-import {IndexRoute, Route} from 'react-router';
+import { IndexRoute, Route } from 'react-router';
 
-import App from './client/app/app.react';
+import App from './client/app/App.jsx';
 import HomeWrapper from './client/pages/HomeWrapper.jsx';
-import {homeQuery} from './queries';
-import Signup from './client/pages/signup.react';
+import { homeQuery } from './queries';
+import Signup from './client/pages/Signup.jsx';
 import Login from './client/pages/LoginPage.jsx';
 import Profile from './client/pages/Profile.jsx';
 import ProfileImages from './client/pages/ProfileImages.jsx';

@@ -1,22 +1,22 @@
 import {
   GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean
-  //,GraphQLID, GraphQLList, GraphQLNonNull
+  // ,GraphQLID, GraphQLList, GraphQLNonNull
 } from 'graphql';
 
 import {
   fromGlobalId, globalIdField, nodeDefinitions
-  //connectionArgs, connectionDefinitions, connectionFromArray, mutationWithClientMutationId
+  // connectionArgs, connectionDefinitions, connectionFromArray, mutationWithClientMutationId
 } from 'graphql-relay';
 
-import {getLogin, getLoginByReq} from './dataService';
+import { getLogin, getLoginByReq } from './dataService';
 
 /**
  * The first method defines the way we resolve an ID to its object.
  * The second defines the way we resolve a node object to its GraphQL type.
  */
-const {nodeInterface, nodeField} = nodeDefinitions(
+const { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
-    const {type, id} = fromGlobalId(globalId);
+    const { type, id } = fromGlobalId(globalId);
     if (type === 'Login') {
       return getLogin(id);
     } else {
@@ -25,7 +25,7 @@ const {nodeInterface, nodeField} = nodeDefinitions(
   },
   (obj) => {
     if (obj.email) {
-      return loginType;
+      return loginType; // eslint-disable-line
     } else {
       return null;
     }

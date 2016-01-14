@@ -6,15 +6,15 @@ import './topBar.scss';
 
 class TopBar extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   static propTypes = {
     login: React.PropTypes.shape({
       email: React.PropTypes.string
     })
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   _handleLogout = () => {
     window.location.href = '/api/logout';

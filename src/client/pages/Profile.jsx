@@ -2,20 +2,20 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import TopBar from '../components/TopBar.react';
-import Tabs from '../components/Tabs.react';
+import TopBar from '../components/TopBar.jsx';
+import Tabs from '../components/Tabs.jsx';
 
 class Profile extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   static propTypes = {
     login: React.PropTypes.object
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (

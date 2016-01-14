@@ -3,17 +3,17 @@ import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
 
-import TopBar from '../components/TopBar.react';
+import TopBar from '../components/TopBar.jsx';
 
 class EmailSent extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   static propTypes = {
     login: React.PropTypes.object
   };
+
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (

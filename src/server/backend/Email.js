@@ -27,10 +27,10 @@ export default class Email {
 
       this.transporter.sendMail({
         from: config.emailFrom,
-        to: to,
-        subject: subject,
+        to,
+        subject,
         generateTextFromHTML: true,
-        html: html
+        html
       }, (error, response) => {
         if (error) {
           reject(new Error(error));
@@ -41,6 +41,4 @@ export default class Email {
     });
   }
 
-
 }
-

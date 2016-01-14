@@ -1,6 +1,6 @@
-import Auth from '../backend/auth';
-import Email from '../backend/email';
-import SignupEmail from '../backend/signupEmail.react';
+import Auth from '../backend/Auth';
+import Email from '../backend/Email';
+import SignupEmail from '../backend/SignupEmail.jsx';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import cookies from '../backend/cookies';
@@ -38,10 +38,10 @@ export default function signupController(req, reply) {
     return;
   }
 
-  const sendVerificationEmail = (result, email, code) => {
+  const sendVerificationEmail = (result, emailData, code) => {
     const key = result.emailVerificationKey;
-    const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={email} emailVerificationKey={key}/>);
-    return emailService.sendEmail(email, 'Welcome to StickyBros', html).then(() => {
+    const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={emailData} emailVerificationKey={key}/>);
+    return emailService.sendEmail(emailData, 'Welcome to StickyBros', html).then(() => {
       return req.generateResponse().code(code);
     });
   };

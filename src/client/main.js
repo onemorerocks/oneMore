@@ -4,7 +4,7 @@ import IsomorphicRelay from 'isomorphic-relay';
 import IsomorphicRouter from 'isomorphic-relay-router';
 import Relay from 'react-relay';
 
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 import errorReporting from './lib/errorReporting';
 import routes from '../routes';
 

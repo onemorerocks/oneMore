@@ -3,9 +3,13 @@ import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Request from 'axios';
 
-import FormErrors from '../components/formErrors.react';
+import FormErrors from '../components/FormErrors.jsx';
 
-export default class SignupIndex extends Component {
+export default class Signup extends Component {
+
+  static propTypes = {
+    history: React.PropTypes.object
+  };
 
   constructor(props) {
     super(props);
@@ -18,10 +22,6 @@ export default class SignupIndex extends Component {
       submitDisabled: false
     };
   }
-
-  static propTypes = {
-    history: React.PropTypes.object
-  };
 
   handleChange = (prop) => {
     return (event) => {
@@ -48,7 +48,7 @@ export default class SignupIndex extends Component {
       errors.push('Nickname must be at least 2 characters');
     }
 
-    this.setState({errors: errors});
+    this.setState({ errors });
 
     if (errors.length === 0) {
       this._sendData();
@@ -56,18 +56,18 @@ export default class SignupIndex extends Component {
   };
 
   _sendData() {
-    this.setState({submitDisabled: true});
+    this.setState({ submitDisabled: true });
 
     Request.post('/api/signup', {
       email: this.state.email,
       password: this.state.password1,
       nickname: this.state.nickname
     }).then((result) => {
-      this.setState({submitDisabled: false});
+      this.setState({ submitDisabled: false });
       window.location.href = '/';
     }).catch((err) => {
       if (err.status === 409) {
-        this.setState({errors: ['That email has already been registered.'], submitDisabled: false});
+        this.setState({ errors: ['That email has already been registered.'], submitDisabled: false });
       } else if (err.status === 403) {
         this.setState({
           errors: [
@@ -76,7 +76,7 @@ export default class SignupIndex extends Component {
           submitDisabled: false
         });
       } else {
-        this.setState({errors: ['There was a server side error.'], submitDisabled: false});
+        this.setState({ errors: ['There was a server side error.'], submitDisabled: false });
       }
     });
   }

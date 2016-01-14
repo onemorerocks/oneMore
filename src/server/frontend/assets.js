@@ -2,12 +2,12 @@ import config from '../config';
 import fs from 'fs';
 import path from 'path';
 
-const DEFAULT = {js: 'app.js', css: 'app.css'};
+const DEFAULT = { js: 'app.js', css: 'app.css' };
 
 const APP_JS_PATTERN = /^app\-\w+\.js$/;
 const APP_CSS_PATTERN = /^app\-\w+\.css$/;
 
-export default function getAppAssetFilenamesAsync() {
+export default function assets() {
   if (!config.isProduction) return DEFAULT;
 
   try {

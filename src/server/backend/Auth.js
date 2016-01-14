@@ -3,7 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import childProcess from 'child_process';
 const spawn = childProcess.spawn;
 
-import Dao from './dao';
+import Dao from './Dao';
 import newError from './newError';
 
 export default class Auth {
@@ -52,7 +52,7 @@ export default class Auth {
 
     return this._checkPassword(password).then((isPasswordWeak) => {
       if (isPasswordWeak) {
-        return {status: 'weak-password'};
+        return { status: 'weak-password' };
       } else {
         const signingKey = crypto.randomBytes(32).toString('hex');
         const passwordSalt = crypto.randomBytes(32).toString('hex');
@@ -60,11 +60,11 @@ export default class Auth {
         const passwordHash = this._hashPassword(password, passwordSalt);
 
         const data = {
-          email: email,
-          nickname: nickname,
-          passwordHash: passwordHash,
-          signingKey: signingKey,
-          passwordSalt: passwordSalt,
+          email,
+          nickname,
+          passwordHash,
+          signingKey,
+          passwordSalt,
           emailVeriKey: emailVerificationKey,
           emailVerified: 0
         };
@@ -74,11 +74,11 @@ export default class Auth {
         return this.dao.createIfDoesNotExist('logins', key, data).then((didCreate) => {
           if (didCreate) {
             const jwt = this._buildJwt(key, signingKey);
-            return {status: 'success', emailVerificationKey: emailVerificationKey, jwt: jwt};
+            return { status: 'success', emailVerificationKey, jwt };
           } else {
             return this.dao.get('logins', key).then((existingLogin) => {
               if (existingLogin.emailVerified) {
-                return {status: 'exists'};
+                return { status: 'exists' };
               } else {
                 return {
                   status: 'resend',
@@ -108,7 +108,7 @@ export default class Auth {
       if (data) {
         const passwordHash = this._hashPassword(password, data.passwordSalt);
         if (passwordHash === data.passwordHash) {
-          return {jwt: this._buildJwt(lcaseEmail, data.signingKey), emailValidated: !!data.emailVerified};
+          return { jwt: this._buildJwt(lcaseEmail, data.signingKey), emailValidated: !!data.emailVerified };
         } else {
           return false;
         }
@@ -119,8 +119,8 @@ export default class Auth {
   }
 
   _buildJwt(lcaseEmail, signingKey) {
-    const payload = {email: lcaseEmail};
-    return jsonwebtoken.sign(payload, signingKey, {expiresIn: '14d'});
+    const payload = { email: lcaseEmail };
+    return jsonwebtoken.sign(payload, signingKey, { expiresIn: '14d' });
   }
 
   _checkPassword(password) {
@@ -149,7 +149,7 @@ export default class Auth {
     const key = email.toLowerCase();
     return this.dao.get('logins', key).then((record) => {
       if (record.emailVeriKey === emailKey) {
-        return this.dao.blindSet('logins', key, {emailVerified: 1}).then(() => {
+        return this.dao.blindSet('logins', key, { emailVerified: 1 }).then(() => {
           return true;
         });
       } else {

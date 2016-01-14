@@ -1,6 +1,6 @@
 import Component from 'react-pure-render/component';
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import './topBar.scss';
 

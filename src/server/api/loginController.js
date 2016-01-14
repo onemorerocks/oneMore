@@ -1,4 +1,4 @@
-import Auth from '../backend/auth';
+import Auth from '../backend/Auth';
 import cookies from '../backend/cookies';
 
 export default function loginController(req, reply) {

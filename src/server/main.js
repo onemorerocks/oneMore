@@ -11,7 +11,7 @@ import logoutController from './api/logoutController';
 import graphqlController from './api/graphqlController';
 
 const server = new Hapi.Server();
-server.connection({port: config.port});
+server.connection({ port: config.port });
 
 server.register([Inert], (error) => {
 
