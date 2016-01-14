@@ -47,18 +47,19 @@ export default function signupController(req, reply) {
   };
 
   const promise = authService.signup(email, password, nickname).then((result) => {
-    if (result.status === 'success') {
+    if (result.status === 'success' || result.status === 'resend') {
       return sendVerificationEmail(result, email, 200).then((response) => {
         response.header('Authorization', result.jwt);
         cookies.decorateJwt(response, result.jwt);
-        cookies.decorateGrant(response, false);
       });
     } else if (result.status === 'exists') {
       return req.generateResponse('This email is already verified!').code(409);
-    } else if (result.status === 'resend') {
-      return sendVerificationEmail(result, email, 202);
     } else if (result.status === 'weak-password') {
       return req.generateResponse('Bad password').code(403);
+    } else if (result.status === 'email-password') {
+      return req.generateResponse('Email password').code(499);
+    } else if (result.status === 'resendPasswordMismatch') {
+      return req.generateResponse('Password Mismatch').code(422);
     } else {
       throw new Error('Unexpected signup result', result);
     }

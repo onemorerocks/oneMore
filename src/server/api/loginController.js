@@ -11,9 +11,7 @@ export default function loginController(req, reply) {
     if (result) {
       response.code(200);
       const jwt = result.jwt;
-      const emailValidated = result.emailValidated;
       cookies.decorateJwt(response, jwt);
-      cookies.decorateGrant(response, emailValidated, email);
     } else {
       response.code(401);
     }

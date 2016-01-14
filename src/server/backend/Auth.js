@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
 import childProcess from 'child_process';
 const spawn = childProcess.spawn;
+import { generate } from 'shortid';
 
 import Dao from './Dao';
 import newError from './newError';
@@ -50,7 +51,14 @@ export default class Auth {
 
   signup(email, password, nickname) {
 
-    return this._checkPassword(password).then((isPasswordWeak) => {
+    return this._checkPasswordDictionary(password, email).then((isPasswordWeak) => {
+
+      const key = email.toLowerCase();
+
+      if (password.toLowerCase() === key) {
+        return { status: 'email-password' };
+      }
+
       if (isPasswordWeak) {
         return { status: 'weak-password' };
       } else {
@@ -58,36 +66,56 @@ export default class Auth {
         const passwordSalt = crypto.randomBytes(32).toString('hex');
         const emailVerificationKey = crypto.randomBytes(32).toString('hex');
         const passwordHash = this._hashPassword(password, passwordSalt);
+        const profileId = generate();
 
         const data = {
           email,
-          nickname,
           passwordHash,
           signingKey,
           passwordSalt,
           emailVeriKey: emailVerificationKey,
-          emailVerified: 0
+          emailVerified: 0,
+          profileId
         };
-
-        const key = email.toLowerCase();
 
         return this.dao.createIfDoesNotExist('logins', key, data).then((didCreate) => {
           if (didCreate) {
-            const jwt = this._buildJwt(key, signingKey);
-            return { status: 'success', emailVerificationKey, jwt };
-          } else {
-            return this.dao.get('logins', key).then((existingLogin) => {
-              if (existingLogin.emailVerified) {
-                return { status: 'exists' };
-              } else {
-                return {
-                  status: 'resend',
-                  emailVerificationKey: existingLogin.emailVeriKey
-                };
-              }
+            return this._createProfile(data.profileId, nickname).then(() => {
+              const jwt = this._buildJwt(key, signingKey);
+              return { status: 'success', emailVerificationKey, jwt };
             });
+          } else {
+            return this._handleExistingLogin(key, password);
           }
         });
+      }
+    });
+  }
+
+  _handleExistingLogin(key, password) {
+    return this.dao.get('logins', key).then((existingLogin) => {
+      if (existingLogin.emailVerified) {
+        return { status: 'exists' };
+      } else {
+        if (this._hashPassword(password, existingLogin.passwordSalt) === existingLogin.passwordHash) {
+          const jwt = this._buildJwt(key, existingLogin.signingKey);
+          return {
+            status: 'resend',
+            emailVerificationKey: existingLogin.emailVeriKey,
+            jwt
+          };
+        } else {
+          return { status: 'resendPasswordMismatch' };
+        }
+      }
+    });
+  }
+
+  _createProfile(key, nickname) {
+    const data = { profileId: key, nickname };
+    return this.dao.createIfDoesNotExist('profiles', key, data).then((didCreate) => {
+      if (!didCreate) {
+        throw newError('Profile key already exists ' + key);
       }
     });
   }
@@ -123,7 +151,7 @@ export default class Auth {
     return jsonwebtoken.sign(payload, signingKey, { expiresIn: '14d' });
   }
 
-  _checkPassword(password) {
+  _checkPasswordDictionary(password) {
     return new Promise((resolve, reject) => {
 
       const ps = spawn('./sgrep-1.0/sgrep', ['-ic', password, 'passwords.txt']);

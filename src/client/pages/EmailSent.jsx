@@ -18,12 +18,14 @@ class EmailSent extends Component {
   render() {
     return (
       <DocumentTitle title="StickyBros - Email Sent">
-        <div className="row">
-          <TopBar login={this.props.login} />
-          <div className="small-12 columns">
-            <p>Alright, cool. We sent a verification email to your address.</p>
-            <p>If you don't see it after a few minutes, check your spam folder.</p>
-            <p>Still can't find it?  Just signup again and another email will go out.</p>
+        <div>
+          <TopBar login={this.props.login}/>
+          <div className="row">
+            <div className="small-12 columns">
+              <p>Alright, cool. We sent a verification email to your address.</p>
+              <p>If you don't see it after a few minutes, check your spam folder.</p>
+              <p>Still can't find it? Just signup again and another email will go out.</p>
+            </div>
           </div>
         </div>
       </DocumentTitle>

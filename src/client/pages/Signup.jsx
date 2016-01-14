@@ -75,6 +75,16 @@ export default class Signup extends Component {
               technique which uses a list of common passwords in an attempt to guess the user's password.)`],
           submitDisabled: false
         });
+      } else if (err.status === 422) {
+        this.setState({
+          errors: [`Tried sending another verification email out, but your password didn't match the old one.`],
+          submitDisabled: false
+        });
+      } else if (err.status === 499) {
+        this.setState({
+          errors: [`Your password can't match your email address.`],
+          submitDisabled: false
+        });
       } else {
         this.setState({ errors: ['There was a server side error.'], submitDisabled: false });
       }
