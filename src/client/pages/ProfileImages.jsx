@@ -3,6 +3,7 @@ import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
 
+import AuthWrapper from '../components/AuthWrapper.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Tabs from '../components/Tabs.jsx';
 
@@ -19,7 +20,7 @@ class ProfileImages extends Component {
   render() {
     return (
       <DocumentTitle title="StickyBros - Profile">
-        <div>
+        <AuthWrapper login={this.props.login}>
           <TopBar login={this.props.login}/>
           <Tabs activeTab="profile"/>
           <div className="row">
@@ -27,7 +28,7 @@ class ProfileImages extends Component {
               <h1>Profile Images</h1>
             </div>
           </div>
-        </div>
+        </AuthWrapper>
       </DocumentTitle>
     );
   }
@@ -38,7 +39,8 @@ export default Relay.createContainer(ProfileImages, {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {
-        ${TopBar.getFragment('login')}
+        ${TopBar.getFragment('login')},
+        ${AuthWrapper.getFragment('login')}
       }
     `
   }

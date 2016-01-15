@@ -5,7 +5,7 @@ const dao = new Dao();
 export function getLogin(email) {
   const loginPromise = dao.get('logins', email).then((login) => {
     login.emailVerified = !!login.emailVerified;
-    login.id = login.email;
+    login.email = login.id;
     return login;
   });
   return loginPromise;

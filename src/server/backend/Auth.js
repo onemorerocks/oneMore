@@ -69,7 +69,7 @@ export default class Auth {
         const profileId = generate();
 
         const data = {
-          email,
+          id: email,
           passwordHash,
           signingKey,
           passwordSalt,
@@ -112,7 +112,7 @@ export default class Auth {
   }
 
   _createProfile(key, nickname) {
-    const data = { profileId: key, nickname };
+    const data = { id: key, nickname };
     return this.dao.createIfDoesNotExist('profiles', key, data).then((didCreate) => {
       if (!didCreate) {
         throw newError('Profile key already exists ' + key);

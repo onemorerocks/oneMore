@@ -39,7 +39,6 @@
     "gulp-util": "^3.0.7",
     "hapi": "^12.1.0",
     "hash-file": "^2.1.0",
-    "history": "1.17.x",
     "inert": "^3.2.0",
     "ip": "^1.1.0",
     "isomorphic-relay": "^0.4.2",
