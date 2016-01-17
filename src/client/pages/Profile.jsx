@@ -8,6 +8,46 @@ import AuthWrapper from '../components/AuthWrapper.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Tabs from '../components/Tabs.jsx';
 
+class ProfileMutation extends Relay.Mutation {
+
+  static fragments = {
+    login: () => Relay.QL`
+      fragment on Login {
+        profile {
+          id
+        }
+      }
+    `
+  };
+
+  getMutation() {
+    return Relay.QL`
+      mutation{ updateProfile }
+    `;
+  }
+
+  getVariables() {
+    return { id: this.props.login.profile.id, nickname: this.props.nickname };
+  }
+
+  getFatQuery() {
+    return Relay.QL`
+      fragment on MutateProfilePayload {
+        profile {
+          nickname
+        }
+      }
+    `;
+  }
+
+  getConfigs() {
+    return [{
+      type: 'FIELDS_CHANGE',
+      fieldIDs: { profile: this.props.login.profile.id }
+    }];
+  }
+}
+
 class Profile extends Component {
 
   static propTypes = {
@@ -18,7 +58,18 @@ class Profile extends Component {
     super(props);
   }
 
+  _handleSubmit = (e) => {
+    e.preventDefault();
+    Relay.Store.commitUpdate(
+      new ProfileMutation({
+        login: this.props.login,
+        nickname: this.refs.nicknameInput
+      })
+    );
+  };
+
   render() {
+    const profile = this.props.login.profile;
     return (
       <DocumentTitle title="StickyBros - Profile">
         <AuthWrapper login={this.props.login}>
@@ -28,6 +79,13 @@ class Profile extends Component {
             <div className="small-12 columns">
               <h1>Profile</h1>
               <Link to="/profile/images">Images</Link>
+              <form onSubmit={this._handleSubmit}>
+                <label>
+                  Nickname
+                  <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
+                </label>
+                <input type="submit"/>
+              </form>
             </div>
           </div>
         </AuthWrapper>
@@ -43,6 +101,10 @@ export default Relay.createContainer(Profile, {
       fragment on Login {
         ${TopBar.getFragment('login')},
         ${AuthWrapper.getFragment('login')},
+        ${ProfileMutation.getFragment('login')},
+        profile {
+          nickname
+        }
       }
     `
   }

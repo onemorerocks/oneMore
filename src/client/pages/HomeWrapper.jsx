@@ -8,10 +8,7 @@ import Home from './Home.jsx';
 class HomeWrapper extends Component {
 
   static propTypes = {
-    login: React.PropTypes.shape({
-      email: React.PropTypes.string,
-      emailVerified: React.PropTypes.bool
-    })
+    login: React.PropTypes.object
   };
 
   constructor(props) {
