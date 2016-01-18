@@ -27,15 +27,13 @@ class ProfileMutation extends Relay.Mutation {
   }
 
   getVariables() {
-    return { id: this.props.login.profile.id, nickname: this.props.nickname };
+    return { nickname: this.props.nickname };
   }
 
   getFatQuery() {
     return Relay.QL`
       fragment on MutateProfilePayload {
-        profile {
-          nickname
-        }
+        updatedProfile
       }
     `;
   }
@@ -43,7 +41,7 @@ class ProfileMutation extends Relay.Mutation {
   getConfigs() {
     return [{
       type: 'FIELDS_CHANGE',
-      fieldIDs: { profile: this.props.login.profile.id }
+      fieldIDs: { updatedProfile: this.props.login.profile.id }
     }];
   }
 }
@@ -63,7 +61,7 @@ class Profile extends Component {
     Relay.Store.commitUpdate(
       new ProfileMutation({
         login: this.props.login,
-        nickname: this.refs.nicknameInput
+        nickname: this.refs.nicknameInput.value
       })
     );
   };

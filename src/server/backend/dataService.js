@@ -26,6 +26,24 @@ export function getLoginByReq(jwt) {
   }
 }
 
-export function updateProfile(profile) {
-  return dao.blindSet('profiles', profile.id, profile);
+export function getProfileByReq(jwt) {
+  if (jwt) {
+    return getLoginByReq(jwt).then((result) => {
+      if (result.profileId) {
+        return getProfile(result.profileId);
+      } else {
+        return null;
+      }
+    });
+  } else {
+    return { profile: null };
+  }
+}
+
+export function updateProfile(jwt, profile) {
+  return dao.get('logins', jwt.email).then((login) => {
+    profile.id = login.profileId;
+    delete profile.clientMutationId;
+    return dao.blindSet('profiles', login.profileId, profile);
+  });
 }

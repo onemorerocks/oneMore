@@ -6,8 +6,8 @@ import Auth from '../backend/Auth';
 const auth = new Auth();
 
 function doQuery(req, token) {
-  const { query } = req.payload;
-  const result = graphql(schema, query, token);
+  const { query, variables = {} } = req.payload;
+  const result = graphql(schema, query, token, variables);
   return result.then((data) => {
     if (data.errors) {
       return newError(data.errors);

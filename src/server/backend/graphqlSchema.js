@@ -65,20 +65,16 @@ const loginType = new GraphQLObjectType({
 const profileMutation = mutationWithClientMutationId({
   name: 'MutateProfile',
   inputFields: {
-    id: { type: new GraphQLNonNull(GraphQLID) },
     nickname: { type: GraphQLString }
   },
   outputFields: {
-    profile: {
+    updatedProfile: {
       type: profileType,
-      resolve: ({ updatedProfile }) => updatedProfile
+      resolve: (input, _, { rootValue }) => updateProfile(rootValue, input)
     }
   },
-  mutateAndGetPayload: ({ id, nickname }) => {
-    const newProfile = { id, nickname };
-    return updateProfile.then(() => {
-      return newProfile;
-    });
+  mutateAndGetPayload: (input) => {
+    return input;
   }
 });
 
@@ -89,6 +85,16 @@ export const schema = new GraphQLSchema({
       login: {
         type: loginType,
         resolve: (jwt) => getLoginByReq(jwt)
+      },
+      profile: {
+        type: profileType,
+        args: {
+          id: {
+            name: 'id',
+            type: new GraphQLNonNull(GraphQLID)
+          }
+        },
+        resolve: (jwt, { id }) => getProfile(id)
       },
       node: nodeField
     })
