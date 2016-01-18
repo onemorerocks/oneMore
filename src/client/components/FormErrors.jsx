@@ -9,7 +9,7 @@ export default class FormErrors extends Component {
 
   render() {
 
-    let errorElement = <span />;
+    let errorElement = null;
 
     if (this.props.errors.length > 0) {
       errorElement = (

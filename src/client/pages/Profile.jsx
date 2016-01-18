@@ -2,11 +2,11 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
-import { Link } from 'react-router';
 
 import AuthWrapper from '../components/AuthWrapper.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Tabs from '../components/Tabs.jsx';
+import FormErrors from '../components/FormErrors.jsx';
 
 class ProfileMutation extends Relay.Mutation {
 
@@ -54,15 +54,34 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      submitDisabled: false,
+      errors: []
+    };
   }
 
   _handleSubmit = (e) => {
     e.preventDefault();
+
+    if (this.state.submitDisabled) {
+      return;
+    }
+
+    this.setState({ submitDisabled: true, errors: [] });
+
     Relay.Store.commitUpdate(
       new ProfileMutation({
         login: this.props.login,
         nickname: this.refs.nicknameInput.value
-      })
+      }),
+      {
+        onSuccess: () => {
+          this.setState({ submitDisabled: false });
+        },
+        onFailure: (err) => {
+          this.setState({ submitDisabled: false, errors: ['There was a server error.  Please try again shortly.'] });
+        }
+      }
     );
   };
 
@@ -75,14 +94,13 @@ class Profile extends Component {
           <Tabs activeTab="profile"/>
           <div className="row">
             <div className="small-12 columns">
-              <h1>Profile</h1>
-              <Link to="/profile/images">Images</Link>
+              <FormErrors errors={this.state.errors}/>
               <form onSubmit={this._handleSubmit}>
                 <label>
                   Nickname
                   <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
                 </label>
-                <input type="submit"/>
+                <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
               </form>
             </div>
           </div>
