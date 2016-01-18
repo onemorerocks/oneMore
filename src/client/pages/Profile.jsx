@@ -7,6 +7,7 @@ import AuthWrapper from '../components/AuthWrapper.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Tabs from '../components/Tabs.jsx';
 import FormErrors from '../components/FormErrors.jsx';
+import Stars from '../components/Stars.jsx';
 
 class ProfileMutation extends Relay.Mutation {
 
@@ -97,11 +98,17 @@ class Profile extends Component {
             <div className="small-12 columns">
               <FormErrors errors={this.state.errors}/>
               <form onSubmit={this._handleSubmit}>
+
                 <label>
                   Nickname
                   <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
                 </label>
-                <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
+
+                <Stars id="blah" />
+
+                <div>
+                  <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
+                </div>
               </form>
             </div>
           </div>

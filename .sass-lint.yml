@@ -28,6 +28,7 @@ rules:
   no-invalid-hex: 1
   no-css-comments: 1
   no-color-literals: 0
+  no-transition-all: 0
 
   # Style Guide
   border-zero: 1
@@ -37,7 +38,7 @@ rules:
   hex-notation: 1
   indentation: 1
   leading-zero: 0
-  nesting-depth: 1
+  nesting-depth: 0
   property-sort-order: 0
   quotes: 1
   variable-for-property: 1
