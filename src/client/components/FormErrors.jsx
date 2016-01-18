@@ -1,11 +1,25 @@
 import Component from 'react-pure-render/component';
 import React from 'react';
+import BrowserOnly from './BrowserOnly';
+
+let AlertContainer = null;
+if (process.env.IS_BROWSER) {
+  AlertContainer = require('react-alert');
+}
 
 export default class FormErrors extends Component {
 
   constructor(props) {
     super(props);
   }
+
+  static alertOptions = {
+    offset: 14,
+    position: 'bottom right',
+    theme: 'dark',
+    time: 2500,
+    transition: 'scale'
+  };
 
   render() {
 
@@ -22,7 +36,14 @@ export default class FormErrors extends Component {
         </div>);
     }
 
-    return errorElement;
+    return (
+      <div>
+        <BrowserOnly>
+          <AlertContainer ref={(a) => global.msg = a} {...FormErrors.alertOptions} />
+        </BrowserOnly>
+        {errorElement}
+      </div>
+    );
   }
 
 }

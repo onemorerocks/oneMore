@@ -49,6 +49,8 @@
     "nodemailer-smtp-transport": "^2.0.0",
     "postcss-loader": "^0.8.0",
     "react": "^0.14.6",
+    "react-addons-css-transition-group": "^0.14.6",
+    "react-alert": "^1.0.14",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.6",
     "react-dropzone": "^3.3.2",

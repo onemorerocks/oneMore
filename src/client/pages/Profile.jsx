@@ -77,6 +77,7 @@ class Profile extends Component {
       {
         onSuccess: () => {
           this.setState({ submitDisabled: false });
+          global.msg.success('Saved!');
         },
         onFailure: (err) => {
           this.setState({ submitDisabled: false, errors: ['There was a server error.  Please try again shortly.'] });
