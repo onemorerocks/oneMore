@@ -28,7 +28,7 @@ class TopBar extends Component {
           <span className="title-bar-title">StickyBros</span>
         </div>
         <div className="title-bar-right">
-          <span className="email">{this.props.login.email}</span>
+          <span className="email show-for-medium">{this.props.login.email}</span>
           <button className="small button" onClick={this._handleLogout}>Logout</button>
         </div>
       </div>

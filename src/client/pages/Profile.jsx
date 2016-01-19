@@ -95,6 +95,9 @@ class Profile extends Component {
 
   render() {
     const profile = this.props.login.profile;
+
+    const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name}/>;
+
     return (
       <DocumentTitle title="StickyBros - Profile">
         <AuthWrapper login={this.props.login}>
@@ -110,7 +113,8 @@ class Profile extends Component {
                   <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
                 </label>
 
-                <Stars id="givesHead" defaultValue={profile.givesHead} ref="givesHead"/>
+                <div>Giving head</div>
+                {stars('givesHead')}
 
                 <div>
                   <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
