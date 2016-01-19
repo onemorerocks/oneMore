@@ -1,5 +1,5 @@
 import {
-  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID
+  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt
   // GraphQLList
 } from 'graphql';
 
@@ -40,7 +40,8 @@ const profileType = new GraphQLObjectType({
   name: 'Profile',
   fields: () => ({
     id: globalIdField('Profile'),
-    nickname: { type: GraphQLString }
+    nickname: { type: GraphQLString },
+    givesHead: { type: GraphQLInt }
   }),
   interfaces: [nodeInterface]
 });
@@ -65,7 +66,8 @@ const loginType = new GraphQLObjectType({
 const profileMutation = mutationWithClientMutationId({
   name: 'MutateProfile',
   inputFields: {
-    nickname: { type: GraphQLString }
+    nickname: { type: GraphQLString },
+    givesHead: { type: GraphQLInt }
   },
   outputFields: {
     updatedProfile: {

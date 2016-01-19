@@ -7,7 +7,7 @@ export function getProfile(profileId) {
 }
 
 export function getLogin(email) {
-  const loginPromise = dao.get('logins', email).then((login) => {
+  return dao.get('logins', email).then((login) => {
     login.emailVerified = !!login.emailVerified;
     login.email = login.id;
     return getProfile(login.profileId).then((profile) => {
@@ -15,7 +15,6 @@ export function getLogin(email) {
       return login;
     });
   });
-  return loginPromise;
 }
 
 export function getLoginByReq(jwt) {

@@ -28,7 +28,10 @@ class ProfileMutation extends Relay.Mutation {
   }
 
   getVariables() {
-    return { nickname: this.props.nickname };
+    return {
+      nickname: this.props.nickname,
+      givesHead: this.props.givesHead
+    };
   }
 
   getFatQuery() {
@@ -70,10 +73,13 @@ class Profile extends Component {
 
     this.setState({ submitDisabled: true, errors: [] });
 
+    const refs = this.refs;
+
     Relay.Store.commitUpdate(
       new ProfileMutation({
         login: this.props.login,
-        nickname: this.refs.nicknameInput.value
+        nickname: refs.nicknameInput.value,
+        givesHead: refs.givesHead.getValue()
       }),
       {
         onSuccess: () => {
@@ -104,7 +110,7 @@ class Profile extends Component {
                   <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
                 </label>
 
-                <Stars id="blah" />
+                <Stars id="givesHead" defaultValue={profile.givesHead} ref="givesHead"/>
 
                 <div>
                   <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
@@ -127,7 +133,8 @@ export default Relay.createContainer(Profile, {
         ${AuthWrapper.getFragment('login')},
         ${ProfileMutation.getFragment('login')},
         profile {
-          nickname
+          nickname,
+          givesHead
         }
       }
     `
