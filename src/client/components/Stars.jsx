@@ -28,14 +28,16 @@ export default class Stars extends Component {
   render() {
     const id = this.props.id;
     return (
-      <div className="star-rating">
-        {stars.map((count) =>
-          [
-            <input className={'input-star input-star-' + count} id={id + count} type="radio" name="star"
-                   defaultChecked={count === this.props.defaultValue} ref={'i' + count}/>,
-            <label className={'label-star label-star-' + count} htmlFor={id + count}/>
-          ]
-        )}
+      <div>
+        <div className="star-rating">
+          {stars.map((count) =>
+            [
+              <input className={'input-star input-star-' + count} id={id + count} type="radio" name={'star-' + id}
+                     defaultChecked={count === this.props.defaultValue} ref={'i' + count}/>,
+              <label className={'label-star label-star-' + count} htmlFor={id + count}/>
+            ]
+          )}
+        </div>
       </div>
     );
   }

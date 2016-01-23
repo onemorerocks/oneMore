@@ -1,0 +1,15 @@
+@import '../global';
+
+.profile {
+
+  @include breakpoint(medium) {
+    .two-col-left {
+      padding-right: 2rem;
+    }
+
+    .two-col-right {
+      padding-left: 2rem;
+    }
+  }
+
+}

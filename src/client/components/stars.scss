@@ -1,6 +1,11 @@
+@import '../global';
+
 .star-rating {
 
   display: inline-block;
+  margin-top: -0.5rem;
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
 
   .input-star {
     display: none;
@@ -19,7 +24,7 @@
     float: right;
     padding: 0;
     font-size: 2rem;
-    color: #444;
+    color: $secondary-color;
     transition: transform .2s;
     margin-left: 0.25rem;
     margin-right: 0.25rem;
@@ -34,17 +39,10 @@
     }
   }
 
-  .input-star-5 {
-    &:checked ~ .label-star {
-      &:before {
-        color: #fd4;
-      }
-    }
-  }
-
   .input-star-1 {
     &:checked ~ .label-star {
       &:before {
+        content: '\f05e';
         color: #f62;
       }
     }

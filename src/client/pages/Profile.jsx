@@ -9,6 +9,8 @@ import Tabs from '../components/Tabs.jsx';
 import FormErrors from '../components/FormErrors.jsx';
 import Stars from '../components/Stars.jsx';
 
+import './profile.scss';
+
 class ProfileMutation extends Relay.Mutation {
 
   static fragments = {
@@ -49,6 +51,40 @@ class ProfileMutation extends Relay.Mutation {
     }];
   }
 }
+
+const FormRow = (props) =>
+  <span>
+    {props.label}
+    {props.children}
+  </span>;
+
+FormRow.propTypes = {
+  label: React.PropTypes.any
+};
+
+const FormOneColRow = (props) =>
+  <div className="row">
+    <div className="medium-12 columns medium-text-center">
+      <FormRow label={props.children[0]}>
+        {props.children[1]}
+      </FormRow>
+    </div>
+  </div>;
+
+const FormTwoColRow = (props) =>
+  <div className="row">
+    <div className="medium-6 columns medium-text-right two-col-left">
+      <FormRow label={props.children[0]}>
+        {props.children[1]}
+      </FormRow>
+    </div>
+    <div className="medium-6 columns two-col-right">
+      <FormRow label={props.children[2]}>
+        {props.children[3]}
+      </FormRow>
+    </div>
+  </div>;
+
 
 class Profile extends Component {
 
@@ -103,25 +139,58 @@ class Profile extends Component {
         <AuthWrapper login={this.props.login}>
           <TopBar login={this.props.login}/>
           <Tabs activeTab="profile"/>
-          <div className="row">
-            <div className="small-12 columns">
-              <FormErrors errors={this.state.errors}/>
-              <form onSubmit={this._handleSubmit}>
+          <form onSubmit={this._handleSubmit}>
+
+            <div className="row profile">
+              <div className="small-12 columns">
+                <FormErrors errors={this.state.errors}/>
 
                 <label>
-                  Nickname
+                  Nickanme
                   <input type="text" ref="nicknameInput" defaultValue={profile.nickname}/>
                 </label>
 
-                <div>Giving head</div>
-                {stars('givesHead')}
+                <FormTwoColRow>
+                  <span>I like <strong>giving blowjobs</strong></span>
+                  {stars('givesHead')}
+
+                  <span>I like <strong>getting blown</strong></span>
+                  {stars('getsHead')}
+                </FormTwoColRow>
+
+                <FormOneColRow>
+                  <span>I like <strong>69ing</strong></span>
+                  {stars('sixtynine')}
+                </FormOneColRow>
+
+                <FormTwoColRow>
+                  <span>I like <strong>giving handjobs</strong></span>
+                  {stars('givesHand')}
+
+                  <span>I like <strong>getting jacked-off</strong></span>
+                  {stars('getsHand')}
+                </FormTwoColRow>
+
+                <FormOneColRow>
+                  <span>I like <strong>mutual masturbation</strong></span>
+                  {stars('mutualmast')}
+                </FormOneColRow>
+
+                <FormTwoColRow>
+                  <span>I like <strong>fucking guys</strong></span>
+                  {stars('givesFuck')}
+
+                  <span>I like <strong>getting fucked</strong></span>
+                  {stars('getsFucked')}
+                </FormTwoColRow>
 
                 <div>
-                  <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile"/>
+                  <input type="submit" className="button float-right" disabled={this.state.submitDisabled}
+                         value="Save Profile"/>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+          </form>
         </AuthWrapper>
       </DocumentTitle>
     );
