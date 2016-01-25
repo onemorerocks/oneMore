@@ -4,8 +4,8 @@
 
   display: inline-block;
   margin-top: -0.5rem;
-  margin-left: -0.25rem;
-  margin-right: -0.25rem;
+  margin-left: -0.2rem;
+  margin-right: -0.2rem;
 
   .input-star {
     display: none;
@@ -26,8 +26,8 @@
     font-size: 2rem;
     color: $secondary-color;
     transition: transform .2s;
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
 
     &:hover {
       transform: scale(1.3);

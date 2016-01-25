@@ -2,13 +2,11 @@
 
 .profile {
 
-  @include breakpoint(medium) {
-    .two-col-left {
-      padding-right: 2rem;
-    }
-
-    .two-col-right {
-      padding-left: 2rem;
+  .fieldset {
+    padding-bottom: 0;
+    padding-right: 0.5rem;
+    @include breakpoint(medium) {
+      min-height: 16.5rem;
     }
   }
 
