@@ -25,7 +25,7 @@ class TopBar extends Component {
       <div className="title-bar">
         <div className="title-bar-left">
           <button className="menu-icon show-for-small-only" type="button"/>
-          <span className="title-bar-title">StickyBros</span>
+          <span className="title-bar-title">Sticky<span className="captialized">Bros</span></span>
         </div>
         <div className="title-bar-right">
           <span className="email show-for-medium">{this.props.login.email}</span>

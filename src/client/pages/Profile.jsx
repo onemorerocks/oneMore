@@ -34,6 +34,25 @@ const profileStarModel = [
   'getsPain'
 ];
 
+const profileKinksModel = [
+  {
+    group: 'Fisting',
+    rows: [{ id: 'givesFist', text: 'fisting guys' }, { id: 'getsFist', text: 'getting fisted' }]
+  },
+  {
+    group: 'Bondage',
+    rows: [{ id: 'givesTie', text: 'tying guys up' }, { id: 'getsTie', text: 'getting tied up' }]
+  },
+  {
+    group: 'Pain',
+    rows: [{ id: 'givesPain', text: 'inflicting pain' }, { id: 'getsPain', text: 'receiving pain' }]
+  },
+  {
+    group: 'Watersports',
+    rows: [{ id: 'givesWs', text: 'pissing on guys' }, { id: 'getsWs', text: 'getting pissed on' }]
+  }
+];
+
 class ProfileMutation extends Relay.Mutation {
 
   static fragments = {
@@ -104,7 +123,8 @@ class Profile extends Component {
     super(props);
     this.state = {
       submitDisabled: false,
-      errors: []
+      errors: [],
+      forceShow: new Set()
     };
   }
 
@@ -145,6 +165,28 @@ class Profile extends Component {
 
     const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name}/>;
 
+    const starGroup = (groupModel, i) => {
+      return (
+        <FormGroup key={groupModel.group}>
+          {groupModel.rows.map((rowModel) =>
+            <FormRow key={rowModel.id}>
+              <span>I like <strong>{rowModel.text}</strong></span>
+              {stars(rowModel.id)}
+            </FormRow>
+          )}
+        </FormGroup>
+      );
+    };
+
+    const handleSelect = (el) => {
+      console.log('HERE WE GO!', el.target.value);
+      this.state.forceShow.add(el.target.value);
+      this.forceUpdate();
+      setTimeout(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      }, 1);
+    };
+
     return (
       <DocumentTitle title="StickyBros - Profile">
         <AuthWrapper login={this.props.login}>
@@ -155,6 +197,8 @@ class Profile extends Component {
             <div className="row">
               <div className="small-12 columns">
                 <FormErrors errors={this.state.errors}/>
+
+                <h3>Profile</h3>
 
                 <label>
                   Nickanme
@@ -238,43 +282,30 @@ class Profile extends Component {
                 </FormRow>
               </FormGroup>
             </div>
+
             <div className="row">
-              <div className="small-12 columns">
+              <div className="small-12 medium-6 large-4 columns">
                 <h3>Kinks</h3>
+                <select onChange={handleSelect}>
+                  <option>--Add Kink--</option>
+                  {profileKinksModel.map((groupModel) => {
+                    const forceShow = this.state.forceShow.has(groupModel.group);
+                    if (!forceShow && !groupModel.rows.find((rowModel) => profile[rowModel.id])) {
+                      return <option value={groupModel.group}>{groupModel.group}</option>;
+                    }
+                  })}
+                </select>
               </div>
+            </div>
 
-              <FormGroup>
-                <FormRow>
-                  <span>I like <strong>fisting guys</strong></span>
-                  {stars('givesFist')}
-                </FormRow>
-                <FormRow>
-                  <span>I like <strong>getting fisted</strong></span>
-                  {stars('getsFist')}
-                </FormRow>
-              </FormGroup>
+            <div className="row">
 
-              <FormGroup>
-                <FormRow>
-                  <span>I like <strong>tying guys up</strong></span>
-                  {stars('givesTie')}
-                </FormRow>
-                <FormRow>
-                  <span>I like <strong>getting tied up</strong></span>
-                  {stars('getsTie')}
-                </FormRow>
-              </FormGroup>
-
-              <FormGroup>
-                <FormRow>
-                  <span>I like <strong>inflicting pain</strong></span>
-                  {stars('givesPain')}
-                </FormRow>
-                <FormRow>
-                  <span>I like <strong>receiving pain</strong></span>
-                  {stars('getsPain')}
-                </FormRow>
-              </FormGroup>
+              {profileKinksModel.map((groupModel) => {
+                const forceShow = this.state.forceShow.has(groupModel.group);
+                if (forceShow || groupModel.rows.find((rowModel) => profile[rowModel.id])) {
+                  return starGroup(groupModel);
+                }
+              })}
 
               <div className="small-12 columns">
                 <input type="submit" className="button float-right" disabled={this.state.submitDisabled}
