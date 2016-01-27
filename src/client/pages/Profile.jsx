@@ -4,8 +4,6 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import AuthWrapper from '../components/AuthWrapper.jsx';
-import TopBar from '../components/TopBar.jsx';
-import Tabs from '../components/Tabs.jsx';
 import FormErrors from '../components/FormErrors.jsx';
 import Stars from '../components/Stars.jsx';
 
@@ -179,7 +177,6 @@ class Profile extends Component {
     };
 
     const handleSelect = (el) => {
-      console.log('HERE WE GO!', el.target.value);
       this.state.forceShow.add(el.target.value);
       this.forceUpdate();
       setTimeout(() => {
@@ -190,8 +187,6 @@ class Profile extends Component {
     return (
       <DocumentTitle title="StickyBros - Profile">
         <AuthWrapper login={this.props.login}>
-          <TopBar login={this.props.login}/>
-          <Tabs activeTab="profile"/>
           <form onSubmit={this._handleSubmit} className="profile">
 
             <div className="row">
@@ -324,7 +319,6 @@ export default Relay.createContainer(Profile, {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {
-        ${TopBar.getFragment('login')},
         ${AuthWrapper.getFragment('login')},
         ${ProfileMutation.getFragment('login')},
         profile {
