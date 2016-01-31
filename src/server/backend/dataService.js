@@ -3,7 +3,9 @@ import Dao from './Dao';
 const dao = new Dao();
 
 export function getProfile(profileId) {
-  return dao.get('profiles', profileId);
+  return dao.get('profiles', profileId).then((profile) => {
+    return profile;
+  });
 }
 
 export function getLogin(email) {

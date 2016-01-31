@@ -2,7 +2,7 @@ import Component from 'react-pure-render/component';
 import React from 'react';
 import Relay from 'react-relay';
 import HomeWrapper from './HomeWrapper.jsx';
-import Profile from './Profile.jsx';
+import Profile from './profile/Profile.jsx';
 import TopBar from '../components/TopBar.jsx';
 import Tabs from '../components/Tabs.jsx';
 

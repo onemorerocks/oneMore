@@ -1,5 +1,5 @@
 import {
-  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt
+  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLFloat
   // GraphQLList
 } from 'graphql';
 
@@ -9,6 +9,8 @@ import {
 } from 'graphql-relay';
 
 import { getLogin, getLoginByReq, getProfile, updateProfile } from './dataService';
+
+import { starIds, profileStringFields, profileIntFields, profileNumberFields } from '../../common/profileModel';
 
 /**
  * The first method defines the way we resolve an ID to its object.
@@ -36,32 +38,31 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   }
 );
 
+const profileInputFields = {};
+
+starIds.forEach((id) => {
+  profileInputFields[id] = { type: GraphQLInt };
+});
+
+profileIntFields.forEach((id) => {
+  profileInputFields[id] = { type: GraphQLInt };
+});
+
+profileStringFields.forEach((id) => {
+  profileInputFields[id] = { type: GraphQLString };
+});
+
+profileNumberFields.forEach((id) => {
+  profileInputFields[id] = { type: GraphQLFloat };
+});
+
+const fieldObj = {
+  id: globalIdField('Profile')
+};
+
 const profileType = new GraphQLObjectType({
   name: 'Profile',
-  fields: () => ({
-    id: globalIdField('Profile'),
-    nickname: { type: GraphQLString },
-    givesHead: { type: GraphQLInt },
-    getsHead: { type: GraphQLInt },
-    sixtynine: { type: GraphQLInt },
-    givesFuck: { type: GraphQLInt },
-    getsFucked: { type: GraphQLInt },
-    givesHand: { type: GraphQLInt },
-    getsHand: { type: GraphQLInt },
-    mutualMast: { type: GraphQLInt },
-    givesRim: { type: GraphQLInt },
-    getsRim: { type: GraphQLInt },
-    givesNipple: { type: GraphQLInt },
-    getsNipple: { type: GraphQLInt },
-    kissing: { type: GraphQLInt },
-    cuddling: { type: GraphQLInt },
-    givesFist: { type: GraphQLInt },
-    getsFist: { type: GraphQLInt },
-    givesTie: { type: GraphQLInt },
-    getsTie: { type: GraphQLInt },
-    givesPain: { type: GraphQLInt },
-    getsPain: { type: GraphQLInt }
-  }),
+  fields: () => (Object.assign(fieldObj, profileInputFields)),
   interfaces: [nodeInterface]
 });
 
@@ -84,29 +85,7 @@ const loginType = new GraphQLObjectType({
 
 const profileMutation = mutationWithClientMutationId({
   name: 'MutateProfile',
-  inputFields: {
-    nickname: { type: GraphQLString },
-    givesHead: { type: GraphQLInt },
-    getsHead: { type: GraphQLInt },
-    sixtynine: { type: GraphQLInt },
-    givesFuck: { type: GraphQLInt },
-    getsFucked: { type: GraphQLInt },
-    givesHand: { type: GraphQLInt },
-    getsHand: { type: GraphQLInt },
-    mutualMast: { type: GraphQLInt },
-    givesRim: { type: GraphQLInt },
-    getsRim: { type: GraphQLInt },
-    givesNipple: { type: GraphQLInt },
-    getsNipple: { type: GraphQLInt },
-    kissing: { type: GraphQLInt },
-    cuddling: { type: GraphQLInt },
-    givesFist: { type: GraphQLInt },
-    getsFist: { type: GraphQLInt },
-    givesTie: { type: GraphQLInt },
-    getsTie: { type: GraphQLInt },
-    givesPain: { type: GraphQLInt },
-    getsPain: { type: GraphQLInt }
-  },
+  inputFields: profileInputFields,
   outputFields: {
     updatedProfile: {
       type: profileType,
