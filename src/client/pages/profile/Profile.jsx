@@ -8,9 +8,9 @@ import FormErrors from '../../components/FormErrors.jsx';
 import Stars from '../../components/Stars.jsx';
 import { profileStarsModel, profileKinksModel, allIds } from '../../../common/profileModel';
 import ProfileMutation from './ProfileMutation';
-import RadioGroup from 'react-radio-group';
+import RadioGroup from 'react-radio';
 
-import './../profile.scss';
+import './profile.scss';
 
 const years = [];
 for (let i = 1998; i >= 1918; i--) {
@@ -95,6 +95,10 @@ class Profile extends Component {
   render() {
     const profile = this.props.login.profile;
 
+    if (!profile) {
+      return <noscript />;
+    }
+
     const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name}/>;
 
     const starGroup = (groupModel, i) => {
@@ -159,16 +163,17 @@ class Profile extends Component {
               <div className="small-6 large-4 columns">
                 <label>
                   Weight
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" name="weightUnits" value="lb" ref="weightUnits" required/>
-                    lb
-                  </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" name="weightUnits" value="kg" ref="weightUnits"/>kg
-                  </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" name="weightUnits" value="stone" ref="weightUnits"/>stone
-                  </label>
+                  <RadioGroup name="weightUnits" defaultValue={profile.weightUnits} ref="weightUnits" className="hor-label-container">
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="lb" required/>lb
+                    </label>
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="kg"/>kg
+                    </label>
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="stone"/>stone
+                    </label>
+                  </RadioGroup>
                   <input type="number" ref="weight" required defaultValue={profile.weight}/>
                 </label>
               </div>

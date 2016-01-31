@@ -1,4 +1,4 @@
-@import '../global';
+@import '../../global';
 
 .profile {
 
@@ -8,6 +8,10 @@
     @include breakpoint(medium) {
       min-height: 16.5rem;
     }
+  }
+
+  .hor-label-container {
+    display: inline-block;
   }
 
   .hor-label {
