@@ -6,12 +6,13 @@
     margin-bottom: 0;
   }
 
-  .title-bar-title {
-    font-size: 1.45rem;
-  }
-
   .email {
     margin-right: 1rem;
+  }
+
+  .title-bar-title {
+    font-size: 1.45rem;
+    color: $white;
   }
 
   .captialized {

@@ -41,7 +41,7 @@ export default function signupController(req, reply) {
   const sendVerificationEmail = (result, emailData, code) => {
     const key = result.emailVerificationKey;
     const html = ReactDOMServer.renderToStaticMarkup(<SignupEmail email={emailData} emailVerificationKey={key}/>);
-    return emailService.sendEmail(emailData, 'Welcome to StickyBros', html).then(() => {
+    return emailService.sendEmail(emailData, 'Welcome to oneMore', html).then(() => {
       return req.generateResponse().code(code);
     });
   };

@@ -170,7 +170,7 @@ class Profile extends Component {
     };
 
     return (
-      <DocumentTitle title="StickyBros - Profile">
+      <DocumentTitle title="oneMore - Profile">
         <form onSubmit={this._handleSubmit} className="profile">
 
           <div className="row">

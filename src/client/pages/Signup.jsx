@@ -96,7 +96,7 @@ export default class Signup extends Component {
     const state = this.state;
 
     return (
-      <DocumentTitle title="StickyBros - Sign Up">
+      <DocumentTitle title="oneMore - Sign Up">
         <div className="row">
           <div className="small-12 columns">
             <h1>Sign Up</h1>

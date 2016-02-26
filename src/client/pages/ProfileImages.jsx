@@ -19,7 +19,7 @@ class ProfileImages extends Component {
 
   render() {
     return (
-      <DocumentTitle title="StickyBros - Profile">
+      <DocumentTitle title="oneMore - Profile">
         <AuthWrapper login={this.props.login}>
           <TopBar login={this.props.login}/>
           <Tabs activeTab="profile"/>

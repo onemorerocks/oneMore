@@ -19,7 +19,7 @@ export default class SignupEmail extends Component {
       </head>
       <body>
 
-      <h1>Welcome to StickyBros</h1>
+      <h1>Welcome to oneMore</h1>
       <p>Click <a href={`${config.domain}/email-verify?email=${email}&key=${key}`}>this link</a> to
         get started by making a profile.</p>
       </body>

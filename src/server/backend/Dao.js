@@ -41,7 +41,7 @@ export default class Dao {
 
   get(table, key) {
     return this._connectPromise((client, resolve, reject) => {
-      const dbkey = aerospike.key('stickybros', table, key);
+      const dbkey = aerospike.key('onemore', table, key);
       client.get(dbkey, (err, record, metadata) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(record);
@@ -60,7 +60,7 @@ export default class Dao {
 
   createIfDoesNotExist(table, key, data) {
     return this._connectPromise((client, resolve, reject) => {
-      const dbkey = aerospike.key('stickybros', table, key);
+      const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._createPolicy, (err, putKey) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(putKey);
@@ -79,7 +79,7 @@ export default class Dao {
 
   blindSet(table, key, data) {
     return this._connectPromise((client, resolve, reject) => {
-      const dbkey = aerospike.key('stickybros', table, key);
+      const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._setPolicy, (err, putKey) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(putKey);

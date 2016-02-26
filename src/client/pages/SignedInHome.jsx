@@ -17,7 +17,7 @@ class SignedInHome extends Component {
 
   render() {
     return (
-      <DocumentTitle title="StickyBros - Home">
+      <DocumentTitle title="oneMore - Home">
         <div>
           <div className="row">
             <div className="small-12 columns">

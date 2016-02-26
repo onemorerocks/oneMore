@@ -17,7 +17,7 @@ class EmailSent extends Component {
 
   render() {
     return (
-      <DocumentTitle title="StickyBros - Email Sent">
+      <DocumentTitle title="oneMore - Email Sent">
         <div>
           <TopBar login={this.props.login}/>
           <div className="row">

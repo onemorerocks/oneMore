@@ -2,7 +2,7 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 import { Link } from 'react-router';
-import LoginTopBar from '../components/LoginTopBar.jsx';
+import { TopBar } from '../components/TopBar.jsx';
 
 export default class Home extends Component {
 
@@ -13,13 +13,13 @@ export default class Home extends Component {
   render() {
 
     return (
-      <DocumentTitle title="StickyBros">
+      <DocumentTitle title="oneMore">
         <div>
-          <LoginTopBar />
+          <TopBar showLogin />
           <div className="row">
             <div className="small-12 columns">
               <div className="text-center">
-                <h1>Get Your Bros Sticky</h1>
+                <h1>Why not invite one more?</h1>
                 <img src="http://hot-disney-cartoon.com/gay/Gay-park-orgy.jpg" />
               </div>
             </div>

@@ -50,7 +50,7 @@ export default class LoginPage extends Component {
     const state = this.state;
 
     return (
-      <DocumentTitle title="StickyBros">
+      <DocumentTitle title="oneMore">
         <div className="row">
           <div className="small-12 columns">
             <div>
