@@ -8,6 +8,8 @@
     @include breakpoint(medium) {
       min-height: 16.5rem;
     }
+    margin-top: 0;
+    margin-bottom: rem-calc(30);
   }
 
   .hor-label-container {
@@ -20,8 +22,18 @@
     height: 0;
   }
 
+  .hor-left-label {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
   .hor-input {
     margin-right: 0.25rem;
+    display: inline-block;
+  }
+
+  .single-width {
+    width: 4rem;
   }
 
 }

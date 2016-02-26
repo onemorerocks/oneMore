@@ -14,7 +14,7 @@ export default class LoginTopBar extends Component {
     return (
       <div className="title-bar">
         <div className="title-bar-left">
-          <span className="title-bar-title">StickyBros</span>
+          <span className="title-bar-title">Sticky<span className="captialized">Bros</span></span>
         </div>
         <div className="title-bar-right">
           <Link className="medium button" to="/login">Login</Link>

@@ -6,6 +6,7 @@ import { generate } from 'shortid';
 
 import Dao from './Dao';
 import newError from './newError';
+import config from '../config';
 
 export default class Auth {
 
@@ -74,7 +75,7 @@ export default class Auth {
           signingKey,
           passwordSalt,
           emailVeriKey: emailVerificationKey,
-          emailVerified: 0,
+          emailVerified: config.sendEmails ? 0 : 1,
           profileId
         };
 
@@ -112,7 +113,7 @@ export default class Auth {
   }
 
   _createProfile(key, nickname) {
-    const data = { id: key, nickname };
+    const data = { id: key, nickname, weightUnits: 'lb', heightUnits: 'feet' };
     return this.dao.createIfDoesNotExist('profiles', key, data).then((didCreate) => {
       if (!didCreate) {
         throw newError('Profile key already exists ' + key);

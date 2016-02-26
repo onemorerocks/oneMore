@@ -51,7 +51,8 @@ export const profileKinksModel = [
 
 export const profileStringFields = [
   'nickname',
-  'weightUnits'
+  'weightUnits',
+  'heightUnits'
 ];
 
 export const profileIntFields = [
@@ -60,7 +61,8 @@ export const profileIntFields = [
 ];
 
 export const profileNumberFields = [
-  'weight'
+  'weight',
+  'height'
 ];
 
 const flattenModel = (model, array) => {

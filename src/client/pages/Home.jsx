@@ -19,7 +19,8 @@ export default class Home extends Component {
           <div className="row">
             <div className="small-12 columns">
               <div className="text-center">
-                <h1>Get your Bros sticky</h1>
+                <h1>Get Your Bros Sticky</h1>
+                <img src="http://hot-disney-cartoon.com/gay/Gay-park-orgy.jpg" />
               </div>
             </div>
           </div>
