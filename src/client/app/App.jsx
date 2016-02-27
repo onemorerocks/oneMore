@@ -2,8 +2,9 @@ import './foundation.scss';
 import Component from 'react-pure-render/component';
 import React from 'react';
 import Toasts from '../components/Toasts.jsx';
+import Relay from 'react-relay';
 
-export default class App extends Component {
+class App extends Component {
 
   constructor(props) {
     super(props);
@@ -19,3 +20,14 @@ export default class App extends Component {
   }
 
 }
+
+
+export default Relay.createContainer(App, {
+  fragments: {
+    login: () => Relay.QL`
+      fragment on Login {
+        email
+      }
+    `
+  }
+});

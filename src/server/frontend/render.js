@@ -20,9 +20,6 @@ const appCss = assets.css;
 
 const GRAPHQL_URL = `http://localhost:8000/api/graphql`;
 
-RelayStoreData.getDefaultInstance().getChangeEmitter().injectBatchingStrategy(() => {
-});
-
 function getAppHtml(renderProps) {
   return ReactDOMServer.renderToString(
     <IsomorphicRouter.RouterContext {...renderProps} />
@@ -75,8 +72,8 @@ export default function render(req, reply) {
             }
           })
         );
-        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then((data) => {
-          const appHtml = getAppHtml(renderProps);
+        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then(({data, props}) => {
+          const appHtml = getAppHtml(props);
           return getPageHtml(appHtml, req.info.hostname, JSON.stringify(data));
         });
         resolve(nestedPromise);
