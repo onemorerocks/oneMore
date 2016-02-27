@@ -10,11 +10,14 @@ $breakpoints: (
 
 $global-width: rem-calc(1200);
 
-$primary-color: #e8211e;
-$secondary-color: #777;
-$success-color: #3adb76 !default;
-$warning-color: #ffae00 !default;
-$alert-color: #ec5840 !default;
+$foundation-palette: (
+  primary: #e8211e,
+  secondary: #777,
+  success: #3adb76,
+  warning: #ffae00,
+  alert: #ec5840,
+);
+
 $light-gray: #e6e6e6 !default;
 $medium-gray: #cacaca !default;
 $dark-gray: #8a8a8a !default;
