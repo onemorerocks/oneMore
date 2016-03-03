@@ -21,8 +21,8 @@ export const profileStarsModel = [
   }, {
     group: 'nipples',
     rows: [
-      { id: 'givesNipple', text: `playing with guy's nipples` },
-      { id: 'getsNipple', text: 'getting my nipples played with' }
+      { id: 'givesNipple', text: "playing with guy's nipples" },
+      { id: 'getsNipple', text: 'getting nipple play' }
     ]
   }, {
     group: 'intimacy',

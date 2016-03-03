@@ -29,6 +29,7 @@ export default class Auth {
             });
           });
         }
+        return false;
       });
     } else {
       return new Promise((resolve) => resolve());

@@ -21,8 +21,8 @@ class ProfileImages extends Component {
     return (
       <DocumentTitle title="oneMore - Profile">
         <AuthWrapper login={this.props.login}>
-          <TopBar login={this.props.login}/>
-          <Tabs activeTab="profile"/>
+          <TopBar login={this.props.login} />
+          <Tabs activeTab="profile" />
           <div className="row">
             <div className="small-12 columns">
               <h1>Profile Images</h1>

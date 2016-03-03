@@ -11,14 +11,13 @@ import getAssets from './assets';
 import newError from '../backend/newError';
 import routes from '../../routes';
 import Relay from 'react-relay';
-import RelayStoreData from 'react-relay/lib/RelayStoreData';
 
 const assets = getAssets();
 const appJsFilename = assets.js;
 const appCss = assets.css;
 
 
-const GRAPHQL_URL = `http://localhost:8000/api/graphql`;
+const GRAPHQL_URL = 'http://localhost:8000/api/graphql';
 
 function getAppHtml(renderProps) {
   return ReactDOMServer.renderToString(
@@ -72,7 +71,7 @@ export default function render(req, reply) {
             }
           })
         );
-        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then(({data, props}) => {
+        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then(({ data, props }) => {
           const appHtml = getAppHtml(props);
           return getPageHtml(appHtml, req.info.hostname, JSON.stringify(data));
         });

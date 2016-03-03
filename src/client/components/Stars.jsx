@@ -22,6 +22,7 @@ export default class Stars extends Component {
       if (value) {
         return true;
       }
+      return false;
     });
   }
 
@@ -33,8 +34,8 @@ export default class Stars extends Component {
           {stars.map((count) =>
             [
               <input className={'input-star input-star-' + count} id={id + count} type="radio" name={'star-' + id}
-                     defaultChecked={count === this.props.defaultValue} ref={'i' + count}/>,
-              <label className={'label-star label-star-' + count} htmlFor={id + count}/>
+                     defaultChecked={count === this.props.defaultValue} ref={'i' + count} />,
+              <label className={'label-star label-star-' + count} htmlFor={id + count} />
             ]
           )}
         </div>

@@ -9,10 +9,6 @@ export default class Tabs extends Component {
     activeTab: PropTypes.string.isRequired
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   static _tabs = [{
     id: 'home',
     url: '/',
@@ -30,6 +26,10 @@ export default class Tabs extends Component {
     url: '/profile',
     label: 'Profile'
   }];
+
+  constructor(props) {
+    super(props);
+  }
 
   render() {
 

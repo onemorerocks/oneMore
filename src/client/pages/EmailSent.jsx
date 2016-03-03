@@ -19,7 +19,7 @@ class EmailSent extends Component {
     return (
       <DocumentTitle title="oneMore - Email Sent">
         <div>
-          <TopBar login={this.props.login}/>
+          <TopBar login={this.props.login} />
           <div className="row">
             <div className="small-12 columns">
               <p>Alright, cool. We sent a verification email to your address.</p>

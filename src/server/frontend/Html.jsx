@@ -26,13 +26,13 @@ export default class Html extends Component {
     return (
       <html lang="en">
       <head>
-        <meta charSet="utf-8"/>
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+        <meta charSet="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
         <title>{title}</title>
         {linkStyles}
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
       </head>
-      <body dangerouslySetInnerHTML={{ __html: bodyHtml }}/>
+      <body dangerouslySetInnerHTML={{ __html: bodyHtml }} />
       </html>
     );
   }

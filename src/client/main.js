@@ -21,6 +21,6 @@ IsomorphicRelay.injectPreparedData(data);
 const app = document.getElementById('app');
 
 ReactDOM.render(
-  <IsomorphicRouter.Router routes={routes} history={browserHistory}/>,
+  <IsomorphicRouter.Router routes={routes} history={browserHistory} />,
   app
 );

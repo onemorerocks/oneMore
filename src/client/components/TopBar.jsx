@@ -26,7 +26,7 @@ export class TopBar extends Component {
     return (
       <div className="title-bar">
         <div className="title-bar-left">
-          <button className="menu-icon show-for-small-only" type="button"/>
+          <button className="menu-icon show-for-small-only" type="button" />
           <Link to="/">
             <span className="title-bar-title">one<span className="captialized">More</span></span>
           </Link>

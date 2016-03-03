@@ -39,7 +39,15 @@
     }
   }
 
+  .label-star-1 {
+    &:before {
+      content: '\f05e';
+      color: lighten($secondary-color, 15%);
+    }
+  }
+
   .input-star-1 {
+
     &:checked ~ .label-star {
       &:before {
         content: '\f05e';

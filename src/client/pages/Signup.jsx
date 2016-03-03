@@ -77,12 +77,12 @@ export default class Signup extends Component {
         });
       } else if (err.status === 422) {
         this.setState({
-          errors: [`Tried sending another verification email out, but your password didn't match the old one.`],
+          errors: ["Tried sending another verification email out, but your password didn't match the old one."],
           submitDisabled: false
         });
       } else if (err.status === 499) {
         this.setState({
-          errors: [`Your password can't match your email address.`],
+          errors: ["Your password can't match your email address."],
           submitDisabled: false
         });
       } else {
@@ -100,28 +100,28 @@ export default class Signup extends Component {
         <div className="row">
           <div className="small-12 columns">
             <h1>Sign Up</h1>
-            <FormErrors errors={state.errors}/>
+            <FormErrors errors={state.errors} />
             <form onSubmit={this.submit}>
 
               <label htmlFor="email">Email Address (People won't see this)</label>
               <input id="email" type="email" value={state.email} onChange={this.handleChange('email')}
-                     required="true" placeholder="example@address.com" maxLength="100"/>
+                     required="true" placeholder="example@address.com" maxLength="100" />
 
               <label htmlFor="nickname">Nickname (People WILL see this)</label>
               <input id="nickname" type="text" value={state.nickname} onChange={this.handleChange('nickname')}
-                     required="true" placeholder="e.g. Handsome Joe" maxLength="20"/>
+                     required="true" placeholder="e.g. Handsome Joe" maxLength="20" />
 
               <label htmlFor="password1">Password</label>
               <input id="password1" type="password" value={state.password1}
                      onChange={this.handleChange('password1')} required="true" placeholder="Enter Password"
-                     maxLength="100"/>
+                     maxLength="100" />
 
               <label htmlFor="password2">Confirm Password</label>
               <input id="password2" type="password" value={state.password2}
                      onChange={this.handleChange('password2')} required="true" placeholder="Reenter Password"
-                     maxLength="100"/>
+                     maxLength="100" />
 
-              <input disabled={state.submitDisabled} className="button" type="submit" value="Sign Up"/>
+              <input disabled={state.submitDisabled} className="button" type="submit" value="Sign Up" />
             </form>
           </div>
         </div>

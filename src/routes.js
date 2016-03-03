@@ -9,9 +9,9 @@ import TabWrapper from './client/pages/TabWrapper.jsx';
 
 export default (
   <Route path="/" component={App} queries={homeQuery}>
-    <IndexRoute component={TabWrapper} queries={homeQuery}/>
-    <Route path="/signup" component={Signup}/>
-    <Route path="/login" component={Login}/>
-    <Route path="/profile" queries={homeQuery} component={TabWrapper}/>
+    <IndexRoute component={TabWrapper} queries={homeQuery} />
+    <Route path="/signup" component={Signup} />
+    <Route path="/login" component={Login} />
+    <Route path="/profile" queries={homeQuery} component={TabWrapper} />
   </Route>
 );

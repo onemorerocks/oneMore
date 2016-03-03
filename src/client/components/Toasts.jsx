@@ -10,10 +10,15 @@ const alertOptions = {
   transition: 'scale'
 };
 
+const alertFunc = (a) => {
+  global.msg = a;
+  return a;
+};
+
 let alertElement = null;
 if (process.env.IS_BROWSER) {
   const AlertContainer = require('react-alert');
-  alertElement = <AlertContainer ref={(a) => global.msg = a} {...alertOptions} />;
+  alertElement = <AlertContainer ref={alertFunc} {...alertOptions} />;
 }
 
 export default class Toasts extends Component {

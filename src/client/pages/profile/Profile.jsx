@@ -61,16 +61,6 @@ decorateLessMore(lbs);
 decorateLessMore(feet);
 decorateLessMore(cms);
 
-const FormRow = (props) =>
-  <span>
-    {props.children[0]}
-    {props.children[1]}
-  </span>;
-
-FormRow.propTypes = {
-  label: React.PropTypes.any
-};
-
 const FormGroup = (props) =>
   <div className="small-12 medium-6 large-4 columns end">
     <fieldset className="fieldset">
@@ -87,17 +77,18 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+
+    const stateObj = {
       submitDisabled: false,
       errors: [],
-      forceShow: new Set(),
-      weightUnits: props.login.profile.weightUnits,
-      weight: props.login.profile.weight,
-      heightUnits: props.login.profile.heightUnits,
-      height: props.login.profile.height,
-      waistUnits: props.login.profile.waistUnits,
-      waist: props.login.profile.waist
+      forceShow: new Set()
     };
+
+    allIds.forEach((id) => {
+      stateObj[id] = props.login.profile[id];
+    });
+
+    this.state = stateObj;
   }
 
   _handleSubmit = (e) => {
@@ -109,20 +100,10 @@ class Profile extends Component {
 
     this.setState({ submitDisabled: true, errors: [] });
 
-    const refs = this.refs;
-
     const obj = { login: this.props.login };
 
     allIds.forEach((id) => {
-      if (refs[id]) {
-        if (refs[id].getValue) {
-          obj[id] = refs[id].getValue();
-        } else {
-          obj[id] = refs[id].value;
-        }
-      } else if (this.state[id]) {
-        obj[id] = this.state[id];
-      }
+      obj[id] = this._getValue(id);
     });
 
     Relay.Store.commitUpdate(
@@ -139,6 +120,45 @@ class Profile extends Component {
     );
   };
 
+  _getValue(id) {
+    const refs = this.refs;
+    if (refs[id]) {
+      if (refs[id].getValue) {
+        return refs[id].getValue();
+      } else {
+        return refs[id].value;
+      }
+    } else if (this.state[id]) {
+      return this.state[id];
+    }
+    return null;
+  }
+
+  _handleOnChange = (key) => {
+    return (v) => {
+      const obj = {};
+
+      let value = v;
+      if (value.target && value.target.value) {
+        value = value.target.value;
+      }
+
+      obj[key] = value;
+      this.setState(obj);
+    };
+  };
+
+  _handleNickname = this._handleOnChange('nickname');
+  _handleBirthYear = this._handleOnChange('birthYear');
+  _handleBirthMonth = this._handleOnChange('birthMonth');
+  _handleWeightUnits = this._handleOnChange('weightUnits');
+  _handleWeight = this._handleOnChange('weight');
+  _handleHeightUnits = this._handleOnChange('heightUnits');
+  _handleHeight = this._handleOnChange('height');
+  _handleWaistUnits = this._handleOnChange('waistUnits');
+  _handleWaist = this._handleOnChange('waist');
+  _handleForeskin = this._handleOnChange('foreskin');
+
   render() {
     const profile = this.props.login.profile;
 
@@ -146,22 +166,30 @@ class Profile extends Component {
       return <noscript />;
     }
 
-    const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name}/>;
+    const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name} />;
 
     const starGroup = (groupModel, i) => {
       return (
         <FormGroup key={groupModel.group}>
-          {groupModel.rows.map((rowModel) =>
-            <FormRow key={rowModel.id}>
-              <span>I like <strong>{rowModel.text}</strong></span>
-              {stars(rowModel.id)}
-            </FormRow>
-          )}
+          {groupModel.rows.map((rowModel) => {
+            const value = this._getValue(rowModel.id);
+            let feeling = 'love';
+            if (value === 1) {
+              feeling = "don't like";
+            }
+            return (
+              <span key={rowModel.id}>
+                {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
+                {value && <span>I {feeling} <strong>{rowModel.text}</strong></span>}
+                {stars(rowModel.id)}
+              </span>
+            );
+          })}
         </FormGroup>
       );
     };
 
-    const handleSelect = (el) => {
+    const handleKinkSelect = (el) => {
       this.state.forceShow.add(el.target.value);
       this.forceUpdate();
       setTimeout(() => {
@@ -169,25 +197,27 @@ class Profile extends Component {
       }, 1);
     };
 
+    const state = this.state;
+
     return (
       <DocumentTitle title="oneMore - Profile">
         <form onSubmit={this._handleSubmit} className="profile">
 
           <div className="row">
             <div className="small-12 columns">
-              <FormErrors errors={this.state.errors}/>
+              <FormErrors errors={this.state.errors} />
 
               <h3>Profile</h3>
 
               <label>
                 Nickanme
-                <input type="text" ref="nickname" defaultValue={profile.nickname} maxLength="20" required/>
+                <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleNickname} />
               </label>
             </div>
             <div className="small-6 large-4 columns">
               <label>
                 Birth Year
-                <select ref="birthYear" required defaultValue={profile.birthYear ? profile.birthYear : ''}>
+                <select required defaultValue="" value={state.birthYear} onChange={this._handleBirthYear}>
                   {!profile.birthYear && <option disabled hidden value="" />}
                   {years.map((year) => {
                     return <option key={year} value={year}>{year}</option>;
@@ -198,7 +228,7 @@ class Profile extends Component {
             <div className="small-6 large-4 columns">
               <label>
                 Birth Month
-                <select ref="birthMonth" required defaultValue={profile.birthMonth ? profile.birthMonth : ''}>
+                <select required defaultValue="" value={state.birthMonth} onChange={this._handleBirthMonth}>
                   {!profile.birthMonth && <option disabled hidden value="" />}
                   {months.map((month, i) => {
                     return <option key={month} value={i}>{month}</option>;
@@ -211,22 +241,22 @@ class Profile extends Component {
                 <label className="hor-label-container" htmlFor="weight">
                   Weight
                 </label>
-                <RadioGroup name="weightUnits" value={this.state.weightUnits} onChange={v => this.setState({ weightUnits: v })}
+                <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
                             className="hor-label-container">
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="lb" required/>lb
+                    <input className="hor-input" type="radio" value="lb" required />lb
                   </label>
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="kg"/>kg
+                    <input className="hor-input" type="radio" value="kg" />kg
                   </label>
                 </RadioGroup>
-                <select id="weight" defaultValue="" value={this.state.weight} onChange={e => this.setState({ weight: e.target.value })}
+                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
                         required>
-                  {!this.state.weight && <option disabled hidden value="" />}
-                  {this.state.weightUnits === 'kg' && kgs.map((kg) => {
+                  {!state.weight && <option disabled hidden value="" />}
+                  {state.weightUnits === 'kg' && kgs.map((kg) => {
                     return <option key={'kg' + kg.value} value={kg.value}>{kg.label}</option>;
                   })}
-                  {this.state.weightUnits === 'lb' && lbs.map((lb) => {
+                  {state.weightUnits === 'lb' && lbs.map((lb) => {
                     return <option key={'lb' + lb.value} value={lb.value}>{lb.label}</option>;
                   })}
                 </select>
@@ -237,21 +267,21 @@ class Profile extends Component {
                 <label className="hor-label-container" htmlFor="height">
                   Height
                 </label>
-                <RadioGroup name="heightUnits" value={this.state.heightUnits} onChange={v => this.setState({ heightUnits: v })}
+                <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
                             className="hor-label-container">
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="feet" required/>feet
+                    <input className="hor-input" type="radio" value="feet" required />feet
                   </label>
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="cm"/>cm
+                    <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="height" defaultValue="" value={this.state.height} onChange={e => this.setState({ height: e.target.value })}>
-                  {!this.state.height && <option disabled hidden value="" />}
-                  {this.state.heightUnits === 'feet' && feet.map((foot) => {
+                <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
+                  {!state.height && <option disabled hidden value="" />}
+                  {state.heightUnits === 'feet' && feet.map((foot) => {
                     return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
                   })}
-                  {this.state.heightUnits === 'cm' && cms.map((cm) => {
+                  {state.heightUnits === 'cm' && cms.map((cm) => {
                     return <option key={'heightCm' + cm.value} value={cm.value}>{cm.label}</option>;
                   })}
                 </select>
@@ -262,18 +292,17 @@ class Profile extends Component {
                 <label className="hor-label-container" htmlFor="waist">
                   Waist
                 </label>
-                <RadioGroup name="waistUnits" value={this.state.waistUnits} onChange={v => this.setState({ waistUnits: v })}
-                            className="hor-label-container">
+                <RadioGroup name="waistUnits" value={state.waistUnits} onChange={this._handleWaistUnits} className="hor-label-container">
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="inches" required/>inches
+                    <input className="hor-input" type="radio" value="inches" required />inches
                   </label>
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="cm"/>cm
+                    <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="waist" defaultValue="" value={this.state.waist} onChange={e => this.setState({ waist: e.target.value })}>
-                  {!this.state.waist && <option disabled hidden value="" />}
-                  {this.state.waistUnits === 'inches' && waistInches.map((inch) => {
+                <select id="waist" defaultValue="" value={state.waist} onChange={this._handleWaist}>
+                  {!state.waist && <option disabled hidden value="" />}
+                  {state.waistUnits === 'inches' && waistInches.map((inch) => {
                     return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
                 </select>
@@ -282,8 +311,8 @@ class Profile extends Component {
             <div className="small-6 large-4 columns">
               <label>
                 Foreskin
-                <select ref="foreskin" required defaultValue={profile.foreskin ? profile.foreskin : ''}>
-                  {!profile.foreskin && <option disabled hidden value="" />}
+                <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
+                  {!state.foreskin && <option disabled hidden value="" />}
                   <option value="cut">Cut</option>
                   <option value="uncut">Uncut</option>
                 </select>
@@ -302,7 +331,7 @@ class Profile extends Component {
           <div className="row">
             <div className="small-12 medium-6 large-4 columns">
               <h3>Kinks</h3>
-              <select onChange={handleSelect}>
+              <select onChange={handleKinkSelect}>
                 <option>--Add Kink--</option>
                 {profileKinksModel.map((groupModel) => {
                   const forceShow = this.state.forceShow.has(groupModel.group);
@@ -325,7 +354,7 @@ class Profile extends Component {
 
             <div className="small-12 columns">
               <input type="submit" className="button float-right" disabled={this.state.submitDisabled}
-                     value="Save Profile"/>
+                     value="Save Profile" />
             </div>
           </div>
         </form>

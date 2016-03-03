@@ -24,7 +24,7 @@ class TabWrapper extends Component {
     if (!this.props.login.email) {
       return <Home {...this.props} />;
     } else if (!this.props.login.emailVerified) {
-      return <EmailSent {...this.props}/>;
+      return <EmailSent {...this.props} />;
     }
 
     let showHome = 'none';
@@ -41,13 +41,13 @@ class TabWrapper extends Component {
 
     return (
       <div>
-        <TopBar login={this.props.login}/>
-        <Tabs activeTab={activeTab}/>
+        <TopBar login={this.props.login} />
+        <Tabs activeTab={activeTab} />
         <div style={{ display: showHome }}>
-          <SignedInHome {...this.props}/>
+          <SignedInHome {...this.props} />
         </div>
         <div style={{ display: showProfile }}>
-          <Profile {...this.props}/>
+          <Profile {...this.props} />
         </div>
       </div>
     );

@@ -25,7 +25,7 @@ export default class LoginPage extends Component {
     };
   }
 
-  submit(event) {
+  submit = (event) => {
     event.preventDefault();
 
     this.setState({ errors: [], submitDisabled: true });
@@ -42,8 +42,7 @@ export default class LoginPage extends Component {
         this.setState({ errors: ['There was an error on the server.  Try again shortly.'], submitDisabled: false });
       }
     });
-
-  }
+  };
 
   render() {
 
@@ -55,19 +54,19 @@ export default class LoginPage extends Component {
           <div className="small-12 columns">
             <div>
               <h1>Login</h1>
-              <FormErrors errors={state.errors}/>
-              <form onSubmit={this.submit.bind(this)}>
+              <FormErrors errors={state.errors} />
+              <form onSubmit={this.submit}>
 
                 <label htmlFor="email">Email Address</label>
                 <input id="email" type="email" value={state.email} onChange={this.handleChange('email')}
-                       required="true" placeholder="example@address.com" maxLength="100"/>
+                       required="true" placeholder="example@address.com" maxLength="100" />
 
                 <label htmlFor="password">Password</label>
                 <input id="password" type="password" value={state.password}
                        onChange={this.handleChange('password')} required="true" placeholder="Enter Password"
-                       maxLength="100"/>
+                       maxLength="100" />
 
-                <input disabled={state.submitDisabled} className="button" type="submit" value="Login"/>
+                <input disabled={state.submitDisabled} className="button" type="submit" value="Login" />
               </form>
             </div>
           </div>

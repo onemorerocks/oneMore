@@ -10,6 +10,7 @@
     "filenames"
   ],
   "rules": {
+    "arrow-body-style": 0,
     "brace-style": [
       2,
       "1tbs",
@@ -32,9 +33,11 @@
       "^[A-Za-z][a-zA-Z0-9]*$",
       "match-exported-or-regex"
     ],
+    "max-len": [2, 140],
     "no-else-return": [
       0
     ],
+    "no-param-reassign": [2, {"props": false}],
     "no-unused-vars": [
       2,
       {
@@ -42,11 +45,14 @@
         "args": "none"
       }
     ],
+    "no-useless-constructor": 0,
     "operator-linebreak": [
       2,
       "after"
     ],
     "padded-blocks": 0,
+    "prefer-template": 0,
+    "quotes": [2, "single", "avoid-escape"],
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-indent-props": 0,
     "react/no-multi-comp": 0,
