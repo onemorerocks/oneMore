@@ -48,8 +48,15 @@ feet.forEach((foot) => {
 
 const waistInches = [];
 for (let i = 20; i <= 80; i += 2) {
-  waistInches.push({ label: i + '', value: i });
+  const cm = Math.round(i * 2.54);
+  waistInches.push({ label: i + '', value: cm });
 }
+
+const waistCms = [];
+waistInches.forEach((waistInch) => {
+  waistCms.push({ label: waistInch.value + ' cm', value: waistInch.value });
+});
+
 
 const decorateLessMore = (array) => {
   array[0].label = array[0].label + ' or less';
@@ -304,6 +311,9 @@ class Profile extends Component {
                   {!state.waist && <option disabled hidden value="" />}
                   {state.waistUnits === 'inches' && waistInches.map((inch) => {
                     return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
+                  })}
+                  {state.waistUnits === 'cm' && waistCms.map((cm) => {
+                    return <option key={'waistCms' + cm.value} value={cm.value}>{cm.label}</option>;
                   })}
                 </select>
               </div>
