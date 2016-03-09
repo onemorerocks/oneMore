@@ -114,7 +114,7 @@ export default class Auth {
   }
 
   _createProfile(key, nickname) {
-    const data = { id: key, nickname, weightUnits: 'lb', heightUnits: 'feet' };
+    const data = { id: key, nickname, weightUnits: 'lb', heightUnits: 'feet', waistUnits: 'inches', cockUnits: 'inches' };
     return this.dao.createIfDoesNotExist('profiles', key, data).then((didCreate) => {
       if (!didCreate) {
         throw newError('Profile key already exists ' + key);

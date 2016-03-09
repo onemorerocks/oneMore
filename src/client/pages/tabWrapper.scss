@@ -1,0 +1,8 @@
+@import '../global';
+
+.main {
+  @include breakpoint(small only) {
+    max-width: 470px;
+    margin: auto;
+  }
+}

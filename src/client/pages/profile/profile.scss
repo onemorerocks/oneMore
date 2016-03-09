@@ -22,6 +22,13 @@
     height: 0;
   }
 
+  .hor-radio-container {
+    display: inline-block;
+    @include breakpoint(small only) {
+      float: right;
+    }
+  }
+
   .hor-left-label {
     display: inline-block;
     margin-right: 1rem;

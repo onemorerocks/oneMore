@@ -7,6 +7,7 @@ import Tabs from '../components/Tabs.jsx';
 import SignedInHome from './SignedInHome.jsx';
 import Home from './Home.jsx';
 import EmailSent from './EmailSent.jsx';
+import './tabWrapper.scss';
 
 class TabWrapper extends Component {
 
@@ -43,10 +44,10 @@ class TabWrapper extends Component {
       <div>
         <TopBar login={this.props.login} />
         <Tabs activeTab={activeTab} />
-        <div style={{ display: showHome }}>
+        <div className="main" style={{ display: showHome }}>
           <SignedInHome {...this.props} />
         </div>
-        <div style={{ display: showProfile }}>
+        <div className="main" style={{ display: showProfile }}>
           <Profile {...this.props} />
         </div>
       </div>

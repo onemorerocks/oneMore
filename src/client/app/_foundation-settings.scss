@@ -1,14 +1,14 @@
 $breakpoints: (
   small: 0,
-  medium: 480px,
-  large: 768px,
-  xlarge: 1200px,
+  medium: 640px,
+  large: 960px,
+  xlarge: 1280px,
   xxlarge: 1440px,
 );
 
 @import '../../../node_modules/foundation-sites/scss/util/util';
 
-$global-width: rem-calc(1200);
+$global-width: rem-calc(1400);
 
 $foundation-palette: (
   primary: #e8211e,

@@ -179,11 +179,10 @@ class Profile extends Component {
   };
 
   _closest(num, arr) {
-    var mid;
-    var lo = 0;
-    var hi = arr.length - 1;
+    let lo = 0;
+    let hi = arr.length - 1;
     while (hi - lo > 1) {
-      mid = Math.floor((lo + hi) / 2);
+      const mid = Math.floor((lo + hi) / 2);
       if (arr[mid] < num) {
         lo = mid;
       } else {
@@ -288,157 +287,238 @@ class Profile extends Component {
               <FormErrors errors={this.state.errors} />
 
               <h3>Profile</h3>
-
-              <label>
-                Nickanme
-                <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleNickname} />
-              </label>
             </div>
-            <div className="small-6 large-4 columns profile-inputbox">
-              <label>
-                Birth Year
-                <select required defaultValue="" value={state.birthYear} onChange={this._handleBirthYear}>
-                  {!profile.birthYear && <option disabled hidden value="" />}
-                  {years.map((year) => {
-                    return <option key={year} value={year}>{year}</option>;
-                  })}
-                </select>
-              </label>
-            </div>
-            <div className="small-6 large-4 columns profile-inputbox">
-              <label>
-                Birth Month
-                <select required defaultValue="" value={state.birthMonth} onChange={this._handleBirthMonth}>
-                  {!profile.birthMonth && <option disabled hidden value="" />}
-                  {months.map((month, i) => {
-                    return <option key={month} value={i}>{month}</option>;
-                  })}
-                </select>
-              </label>
-            </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <div>
-                <label className="hor-label-container" htmlFor="weight">
-                  Weight
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label>
+                  Nickanme
+                  <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleNickname} />
                 </label>
-                <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
-                            className="hor-label-container">
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="lb" required />lb
-                  </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="kg" />kg
-                  </label>
-                </RadioGroup>
-                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
-                        required>
-                  {!state.weight && <option disabled hidden value="" />}
-                  {state.weightUnits === 'kg' && kgs.map((kg) => {
-                    return <option key={'kg' + kg.value} value={kg.value}>{kg.label}</option>;
-                  })}
-                  {state.weightUnits === 'lb' && lbs.map((lb) => {
-                    return <option key={'lb' + lb.value} value={lb.value}>{lb.label}</option>;
-                  })}
-                </select>
+              </div>
+              <div className="small-6 large-4 columns profile-inputbox">
+                <label>
+                  Birth Year
+                  <select required defaultValue="" value={state.birthYear} onChange={this._handleBirthYear}>
+                    {!profile.birthYear && <option disabled hidden value="" />}
+                    {years.map((year) => {
+                      return <option key={year} value={year}>{year}</option>;
+                    })}
+                  </select>
+                </label>
+              </div>
+              <div className="small-6 large-4 columns profile-inputbox end">
+                <label>
+                  Birth Month
+                  <select required defaultValue="" value={state.birthMonth} onChange={this._handleBirthMonth}>
+                    {!profile.birthMonth && <option disabled hidden value="" />}
+                    {months.map((month, i) => {
+                      return <option key={month} value={i}>{month}</option>;
+                    })}
+                  </select>
+                </label>
               </div>
             </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <div>
-                <label className="hor-label-container" htmlFor="height">
-                  Height
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <div>
+                  <label className="hor-label-container" htmlFor="weight">
+                    Weight
+                  </label>
+                  <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
+                              className="hor-radio-container">
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="lb" required />lb
+                    </label>
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="kg" />kg
+                    </label>
+                  </RadioGroup>
+                  <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
+                          required>
+                    {!state.weight && <option disabled hidden value="" />}
+                    {state.weightUnits === 'kg' && kgs.map((kg) => {
+                      return <option key={'kg' + kg.value} value={kg.value}>{kg.label}</option>;
+                    })}
+                    {state.weightUnits === 'lb' && lbs.map((lb) => {
+                      return <option key={'lb' + lb.value} value={lb.value}>{lb.label}</option>;
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <div>
+                  <label className="hor-label-container" htmlFor="height">
+                    Height
+                  </label>
+                  <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
+                              className="hor-radio-container">
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="feet" required />feet
+                    </label>
+                    <label className="hor-label">
+                      <input className="hor-input" type="radio" value="cm" />cm
+                    </label>
+                  </RadioGroup>
+                  <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
+                    {!state.height && <option disabled hidden value="" />}
+                    {state.heightUnits === 'feet' && feet.map((foot) => {
+                      return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
+                    })}
+                    {state.heightUnits === 'cm' && cms.map((cm) => {
+                      return <option key={'heightCm' + cm.value} value={cm.value}>{cm.label}</option>;
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+                <label className="hor-label-container" htmlFor="waist">
+                  Waist
                 </label>
-                <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
-                            className="hor-label-container">
+                <RadioGroup name="waistUnits" value={state.waistUnits} onChange={this._handleWaistUnits} className="hor-radio-container">
                   <label className="hor-label">
-                    <input className="hor-input" type="radio" value="feet" required />feet
+                    <input className="hor-input" type="radio" value="inches" required />inches
                   </label>
                   <label className="hor-label">
                     <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
-                  {!state.height && <option disabled hidden value="" />}
-                  {state.heightUnits === 'feet' && feet.map((foot) => {
-                    return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
+                <select id="waist" defaultValue="" value={state.waist} onChange={this._handleWaist}>
+                  {!state.waist && <option disabled hidden value="" />}
+                  {state.waistUnits === 'inches' && waistInches.map((inch) => {
+                    return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
-                  {state.heightUnits === 'cm' && cms.map((cm) => {
-                    return <option key={'heightCm' + cm.value} value={cm.value}>{cm.label}</option>;
+                  {state.waistUnits === 'cm' && waistCms.map((cm) => {
+                    return <option key={'waistCms' + cm.value} value={cm.value}>{cm.label}</option>;
                   })}
                 </select>
               </div>
             </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <label className="hor-label-container" htmlFor="waist">
-                Waist
-              </label>
-              <RadioGroup name="waistUnits" value={state.waistUnits} onChange={this._handleWaistUnits} className="hor-label-container">
-                <label className="hor-label">
-                  <input className="hor-input" type="radio" value="inches" required />inches
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label className="hor-label-container" htmlFor="cockLength">
+                  Cock Length
                 </label>
-                <label className="hor-label">
-                  <input className="hor-input" type="radio" value="cm" />cm
-                </label>
-              </RadioGroup>
-              <select id="waist" defaultValue="" value={state.waist} onChange={this._handleWaist}>
-                {!state.waist && <option disabled hidden value="" />}
-                {state.waistUnits === 'inches' && waistInches.map((inch) => {
-                  return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
-                })}
-                {state.waistUnits === 'cm' && waistCms.map((cm) => {
-                  return <option key={'waistCms' + cm.value} value={cm.value}>{cm.label}</option>;
-                })}
-              </select>
-            </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <label>
-                Foreskin
-                <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
-                  {!state.foreskin && <option disabled hidden value="" />}
-                  <option value="cut">Cut</option>
-                  <option value="semicut">Semi-Cut</option>
-                  <option value="uncut">Uncut</option>
+                <RadioGroup name="cockUnits" value={state.cockUnits} onChange={this._handleCockUnits} className="hor-radio-container">
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="inches" required />inches
+                  </label>
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="cm" />cm
+                  </label>
+                </RadioGroup>
+                <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength}>
+                  {!state.cockLength && <option disabled hidden value="" />}
+                  {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
+                    return <option key={'cockLengthInches' + inch.value} value={inch.value}>{inch.label}</option>;
+                  })}
+                  {state.cockUnits === 'cm' && cockLengthCms.map((cm) => {
+                    return <option key={'cockLengthCms' + cm.value} value={cm.value}>{cm.label}</option>;
+                  })}
                 </select>
-              </label>
-            </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <label className="hor-label-container" htmlFor="cockLength">
-                Cock Length
-              </label>
-              <RadioGroup name="cockUnits" value={state.cockUnits} onChange={this._handleCockUnits} className="hor-label-container">
-                <label className="hor-label">
-                  <input className="hor-input" type="radio" value="inches" required />inches
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label className="hor-label-container" htmlFor="cockGirth">
+                  Cock Girth
                 </label>
-                <label className="hor-label">
-                  <input className="hor-input" type="radio" value="cm" />cm
+                <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png" className="float-right"
+                   target="_blank">How to measure</a>
+                <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleCockGirth}>
+                  {!state.cockGirth && <option disabled hidden value="" />}
+                  {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
+                    return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
+                  })}
+                  {state.cockUnits === 'cm' && cockGirthCms.map((cm) => {
+                    return <option key={'cockGirthCms' + cm.value} value={cm.value}>{cm.label}</option>;
+                  })}
+                </select>
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+                <label>
+                  Foreskin
+                  <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
+                    {!state.foreskin && <option disabled hidden value="" />}
+                    <option value="cut">Cut</option>
+                    <option value="semicut">Semi-Cut</option>
+                    <option value="uncut">Uncut</option>
+                  </select>
                 </label>
-              </RadioGroup>
-              <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength}>
-                {!state.cockLength && <option disabled hidden value="" />}
-                {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
-                  return <option key={'cockLengthInches' + inch.value} value={inch.value}>{inch.label}</option>;
-                })}
-                {state.cockUnits === 'cm' && cockLengthCms.map((cm) => {
-                  return <option key={'cockLengthCms' + cm.value} value={cm.value}>{cm.label}</option>;
-                })}
-              </select>
+              </div>
             </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
-              <label className="hor-label-container" htmlFor="cockGirth">
-                Cock Girth
-              </label>
-              <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleCockGirth}>
-                {!state.cockGirth && <option disabled hidden value="" />}
-                {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
-                  return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
-                })}
-                {state.cockUnits === 'cm' && cockGirthCms.map((cm) => {
-                  return <option key={'cockGirthCms' + cm.value} value={cm.value}>{cm.label}</option>;
-                })}
-              </select>
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label>
+                  Smoke
+                  <select required defaultValue="" value={state.smoke} onChange={this._handleForeskin}>
+                    {!state.smoke && <option disabled hidden value="" />}
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="socially">Socially</option>
+                  </select>
+                </label>
+              </div>
             </div>
-            <div className="small-12 medium-6 large-4 columns profile-inputbox">
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label>
+                  HIV Status
+                  <select required defaultValue="" value={state.hiv} onChange={this._handleForeskin}>
+                    {!state.hiv && <option disabled hidden value="" />}
+                    <option value="unknown">Don't Know</option>
+                    <option value="no">Negative</option>
+                    <option value="yes">Positive</option>
+                    <option value="undetectable">Undetectable</option>
+                  </select>
+                </label>
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+                <label>
+                  Safer Sex
+                  <select required defaultValue="" value={state.safer} onChange={this._handleForeskin}>
+                    {!state.safer && <option disabled hidden value="" />}
+                    <option value="no">Prefer Bareback</option>
+                    <option value="yes">Prefer Condoms</option>
+                    <option value="noprep">Prefer Bareback - on PrEP</option>
+                    <option value="yesprep">Prefer Condoms - on PrEP</option>
+                  </select>
+                </label>
+              </div>
             </div>
-
+            <div className="row columns">
+              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+                <label>
+                  Primary Ethnicity
+                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleForeskin}>
+                    {!state.ethnicity && <option disabled hidden value="" />}
+                    <option value="asian">Asian</option>
+                    <option value="black">Black</option>
+                    <option value="latino">Latino</option>
+                    <option value="middleeastern">Middle Eastern</option>
+                    <option value="nativeamerican">Native American</option>
+                    <option value="pacificislander">Pacific Islander</option>
+                    <option value="southasian">South Asian</option>
+                    <option value="white">White</option>
+                    <option value="other">Other Ethnicity</option>
+                  </select>
+                </label>
+              </div>
+              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+                <label>
+                  Secondary Ethnicity
+                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleForeskin}>
+                    <option value="">None</option>
+                    <option value="asian">Asian</option>
+                    <option value="black">Black</option>
+                    <option value="latino">Latino</option>
+                    <option value="middleeastern">Middle Eastern</option>
+                    <option value="nativeamerican">Native American</option>
+                    <option value="pacificislander">Pacific Islander</option>
+                    <option value="southasian">South Asian</option>
+                    <option value="white">White</option>
+                    <option value="other">Other Ethnicity</option>
+                  </select>
+                </label>
+              </div>
+            </div>
           </div>
           <div className="row">
             <div className="small-12 columns">
@@ -461,6 +541,7 @@ class Profile extends Component {
                   if (!forceShow && !groupModel.rows.find((rowModel) => profile[rowModel.id])) {
                     return <option key={groupModel.group} value={groupModel.group}>{groupModel.group}</option>;
                   }
+                  return null;
                 })}
               </select>
             </div>
@@ -473,6 +554,7 @@ class Profile extends Component {
               if (forceShow || groupModel.rows.find((rowModel) => profile[rowModel.id])) {
                 return starGroup(groupModel);
               }
+              return null;
             })}
 
             <div className="small-12 columns">
@@ -500,6 +582,12 @@ export default Relay.createContainer(Profile, {
           weight,
           heightUnits,
           height,
+          waistUnits,
+          waist,
+          cockUnits,
+          cockLength,
+          cockGirth,
+          foreskin,
           givesHead,
           getsHead,
           sixtynine,
