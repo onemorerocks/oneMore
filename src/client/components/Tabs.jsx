@@ -15,8 +15,8 @@ export default class Tabs extends Component {
     label: 'Home'
   }, {
     id: 'bros',
-    url: '/bros',
-    label: 'Bros'
+    url: '/guys',
+    label: 'Guys'
   }, {
     id: 'events',
     url: '/events',

@@ -93,7 +93,7 @@ decorateLessMore(waistCms);
 
 const FormGroup = (props) =>
   <div className="small-12 medium-6 large-4 columns end">
-    <fieldset className="fieldset">
+    <fieldset className={'fieldset ' + props.className}>
       {props.children}
     </fieldset>
   </div>;
@@ -237,6 +237,45 @@ class Profile extends Component {
   });
   _handleCockLength = this._handleOnChange('cockLength');
   _handleCockGirth = this._handleOnChange('cockGirth');
+  _handleHiv = this._handleOnChange('hiv');
+  _handleSafer = this._handleOnChange('safer');
+  _handleEthnicity = this._handleOnChange('ethnicity');
+  _handleMixEthnicity = this._handleOnChange('mixEthnicity');
+  _handleMasc = this._handleOnChange('masc');
+  _handleFem = this._handleOnChange('fem');
+
+  doSetState = (state) => this.setState(state);
+
+  stars = (name) => <Stars id={name} value={this.state[name]} setState={this.doSetState} />;
+
+  starGroup = (groupModel, i) => {
+    return (
+      <FormGroup key={groupModel.group}>
+        {groupModel.rows.map((rowModel) => {
+          const value = this.state[rowModel.id];
+          let feeling = '?';
+          if (value === '1') {
+            feeling = "don't like";
+          } else if (value === '2') {
+            feeling = "rarely like";
+          } else if (value === '3') {
+            feeling = "sometimes like";
+          } else if (value === '4') {
+            feeling = "enjoy";
+          } else if (value === '5') {
+            feeling = "love";
+          }
+          return (
+            <span key={rowModel.id}>
+                {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
+              {value && <span>I {feeling} <strong>{rowModel.text}</strong></span>}
+              {this.stars(rowModel.id)}
+              </span>
+          );
+        })}
+      </FormGroup>
+    );
+  };
 
   render() {
     const profile = this.props.login.profile;
@@ -244,29 +283,6 @@ class Profile extends Component {
     if (!profile) {
       return <noscript />;
     }
-
-    const stars = (name) => <Stars id={name} defaultValue={profile[name]} ref={name} />;
-
-    const starGroup = (groupModel, i) => {
-      return (
-        <FormGroup key={groupModel.group}>
-          {groupModel.rows.map((rowModel) => {
-            const value = this._getValue(rowModel.id);
-            let feeling = 'love';
-            if (value === 1) {
-              feeling = "don't like";
-            }
-            return (
-              <span key={rowModel.id}>
-                {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
-                {value && <span>I {feeling} <strong>{rowModel.text}</strong></span>}
-                {stars(rowModel.id)}
-              </span>
-            );
-          })}
-        </FormGroup>
-      );
-    };
 
     const handleKinkSelect = (el) => {
       this.state.forceShow.add(el.target.value);
@@ -282,20 +298,20 @@ class Profile extends Component {
       <DocumentTitle title="oneMore - Profile">
         <form onSubmit={this._handleSubmit} className="profile">
 
-          <div className="row">
+          <div className="row mainProfile">
             <div className="small-12 columns">
               <FormErrors errors={this.state.errors} />
 
               <h3>Profile</h3>
             </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+            <FormGroup>
+              <div>
                 <label>
                   Nickanme
                   <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleNickname} />
                 </label>
               </div>
-              <div className="small-6 large-4 columns profile-inputbox">
+              <div>
                 <label>
                   Birth Year
                   <select required defaultValue="" value={state.birthYear} onChange={this._handleBirthYear}>
@@ -306,7 +322,7 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-              <div className="small-6 large-4 columns profile-inputbox end">
+              <div>
                 <label>
                   Birth Month
                   <select required defaultValue="" value={state.birthMonth} onChange={this._handleBirthMonth}>
@@ -317,60 +333,56 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-            </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
-                <div>
-                  <label className="hor-label-container" htmlFor="weight">
-                    Weight
+            </FormGroup>
+            <FormGroup>
+              <div>
+                <label className="hor-label-container" htmlFor="weight">
+                  Weight
+                </label>
+                <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
+                            className="hor-radio-container">
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="lb" required />lb
                   </label>
-                  <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
-                              className="hor-radio-container">
-                    <label className="hor-label">
-                      <input className="hor-input" type="radio" value="lb" required />lb
-                    </label>
-                    <label className="hor-label">
-                      <input className="hor-input" type="radio" value="kg" />kg
-                    </label>
-                  </RadioGroup>
-                  <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
-                          required>
-                    {!state.weight && <option disabled hidden value="" />}
-                    {state.weightUnits === 'kg' && kgs.map((kg) => {
-                      return <option key={'kg' + kg.value} value={kg.value}>{kg.label}</option>;
-                    })}
-                    {state.weightUnits === 'lb' && lbs.map((lb) => {
-                      return <option key={'lb' + lb.value} value={lb.value}>{lb.label}</option>;
-                    })}
-                  </select>
-                </div>
-              </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
-                <div>
-                  <label className="hor-label-container" htmlFor="height">
-                    Height
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="kg" />kg
                   </label>
-                  <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
-                              className="hor-radio-container">
-                    <label className="hor-label">
-                      <input className="hor-input" type="radio" value="feet" required />feet
-                    </label>
-                    <label className="hor-label">
-                      <input className="hor-input" type="radio" value="cm" />cm
-                    </label>
-                  </RadioGroup>
-                  <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
-                    {!state.height && <option disabled hidden value="" />}
-                    {state.heightUnits === 'feet' && feet.map((foot) => {
-                      return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
-                    })}
-                    {state.heightUnits === 'cm' && cms.map((cm) => {
-                      return <option key={'heightCm' + cm.value} value={cm.value}>{cm.label}</option>;
-                    })}
-                  </select>
-                </div>
+                </RadioGroup>
+                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
+                        required>
+                  {!state.weight && <option disabled hidden value="" />}
+                  {state.weightUnits === 'kg' && kgs.map((kg) => {
+                    return <option key={'kg' + kg.value} value={kg.value}>{kg.label}</option>;
+                  })}
+                  {state.weightUnits === 'lb' && lbs.map((lb) => {
+                    return <option key={'lb' + lb.value} value={lb.value}>{lb.label}</option>;
+                  })}
+                </select>
               </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+              <div>
+                <label className="hor-label-container" htmlFor="height">
+                  Height
+                </label>
+                <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
+                            className="hor-radio-container">
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="feet" required />feet
+                  </label>
+                  <label className="hor-label">
+                    <input className="hor-input" type="radio" value="cm" />cm
+                  </label>
+                </RadioGroup>
+                <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
+                  {!state.height && <option disabled hidden value="" />}
+                  {state.heightUnits === 'feet' && feet.map((foot) => {
+                    return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
+                  })}
+                  {state.heightUnits === 'cm' && cms.map((cm) => {
+                    return <option key={'heightCm' + cm.value} value={cm.value}>{cm.label}</option>;
+                  })}
+                </select>
+              </div>
+              <div>
                 <label className="hor-label-container" htmlFor="waist">
                   Waist
                 </label>
@@ -392,9 +404,9 @@ class Profile extends Component {
                   })}
                 </select>
               </div>
-            </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+            </FormGroup>
+            <FormGroup>
+              <div>
                 <label className="hor-label-container" htmlFor="cockLength">
                   Cock Length
                 </label>
@@ -408,6 +420,7 @@ class Profile extends Component {
                 </RadioGroup>
                 <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength}>
                   {!state.cockLength && <option disabled hidden value="" />}
+                  <option value="0">Don't have one</option>
                   {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
                     return <option key={'cockLengthInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
@@ -416,7 +429,7 @@ class Profile extends Component {
                   })}
                 </select>
               </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+              <div>
                 <label className="hor-label-container" htmlFor="cockGirth">
                   Cock Girth
                 </label>
@@ -424,6 +437,7 @@ class Profile extends Component {
                    target="_blank">How to measure</a>
                 <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleCockGirth}>
                   {!state.cockGirth && <option disabled hidden value="" />}
+                  <option value="0">Don't have one</option>
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
                     return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
@@ -432,7 +446,7 @@ class Profile extends Component {
                   })}
                 </select>
               </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+              <div>
                 <label>
                   Foreskin
                   <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
@@ -443,25 +457,12 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-            </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
-                <label>
-                  Smoke
-                  <select required defaultValue="" value={state.smoke} onChange={this._handleForeskin}>
-                    {!state.smoke && <option disabled hidden value="" />}
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                    <option value="socially">Socially</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+            </FormGroup>
+            <FormGroup className="thirdLast">
+              <div>
                 <label>
                   HIV Status
-                  <select required defaultValue="" value={state.hiv} onChange={this._handleForeskin}>
+                  <select required defaultValue="" value={state.hiv} onChange={this._handleHiv}>
                     {!state.hiv && <option disabled hidden value="" />}
                     <option value="unknown">Don't Know</option>
                     <option value="no">Negative</option>
@@ -470,10 +471,10 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+              <div>
                 <label>
                   Safer Sex
-                  <select required defaultValue="" value={state.safer} onChange={this._handleForeskin}>
+                  <select required defaultValue="" value={state.safer} onChange={this._handleSafer}>
                     {!state.safer && <option disabled hidden value="" />}
                     <option value="no">Prefer Bareback</option>
                     <option value="yes">Prefer Condoms</option>
@@ -482,12 +483,12 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-            </div>
-            <div className="row columns">
-              <div className="small-12 medium-6 large-4 columns profile-inputbox">
+            </FormGroup>
+            <FormGroup className="secondLast">
+              <div>
                 <label>
-                  Primary Ethnicity
-                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleForeskin}>
+                  Ethnicity
+                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleEthnicity}>
                     {!state.ethnicity && <option disabled hidden value="" />}
                     <option value="asian">Asian</option>
                     <option value="black">Black</option>
@@ -501,11 +502,11 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-              <div className="small-12 medium-6 large-4 columns profile-inputbox end">
+              <div>
                 <label>
-                  Secondary Ethnicity
-                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleForeskin}>
-                    <option value="">None</option>
+                  Mixed Ethnicity
+                  <select required defaultValue="" value={state.mixEthnicity} onChange={this._handleMixEthnicity}>
+                    <option value="">Not Mixed</option>
                     <option value="asian">Asian</option>
                     <option value="black">Black</option>
                     <option value="latino">Latino</option>
@@ -518,7 +519,33 @@ class Profile extends Component {
                   </select>
                 </label>
               </div>
-            </div>
+            </FormGroup>
+            <FormGroup className="last">
+              <div>
+                <label>
+                  Masculinity
+                  <select required defaultValue="" value={state.masc} onChange={this._handleMasc}>
+                    {!state.masc && <option disabled hidden value="" />}
+                    <option value="0">Not Masculine</option>
+                    <option value="1">Somewhat Masculine</option>
+                    <option value="2">Masculine</option>
+                    <option value="3">Very Masculine</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Femininity
+                  <select required defaultValue="" value={state.fem} onChange={this._handleFem}>
+                    {!state.fem && <option disabled hidden value="" />}
+                    <option value="0">Not Feminine</option>
+                    <option value="1">Somewhat Feminine</option>
+                    <option value="2">Feminine</option>
+                    <option value="3">Very Feminine</option>
+                  </select>
+                </label>
+              </div>
+            </FormGroup>
           </div>
           <div className="row">
             <div className="small-12 columns">
@@ -526,7 +553,7 @@ class Profile extends Component {
             </div>
 
             {profileStarsModel.map((groupModel) => {
-              return starGroup(groupModel);
+              return this.starGroup(groupModel);
             })}
 
           </div>
@@ -552,7 +579,7 @@ class Profile extends Component {
             {profileKinksModel.map((groupModel) => {
               const forceShow = this.state.forceShow.has(groupModel.group);
               if (forceShow || groupModel.rows.find((rowModel) => profile[rowModel.id])) {
-                return starGroup(groupModel);
+                return this.starGroup(groupModel);
               }
               return null;
             })}

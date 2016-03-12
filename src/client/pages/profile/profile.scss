@@ -2,6 +2,28 @@
 
 .profile {
 
+  .mainProfile {
+    .fieldset {
+      border: 0;
+      margin-bottom: 1rem;
+      padding: 0;
+
+      @include breakpoint(small only) {
+        margin-bottom: 0;
+      }
+
+      @include breakpoint(large only) {
+        &.thirdLast {
+          min-height: 10rem;
+        }
+      }
+
+      &.secondLast, &.last {
+        min-height: 10rem;
+      }
+    }
+  }
+
   .fieldset {
     padding-bottom: 0;
     padding-right: 0.5rem;
