@@ -98,6 +98,9 @@ const FormGroup = (props) =>
     </fieldset>
   </div>;
 
+FormGroup.propTypes = {
+  className: React.PropTypes.string
+};
 
 class Profile extends Component {
 
@@ -164,7 +167,7 @@ class Profile extends Component {
     return null;
   }
 
-  _handleOnChange = (key) => {
+  _handleOnChange = (key, isNum) => {
     return (v) => {
       const obj = {};
 
@@ -173,7 +176,7 @@ class Profile extends Component {
         value = value.target.value;
       }
 
-      obj[key] = value;
+      obj[key] = isNum ? parseFloat(value) : value;
       this.setState(obj);
     };
   };
@@ -235,7 +238,16 @@ class Profile extends Component {
   _handleCockUnits = this._handleOnUnitChange('cockUnits', {
     inches: [cockLengthInches, cockGirthInches], cm: [cockLengthCms, cockGirthCms], targets: ['cockLength', 'cockGirth']
   });
-  _handleCockLength = this._handleOnChange('cockLength');
+
+  _innerHandleCockLength = this._handleOnChange('cockLength', true);
+
+  _handleCockLength = (v) => {
+    if (v.target.value === '0') {
+      this.setState({ cockGirth: '', foreskin: '' });
+    }
+    return this._innerHandleCockLength(v);
+  };
+
   _handleCockGirth = this._handleOnChange('cockGirth');
   _handleHiv = this._handleOnChange('hiv');
   _handleSafer = this._handleOnChange('safer');
@@ -254,16 +266,16 @@ class Profile extends Component {
         {groupModel.rows.map((rowModel) => {
           const value = this.state[rowModel.id];
           let feeling = '?';
-          if (value === '1') {
+          if (value === 1) {
             feeling = "don't like";
-          } else if (value === '2') {
-            feeling = "rarely like";
-          } else if (value === '3') {
-            feeling = "sometimes like";
-          } else if (value === '4') {
-            feeling = "enjoy";
-          } else if (value === '5') {
-            feeling = "love";
+          } else if (value === 2) {
+            feeling = 'rarely like';
+          } else if (value === 3) {
+            feeling = 'sometimes like';
+          } else if (value === 4) {
+            feeling = 'enjoy';
+          } else if (value === 5) {
+            feeling = 'love';
           }
           return (
             <span key={rowModel.id}>
@@ -420,7 +432,7 @@ class Profile extends Component {
                 </RadioGroup>
                 <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength}>
                   {!state.cockLength && <option disabled hidden value="" />}
-                  <option value="0">Don't have one</option>
+                  <option value={0}>Don't have a cock</option>
                   {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
                     return <option key={'cockLengthInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
@@ -429,7 +441,7 @@ class Profile extends Component {
                   })}
                 </select>
               </div>
-              <div>
+              {state.cockLength !== 0 && <div>
                 <label className="hor-label-container" htmlFor="cockGirth">
                   Cock Girth
                 </label>
@@ -437,7 +449,6 @@ class Profile extends Component {
                    target="_blank">How to measure</a>
                 <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleCockGirth}>
                   {!state.cockGirth && <option disabled hidden value="" />}
-                  <option value="0">Don't have one</option>
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
                     return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
                   })}
@@ -445,8 +456,8 @@ class Profile extends Component {
                     return <option key={'cockGirthCms' + cm.value} value={cm.value}>{cm.label}</option>;
                   })}
                 </select>
-              </div>
-              <div>
+              </div>}
+              {state.cockLength !== 0 && <div>
                 <label>
                   Foreskin
                   <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
@@ -456,7 +467,7 @@ class Profile extends Component {
                     <option value="uncut">Uncut</option>
                   </select>
                 </label>
-              </div>
+              </div>}
             </FormGroup>
             <FormGroup className="thirdLast">
               <div>
@@ -490,32 +501,30 @@ class Profile extends Component {
                   Ethnicity
                   <select required defaultValue="" value={state.ethnicity} onChange={this._handleEthnicity}>
                     {!state.ethnicity && <option disabled hidden value="" />}
-                    <option value="asian">Asian</option>
-                    <option value="black">Black</option>
+                    <option value="black">Black / African Descent</option>
+                    <option value="asian">East Asian</option>
                     <option value="latino">Latino</option>
-                    <option value="middleeastern">Middle Eastern</option>
-                    <option value="nativeamerican">Native American</option>
+                    <option value="middleeastern">Middle Eastern / North African</option>
+                    <option value="nativeamerican">Native American / Indigenous</option>
                     <option value="pacificislander">Pacific Islander</option>
                     <option value="southasian">South Asian</option>
-                    <option value="white">White</option>
-                    <option value="other">Other Ethnicity</option>
+                    <option value="white">White / Caucasian</option>
                   </select>
                 </label>
               </div>
               <div>
                 <label>
                   Mixed Ethnicity
-                  <select required defaultValue="" value={state.mixEthnicity} onChange={this._handleMixEthnicity}>
+                  <select defaultValue="" value={state.mixEthnicity} onChange={this._handleMixEthnicity}>
                     <option value="">Not Mixed</option>
-                    <option value="asian">Asian</option>
-                    <option value="black">Black</option>
+                    <option value="black">Black / African Descent</option>
+                    <option value="asian">East Asian</option>
                     <option value="latino">Latino</option>
-                    <option value="middleeastern">Middle Eastern</option>
-                    <option value="nativeamerican">Native American</option>
+                    <option value="middleeastern">Middle Eastern / North African</option>
+                    <option value="nativeamerican">Native American / Indigenous</option>
                     <option value="pacificislander">Pacific Islander</option>
                     <option value="southasian">South Asian</option>
-                    <option value="white">White</option>
-                    <option value="other">Other Ethnicity</option>
+                    <option value="white">White / Caucasian</option>
                   </select>
                 </label>
               </div>

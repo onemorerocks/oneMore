@@ -4,21 +4,22 @@
 
   .mainProfile {
     .fieldset {
-      border: 0;
       margin-bottom: 1rem;
-      padding: 0;
+      border: 0;
 
       @include breakpoint(small only) {
         margin-bottom: 0;
+        padding: 0;
       }
 
-      @include breakpoint(large only) {
-        &.thirdLast {
+      &.thirdLast {
+        @include breakpoint(large) {
           min-height: 10rem;
         }
       }
 
-      &.secondLast, &.last {
+      &.secondLast,
+      &.last {
         min-height: 10rem;
       }
     }
@@ -28,7 +29,7 @@
     padding-bottom: 0;
     padding-right: 0.5rem;
     @include breakpoint(medium) {
-      min-height: 16.5rem;
+      min-height: 17.2rem;
     }
     margin-top: 0;
     margin-bottom: rem-calc(30);

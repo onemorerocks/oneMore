@@ -29,7 +29,7 @@ export default class Stars extends Component {
 
   _handleChange = (value) => {
     const obj = {};
-    obj[this.props.id] = value;
+    obj[this.props.id] = parseInt(value, 10);
     this.props.setState(obj);
   };
 
