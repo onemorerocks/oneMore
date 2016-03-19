@@ -12,15 +12,14 @@
         padding: 0;
       }
 
-      &.thirdLast {
+      &.short {
+        min-height: 10rem;
+      }
+
+      &.shortOnLarge {
         @include breakpoint(large) {
           min-height: 10rem;
         }
-      }
-
-      &.secondLast,
-      &.last {
-        min-height: 10rem;
       }
     }
   }

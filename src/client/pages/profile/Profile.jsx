@@ -90,6 +90,11 @@ decorateLessMore(feet);
 decorateLessMore(cms);
 decorateLessMore(waistInches);
 decorateLessMore(waistCms);
+decorateLessMore(cockLengthInches);
+decorateLessMore(cockLengthCms);
+decorateLessMore(cockGirthInches);
+decorateLessMore(cockGirthCms);
+
 
 const FormGroup = (props) =>
   <div className="small-12 medium-6 large-4 columns end">
@@ -167,18 +172,14 @@ class Profile extends Component {
     return null;
   }
 
-  _handleOnChange = (key, isNum) => {
-    return (v) => {
-      const obj = {};
+  _handleOnChange = (event, isNum) => {
+    const obj = {};
 
-      let value = v;
-      if (value.target && value.target.value) {
-        value = value.target.value;
-      }
+    const value = event.target.value;
+    const name = event.target.name;
 
-      obj[key] = isNum ? parseFloat(value) : value;
-      this.setState(obj);
-    };
+    obj[name] = isNum ? parseFloat(value) : value;
+    this.setState(obj);
   };
 
   _closest(num, arr) {
@@ -198,9 +199,8 @@ class Profile extends Component {
     return arr[hi];
   }
 
-  _handleOnUnitChange = (key, mapping) => {
-    const changeFunc = this._handleOnChange(key);
-    return (newUnit) => {
+  _handleOnUnitChange = (mapping) => {
+    return (newUnit, event) => {
       mapping.targets.forEach((target, i) => {
 
         const values = mapping[newUnit][i].map((entry) => {
@@ -215,46 +215,29 @@ class Profile extends Component {
           this.setState(stateObj);
         }
       });
-      changeFunc(newUnit);
+      this._handleOnChange(event);
     };
   };
 
-  _handleNickname = this._handleOnChange('nickname');
-  _handleBirthYear = this._handleOnChange('birthYear');
-  _handleBirthMonth = this._handleOnChange('birthMonth');
-  _handleWeightUnits = this._handleOnUnitChange('weightUnits', {
+  _handleWeightUnits = this._handleOnUnitChange({
     lb: [lbs], kg: [kgs], targets: ['weight']
   });
-  _handleWeight = this._handleOnChange('weight');
-  _handleHeightUnits = this._handleOnUnitChange('heightUnits', {
+  _handleHeightUnits = this._handleOnUnitChange({
     feet: [feet], cm: [cms], targets: ['height']
   });
-  _handleHeight = this._handleOnChange('height');
-  _handleWaistUnits = this._handleOnUnitChange('waistUnits', {
+  _handleWaistUnits = this._handleOnUnitChange({
     inches: [waistInches], cm: [waistCms], targets: ['waist']
   });
-  _handleWaist = this._handleOnChange('waist');
-  _handleForeskin = this._handleOnChange('foreskin');
-  _handleCockUnits = this._handleOnUnitChange('cockUnits', {
+  _handleCockUnits = this._handleOnUnitChange({
     inches: [cockLengthInches, cockGirthInches], cm: [cockLengthCms, cockGirthCms], targets: ['cockLength', 'cockGirth']
   });
 
-  _innerHandleCockLength = this._handleOnChange('cockLength', true);
-
-  _handleCockLength = (v) => {
-    if (v.target.value === '0') {
+  _handleCockLength = (event) => {
+    if (event.target.value === '0') {
       this.setState({ cockGirth: '', foreskin: '' });
     }
-    return this._innerHandleCockLength(v);
+    return this._handleOnChange(event, true);
   };
-
-  _handleCockGirth = this._handleOnChange('cockGirth');
-  _handleHiv = this._handleOnChange('hiv');
-  _handleSafer = this._handleOnChange('safer');
-  _handleEthnicity = this._handleOnChange('ethnicity');
-  _handleMixEthnicity = this._handleOnChange('mixEthnicity');
-  _handleMasc = this._handleOnChange('masc');
-  _handleFem = this._handleOnChange('fem');
 
   doSetState = (state) => this.setState(state);
 
@@ -320,13 +303,13 @@ class Profile extends Component {
               <div>
                 <label>
                   Nickanme
-                  <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleNickname} />
+                  <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleOnChange} name="nickname" />
                 </label>
               </div>
               <div>
                 <label>
                   Birth Year
-                  <select required defaultValue="" value={state.birthYear} onChange={this._handleBirthYear}>
+                  <select required defaultValue="" value={state.birthYear} onChange={this._handleOnChange} name="birthYear">
                     {!profile.birthYear && <option disabled hidden value="" />}
                     {years.map((year) => {
                       return <option key={year} value={year}>{year}</option>;
@@ -337,7 +320,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Birth Month
-                  <select required defaultValue="" value={state.birthMonth} onChange={this._handleBirthMonth}>
+                  <select required defaultValue="" value={state.birthMonth} onChange={this._handleOnChange} name="birthMonth">
                     {!profile.birthMonth && <option disabled hidden value="" />}
                     {months.map((month, i) => {
                       return <option key={month} value={i}>{month}</option>;
@@ -360,7 +343,7 @@ class Profile extends Component {
                     <input className="hor-input" type="radio" value="kg" />kg
                   </label>
                 </RadioGroup>
-                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleWeight}
+                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleOnChange} name="weight"
                         required>
                   {!state.weight && <option disabled hidden value="" />}
                   {state.weightUnits === 'kg' && kgs.map((kg) => {
@@ -384,7 +367,7 @@ class Profile extends Component {
                     <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="height" defaultValue="" value={state.height} onChange={this._handleHeight}>
+                <select id="height" defaultValue="" value={state.height} onChange={this._handleOnChange} name="height">
                   {!state.height && <option disabled hidden value="" />}
                   {state.heightUnits === 'feet' && feet.map((foot) => {
                     return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
@@ -406,7 +389,9 @@ class Profile extends Component {
                     <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="waist" defaultValue="" value={state.waist} onChange={this._handleWaist}>
+                <a href="http://www.webmd.com/diet/waist-measurement" className="float-right"
+                   target="_blank">Not pants size</a>
+                <select id="waist" defaultValue="" value={state.waist} onChange={this._handleOnChange} name="waist">
                   {!state.waist && <option disabled hidden value="" />}
                   {state.waistUnits === 'inches' && waistInches.map((inch) => {
                     return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
@@ -430,7 +415,7 @@ class Profile extends Component {
                     <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength}>
+                <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength} name="cockLength">
                   {!state.cockLength && <option disabled hidden value="" />}
                   <option value={0}>Don't have a cock</option>
                   {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
@@ -447,7 +432,7 @@ class Profile extends Component {
                 </label>
                 <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png" className="float-right"
                    target="_blank">How to measure</a>
-                <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleCockGirth}>
+                <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleOnChange} name="cockGirth">
                   {!state.cockGirth && <option disabled hidden value="" />}
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
                     return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
@@ -460,46 +445,20 @@ class Profile extends Component {
               {state.cockLength !== 0 && <div>
                 <label>
                   Foreskin
-                  <select required defaultValue="" value={state.foreskin} onChange={this._handleForeskin}>
+                  <select required defaultValue="" value={state.foreskin} onChange={this._handleOnChange} name="foreskin">
                     {!state.foreskin && <option disabled hidden value="" />}
                     <option value="cut">Cut</option>
-                    <option value="semicut">Semi-Cut</option>
+                    <option value="semicut">Semi-cut</option>
                     <option value="uncut">Uncut</option>
                   </select>
                 </label>
               </div>}
             </FormGroup>
-            <FormGroup className="thirdLast">
-              <div>
-                <label>
-                  HIV Status
-                  <select required defaultValue="" value={state.hiv} onChange={this._handleHiv}>
-                    {!state.hiv && <option disabled hidden value="" />}
-                    <option value="unknown">Don't Know</option>
-                    <option value="no">Negative</option>
-                    <option value="yes">Positive</option>
-                    <option value="undetectable">Undetectable</option>
-                  </select>
-                </label>
-              </div>
-              <div>
-                <label>
-                  Safer Sex
-                  <select required defaultValue="" value={state.safer} onChange={this._handleSafer}>
-                    {!state.safer && <option disabled hidden value="" />}
-                    <option value="no">Prefer Bareback</option>
-                    <option value="yes">Prefer Condoms</option>
-                    <option value="noprep">Prefer Bareback - on PrEP</option>
-                    <option value="yesprep">Prefer Condoms - on PrEP</option>
-                  </select>
-                </label>
-              </div>
-            </FormGroup>
-            <FormGroup className="secondLast">
+            <FormGroup className="shortOnLarge">
               <div>
                 <label>
                   Ethnicity
-                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleEthnicity}>
+                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleOnChange} name="ethnicity">
                     {!state.ethnicity && <option disabled hidden value="" />}
                     <option value="black">Black / African Descent</option>
                     <option value="asian">East Asian</option>
@@ -515,42 +474,159 @@ class Profile extends Component {
               <div>
                 <label>
                   Mixed Ethnicity
-                  <select defaultValue="" value={state.mixEthnicity} onChange={this._handleMixEthnicity}>
+                  <select defaultValue="" value={state.mixEthnicity} onChange={this._handleOnChange} name="mixEthnicity">
                     <option value="">Not Mixed</option>
-                    <option value="black">Black / African Descent</option>
-                    <option value="asian">East Asian</option>
-                    <option value="latino">Latino</option>
-                    <option value="middleeastern">Middle Eastern / North African</option>
-                    <option value="nativeamerican">Native American / Indigenous</option>
-                    <option value="pacificislander">Pacific Islander</option>
-                    <option value="southasian">South Asian</option>
-                    <option value="white">White / Caucasian</option>
+                    {state.ethnicity !== 'black' && <option value="black">Black / African Descent</option>}
+                    {state.ethnicity !== 'asian' && <option value="asian">East Asian</option>}
+                    {state.ethnicity !== 'latino' && <option value="latino">Latino</option>}
+                    {state.ethnicity !== 'middleeastern' && <option value="middleeastern">Middle Eastern / North African</option>}
+                    {state.ethnicity !== 'nativeamerican' && <option value="nativeamerican">Native American / Indigenous</option>}
+                    {state.ethnicity !== 'pacificislander' && <option value="pacificislander">Pacific Islander</option>}
+                    {state.ethnicity !== 'southasian' && <option value="southasian">South Asian</option>}
+                    {state.ethnicity !== 'white' && <option value="white">White / Caucasian</option>}
                   </select>
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="last">
+            <FormGroup className="short">
               <div>
                 <label>
-                  Masculinity
-                  <select required defaultValue="" value={state.masc} onChange={this._handleMasc}>
-                    {!state.masc && <option disabled hidden value="" />}
-                    <option value="0">Not Masculine</option>
-                    <option value="1">Somewhat Masculine</option>
-                    <option value="2">Masculine</option>
-                    <option value="3">Very Masculine</option>
+                  Eye Color
+                  <select required defaultValue="" value={state.eye} onChange={this._handleOnChange} name="eye">
+                    {!state.eye && <option disabled hidden value="" />}
+                    <option value="amber">Amber</option>
+                    <option value="blue">Blue</option>
+                    <option value="brown">Brown</option>
+                    <option value="hray">Gray</option>
+                    <option value="hreen">Green</option>
+                    <option value="hazel">Hazel</option>
+                    <option value="heterochromia">Heterochromia (2 distinct colors)</option>
+                    <option value="green">Green</option>
                   </select>
                 </label>
               </div>
               <div>
                 <label>
-                  Femininity
-                  <select required defaultValue="" value={state.fem} onChange={this._handleFem}>
+                  Hair Color
+                  <select required defaultValue="" value={state.hair} onChange={this._handleOnChange} name="hair">
+                    {!state.hair && <option disabled hidden value="" />}
+                    <option value="bald">Bald</option>
+                    <option value="black">Black</option>
+                    <option value="blond">Blond</option>
+                    <option value="brown">Brown</option>
+                    <option value="brown">Dyed (blue, green, red, etc)</option>
+                    <option value="gray">Gray</option>
+                    <option value="red">Red</option>
+                    <option value="white">White</option>
+                  </select>
+                </label>
+              </div>
+            </FormGroup>
+            <FormGroup className="short">
+              <div>
+                <label>
+                  Body Hair
+                  <select required defaultValue="" value={state.bodyHair} onChange={this._handleOnChange} name="bodyHair">
+                    {!state.bodyHair && <option disabled hidden value="" />}
+                    <option value="smooth">Smooth</option>
+                    <option value="trimmed">Trimmed</option>
+                    <option value="some">Some hair</option>
+                    <option value="hairy">Hairy</option>
+                    <option value="very">Very hairy</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Facial Hair
+                  <select required defaultValue="" value={state.facialHair} onChange={this._handleOnChange} name="facialHair">
+                    {!state.facialHair && <option disabled hidden value="" />}
+                    <option value="none">None</option>
+                    <option value="beard">Beard</option>
+                    <option value="goatee">Goatee (chin only)</option>
+                    <option value="vandyke">Goatee with moustache</option>
+                    <option value="moustache">Moustache</option>
+                    <option value="stubble">Stubble</option>
+                  </select>
+                </label>
+              </div>
+            </FormGroup>
+            <FormGroup className="short">
+              <div>
+                <label>
+                  HIV Status
+                  <select required defaultValue="" value={state.hiv} onChange={this._handleOnChange} name="hiv">
+                    {!state.hiv && <option disabled hidden value="" />}
+                    <option value="unknown">Don't know</option>
+                    <option value="no">Negative</option>
+                    <option value="yes">Positive</option>
+                    <option value="undetectable">Undetectable</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Safer Sex
+                  <select required defaultValue="" value={state.safer} onChange={this._handleOnChange} name="safer">
+                    {!state.safer && <option disabled hidden value="" />}
+                    <option value="no">Prefer bareback</option>
+                    <option value="yes">Prefer condoms</option>
+                    <option value="noprep">Prefer bareback - on PrEP</option>
+                    <option value="yesprep">Prefer condoms - on PrEP</option>
+                  </select>
+                </label>
+              </div>
+            </FormGroup>
+            <FormGroup className="short">
+              <div>
+                <label>
+                  Mannerisms & Speech
+                  <select required defaultValue="" value={state.masc} onChange={this._handleOnChange} name="masc">
+                    {!state.masc && <option disabled hidden value="" />}
+                    <option value="0">Very masculine</option>
+                    <option value="1">Masculine</option>
+                    <option value="2">In the middle</option>
+                    <option value="3">Feminine</option>
+                    <option value="4">Very feminine</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Voice
+                  <select required defaultValue="" value={state.voice} onChange={this._handleOnChange} name="voice">
                     {!state.fem && <option disabled hidden value="" />}
-                    <option value="0">Not Feminine</option>
-                    <option value="1">Somewhat Feminine</option>
-                    <option value="2">Feminine</option>
-                    <option value="3">Very Feminine</option>
+                    <option value="0">Very deep</option>
+                    <option value="1">Deep</option>
+                    <option value="2">Average</option>
+                    <option value="3">High</option>
+                    <option value="4">Very high</option>
+                  </select>
+                </label>
+              </div>
+            </FormGroup>
+            <FormGroup className="short">
+              <div>
+                <label>
+                  Tobacco
+                  <select required defaultValue="" value={state.smokes} onChange={this._handleOnChange} name="smokes">
+                    {!state.smokes && <option disabled hidden value="" />}
+                    <option value="no">Don't smoke</option>
+                    <option value="cigs">Cigarettes</option>
+                    <option value="both">Cigarettes & Cigars</option>
+                    <option value="cigars">Cigars</option>
+                    <option value="socially">Socially</option>
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Discretion
+                  <select required defaultValue="" value={state.discretion} onChange={this._handleOnChange} name="discretion">
+                    {!state.discretion && <option disabled hidden value="" />}
+                    <option value="no">Don't need to be discrete</option>
+                    <option value="somewhat">Need to be discrete</option>
+                    <option value="yes">Need to be very discrete</option>
                   </select>
                 </label>
               </div>
@@ -624,6 +700,18 @@ export default Relay.createContainer(Profile, {
           cockLength,
           cockGirth,
           foreskin,
+          hiv,
+          safer,
+          ethnicity,
+          mixEthnicity,
+          masc,
+          voice,
+          eye,
+          hair,
+          bodyHair,
+          facialHair,
+          smokes,
+          discretion,
           givesHead,
           getsHead,
           sixtynine,
@@ -634,8 +722,7 @@ export default Relay.createContainer(Profile, {
           mutualMast,
           givesRim,
           getsRim,
-          givesNipple,
-          getsNipple,
+          nipplePlay,
           kissing,
           cuddling,
           givesFist,

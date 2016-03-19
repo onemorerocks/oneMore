@@ -19,14 +19,14 @@ export const profileStarsModel = [
     group: 'rimming',
     rows: [{ id: 'givesRim', text: 'rimming guys' }, { id: 'getsRim', text: 'getting rimmed' }]
   }, {
-    group: 'nipples',
+    group: 'drugs',
     rows: [
-      { id: 'givesNipple', text: "playing with guy's nipples" },
-      { id: 'getsNipple', text: 'getting nipple play' }
+      { id: 'poppers', text: 'poppers' },
+      { id: 'fourtwenty', text: '420' }
     ]
   }, {
     group: 'intimacy',
-    rows: [{ id: 'kissing', text: 'kissing' }, { id: 'cuddling', text: 'cuddling' }]
+    rows: [{ id: 'nipplePlay', text: 'nipple play' }, { id: 'kissing', text: 'kissing' }, { id: 'cuddling', text: 'cuddling' }]
   }
 ];
 
@@ -55,12 +55,24 @@ export const profileStringFields = [
   'heightUnits',
   'waistUnits',
   'cockUnits',
-  'foreskin'
+  'foreskin',
+  'hiv',
+  'safer',
+  'ethnicity',
+  'mixEthnicity',
+  'eye',
+  'hair',
+  'bodyHair',
+  'facialHair',
+  'smokes',
+  'discretion'
 ];
 
 export const profileIntFields = [
   'birthMonth',
-  'birthYear'
+  'birthYear',
+  'masc',
+  'voice'
 ];
 
 export const profileNumberFields = [
