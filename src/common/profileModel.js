@@ -65,7 +65,8 @@ export const profileStringFields = [
   'bodyHair',
   'facialHair',
   'smokes',
-  'discretion'
+  'discretion',
+  'description'
 ];
 
 export const profileIntFields = [

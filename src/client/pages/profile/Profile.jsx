@@ -631,6 +631,15 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
+            <div className="small-12 medium-12 large-6 columns end">
+              <fieldset className="fieldset short">
+                <label>
+                  Description
+                  <textarea className="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
+                            name="description" />
+                </label>
+              </fieldset>
+            </div>
           </div>
           <div className="row">
             <div className="small-12 columns">
@@ -712,6 +721,7 @@ export default Relay.createContainer(Profile, {
           facialHair,
           smokes,
           discretion,
+          description,
           givesHead,
           getsHead,
           sixtynine,
