@@ -10,7 +10,7 @@ import {
 
 import { getLogin, getLoginByReq, getProfile, updateProfile } from './dataService';
 
-import { starIds, profileStringFields, profileIntFields, profileNumberFields } from '../../common/profileModel';
+import { kinkIds, starIds, profileStringFields, profileIntFields, profileNumberFields } from '../../common/profileModel';
 
 /**
  * The first method defines the way we resolve an ID to its object.
@@ -39,6 +39,10 @@ const { nodeInterface, nodeField } = nodeDefinitions(
 );
 
 const profileInputFields = {};
+
+kinkIds.forEach((id) => {
+  profileInputFields[id] = { type: GraphQLInt };
+});
 
 starIds.forEach((id) => {
   profileInputFields[id] = { type: GraphQLInt };

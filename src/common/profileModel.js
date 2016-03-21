@@ -32,20 +32,8 @@ export const profileStarsModel = [
 
 export const profileKinksModel = [
   {
-    group: 'Fisting',
-    rows: [{ id: 'givesFist', text: 'fisting guys' }, { id: 'getsFist', text: 'getting fisted' }]
-  },
-  {
-    group: 'Bondage',
-    rows: [{ id: 'givesTie', text: 'tying guys up' }, { id: 'getsTie', text: 'getting tied up' }]
-  },
-  {
-    group: 'Pain',
-    rows: [{ id: 'givesPain', text: 'inflicting pain' }, { id: 'getsPain', text: 'receiving pain' }]
-  },
-  {
-    group: 'Watersports',
-    rows: [{ id: 'givesWs', text: 'pissing on guys' }, { id: 'getsWs', text: 'getting pissed on' }]
+    group: 'D/s',
+    rows: [{ id: 'dom', text: 'being dominant' }, { id: 'sub', text: 'being submissive' }]
   }
 ];
 
@@ -93,24 +81,33 @@ const flattenModel = (model, array) => {
 };
 
 export const starIds = [];
+export const kinkIds = [];
 
 flattenModel(profileStarsModel, starIds);
-flattenModel(profileKinksModel, starIds);
+flattenModel(profileKinksModel, kinkIds);
 
 export const allIds = [];
+export const profileIds = [];
 
 starIds.forEach((id) => {
   allIds.push(id);
 });
 
+kinkIds.forEach((id) => {
+  allIds.push(id);
+});
+
 profileIntFields.forEach((id) => {
   allIds.push(id);
+  profileIds.push(id);
 });
 
 profileStringFields.forEach((id) => {
   allIds.push(id);
+  profileIds.push(id);
 });
 
 profileNumberFields.forEach((id) => {
   allIds.push(id);
+  profileIds.push(id);
 });

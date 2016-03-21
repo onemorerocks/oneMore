@@ -4,10 +4,12 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import FormErrors from '../../components/FormErrors.jsx';
-import Stars from '../../components/Stars.jsx';
-import { profileStarsModel, profileKinksModel, allIds } from '../../../common/profileModel';
+import { allIds } from '../../../common/profileModel';
 import ProfileMutation from './ProfileMutation';
 import RadioGroup from 'react-radio';
+import Vanilla from './Vanilla.jsx';
+import Kinks from './Kinks.jsx';
+import FormGroup from './FormGroup.jsx';
 
 import './profile.scss';
 
@@ -95,18 +97,6 @@ decorateLessMore(cockLengthCms);
 decorateLessMore(cockGirthInches);
 decorateLessMore(cockGirthCms);
 
-
-const FormGroup = (props) =>
-  <div className="small-12 medium-6 large-4 columns end">
-    <fieldset className={'fieldset ' + props.className}>
-      {props.children}
-    </fieldset>
-  </div>;
-
-FormGroup.propTypes = {
-  className: React.PropTypes.string
-};
-
 class Profile extends Component {
 
   static propTypes = {
@@ -141,7 +131,7 @@ class Profile extends Component {
     const obj = { login: this.props.login };
 
     allIds.forEach((id) => {
-      obj[id] = this._getValue(id);
+      obj[id] = this.state[id];
     });
 
     Relay.Store.commitUpdate(
@@ -157,20 +147,6 @@ class Profile extends Component {
       }
     );
   };
-
-  _getValue(id) {
-    const refs = this.refs;
-    if (refs[id]) {
-      if (refs[id].getValue) {
-        return refs[id].getValue();
-      } else {
-        return refs[id].value;
-      }
-    } else if (this.state[id]) {
-      return this.state[id];
-    }
-    return null;
-  }
 
   _handleOnChange = (event, isNum) => {
     const obj = {};
@@ -239,37 +215,8 @@ class Profile extends Component {
     return this._handleOnChange(event, true);
   };
 
-  doSetState = (state) => this.setState(state);
-
-  stars = (name) => <Stars id={name} value={this.state[name]} setState={this.doSetState} />;
-
-  starGroup = (groupModel, i) => {
-    return (
-      <FormGroup key={groupModel.group}>
-        {groupModel.rows.map((rowModel) => {
-          const value = this.state[rowModel.id];
-          let feeling = '?';
-          if (value === 1) {
-            feeling = "don't like";
-          } else if (value === 2) {
-            feeling = 'rarely like';
-          } else if (value === 3) {
-            feeling = 'sometimes like';
-          } else if (value === 4) {
-            feeling = 'enjoy';
-          } else if (value === 5) {
-            feeling = 'love';
-          }
-          return (
-            <span key={rowModel.id}>
-                {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
-              {value && <span>I {feeling} <strong>{rowModel.text}</strong></span>}
-              {this.stars(rowModel.id)}
-              </span>
-          );
-        })}
-      </FormGroup>
-    );
+  _childOnChange = (state) => {
+    this.setState(state);
   };
 
   render() {
@@ -278,14 +225,6 @@ class Profile extends Component {
     if (!profile) {
       return <noscript />;
     }
-
-    const handleKinkSelect = (el) => {
-      this.state.forceShow.add(el.target.value);
-      this.forceUpdate();
-      setTimeout(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-      }, 1);
-    };
 
     const state = this.state;
 
@@ -302,8 +241,9 @@ class Profile extends Component {
             <FormGroup>
               <div>
                 <label>
-                  Nickanme
-                  <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleOnChange} name="nickname" />
+                  Nickname
+                  <input type="text" value={state.nickname} maxLength="20" required onChange={this._handleOnChange} name="nickname"
+                         placeholder="e.g. Handsome Joe" />
                 </label>
               </div>
               <div>
@@ -634,54 +574,17 @@ class Profile extends Component {
             <div className="small-12 medium-12 large-6 columns end">
               <fieldset className="fieldset short">
                 <label>
-                  Description
+                  Description (1000 character max)
                   <textarea className="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
                             name="description" />
                 </label>
               </fieldset>
             </div>
           </div>
-          <div className="row">
-            <div className="small-12 columns">
-              <h3>Vanilla Sex</h3>
-            </div>
-
-            {profileStarsModel.map((groupModel) => {
-              return this.starGroup(groupModel);
-            })}
-
-          </div>
-
-          <div className="row">
-            <div className="small-12 medium-6 large-4 columns">
-              <h3>Kinks</h3>
-              <select onChange={handleKinkSelect}>
-                <option>--Add Kink--</option>
-                {profileKinksModel.map((groupModel) => {
-                  const forceShow = this.state.forceShow.has(groupModel.group);
-                  if (!forceShow && !groupModel.rows.find((rowModel) => profile[rowModel.id])) {
-                    return <option key={groupModel.group} value={groupModel.group}>{groupModel.group}</option>;
-                  }
-                  return null;
-                })}
-              </select>
-            </div>
-          </div>
-
-          <div className="row">
-
-            {profileKinksModel.map((groupModel) => {
-              const forceShow = this.state.forceShow.has(groupModel.group);
-              if (forceShow || groupModel.rows.find((rowModel) => profile[rowModel.id])) {
-                return this.starGroup(groupModel);
-              }
-              return null;
-            })}
-
-            <div className="small-12 columns">
-              <input type="submit" className="button float-right" disabled={this.state.submitDisabled}
-                     value="Save Profile" />
-            </div>
+          <Vanilla login={this.props.login} onChange={this._childOnChange} />
+          <Kinks login={this.props.login} onChange={this._childOnChange} />
+          <div className="small-12 columns">
+            <input type="submit" className="button float-right" disabled={this.state.submitDisabled} value="Save Profile" />
           </div>
         </form>
       </DocumentTitle>
@@ -695,6 +598,8 @@ export default Relay.createContainer(Profile, {
     login: () => Relay.QL`
       fragment on Login {
         ${ProfileMutation.getFragment('login')},
+        ${Vanilla.getFragment('login')},
+        ${Kinks.getFragment('login')},
         profile {
           nickname,
           weightUnits,
@@ -721,28 +626,7 @@ export default Relay.createContainer(Profile, {
           facialHair,
           smokes,
           discretion,
-          description,
-          givesHead,
-          getsHead,
-          sixtynine,
-          givesFuck,
-          getsFucked,
-          givesHand,
-          getsHand,
-          mutualMast,
-          givesRim,
-          getsRim,
-          nipplePlay,
-          kissing,
-          cuddling,
-          givesFist,
-          getsFist,
-          givesTie,
-          getsTie,
-          givesPain,
-          getsPain,
-          givesWs,
-          getsWs
+          description
         }
       }
     `
