@@ -1,8 +1,10 @@
 import Component from 'react-pure-render/component';
 import React from 'react';
 import Relay from 'react-relay';
-import { profileKinksModel, kinkIds } from '../../../common/profileModel';
+import { profileKinksModel, kinkIds, profileKinksCheckboxModel } from '../../../common/profileModel';
 import StarGroup from './StarGroup.jsx';
+import ReactSelect from 'react-select';
+import 'react-select/scss/default.scss';
 
 import './profile.scss';
 
@@ -30,6 +32,11 @@ class Kinks extends Component {
     this.props.onChange(state);
   };
 
+  _handleOnKinkChange = (state) => {
+    const valuesArray = state.map(({ value }) => value);
+    this._handleOnChange({ kinks: valuesArray });
+  };
+
   render() {
     const profile = this.props.login.profile;
 
@@ -46,7 +53,12 @@ class Kinks extends Component {
         </div>
         <div className="row">
           {profileKinksModel.map((groupModel, i) =>
-            <StarGroup groupModel={groupModel} onChange={this._handleOnChange} data={this.state} key={'stargroup' + i} />)}
+            <StarGroup groupModel={groupModel} onChange={this._handleOnChange} data={this.state} key={'stargroup' + i} />)
+          }
+          <div className="small-12 medium-6 large-4 columns end">
+            <ReactSelect multi options={profileKinksCheckboxModel} clearable={false} value={this.state.kinks}
+                         onChange={this._handleOnKinkChange} />
+          </div>
         </div>
       </div>
     );
@@ -59,7 +71,8 @@ export default Relay.createContainer(Kinks, {
       fragment on Login {
         profile {
           dom,
-          sub
+          sub,
+          kinks
         }
       }
     `

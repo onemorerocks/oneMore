@@ -583,8 +583,10 @@ class Profile extends Component {
           </div>
           <Vanilla login={this.props.login} onChange={this._childOnChange} />
           <Kinks login={this.props.login} onChange={this._childOnChange} />
-          <div className="small-12 columns">
-            <input type="submit" className="button float-right" disabled={this.state.submitDisabled} value="Save Profile" />
+          <div className="row">
+            <div className="small-12 columns save-row">
+              <input type="submit" className="button float-right" disabled={this.state.submitDisabled} value="Save Profile" />
+            </div>
           </div>
         </form>
       </DocumentTitle>

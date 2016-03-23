@@ -59,6 +59,7 @@
     "react-radio": "^2.1.1",
     "react-relay": "^0.7.1",
     "react-router": "2.0.0",
+    "react-select": "https://github.com/Jhays10/react-select",
     "request": "^2.69.0",
     "run-sequence": "^1.1.5",
     "shortid": "^2.2.4"

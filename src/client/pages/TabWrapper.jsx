@@ -50,6 +50,7 @@ class TabWrapper extends Component {
         <div className="main" style={{ display: showProfile }}>
           <Profile {...this.props} />
         </div>
+        <footer>&nbsp;</footer>
       </div>
     );
   }

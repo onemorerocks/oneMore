@@ -1,6 +1,5 @@
 import {
-  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLFloat
-  // GraphQLList
+  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLFloat, GraphQLList
 } from 'graphql';
 
 import {
@@ -10,7 +9,9 @@ import {
 
 import { getLogin, getLoginByReq, getProfile, updateProfile } from './dataService';
 
-import { kinkIds, starIds, profileStringFields, profileIntFields, profileNumberFields } from '../../common/profileModel';
+import {
+  kinkIds, starIds, profileStringFields, profileIntFields, profileNumberFields, profileStringListFields
+} from '../../common/profileModel';
 
 /**
  * The first method defines the way we resolve an ID to its object.
@@ -58,6 +59,10 @@ profileStringFields.forEach((id) => {
 
 profileNumberFields.forEach((id) => {
   profileInputFields[id] = { type: GraphQLFloat };
+});
+
+profileStringListFields.forEach((id) => {
+  profileInputFields[id] = { type: new GraphQLList(GraphQLString) };
 });
 
 const fieldObj = {
