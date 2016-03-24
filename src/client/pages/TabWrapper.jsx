@@ -32,18 +32,22 @@ class TabWrapper extends Component {
     let showProfile = 'none';
     let activeTab;
 
-    if (this.props.location.pathname === '/') {
-      showHome = 'block';
-      activeTab = 'home';
-    } else if (this.props.location.pathname === '/profile') {
+    if (!this.props.login.profile.birthYear) {
       showProfile = 'block';
-      activeTab = 'profile';
+    } else {
+      if (this.props.location.pathname === '/') {
+        showHome = 'block';
+        activeTab = 'home';
+      } else if (this.props.location.pathname === '/profile') {
+        showProfile = 'block';
+        activeTab = 'profile';
+      }
     }
 
     return (
       <div>
         <TopBar login={this.props.login} />
-        <Tabs activeTab={activeTab} />
+        {activeTab && <Tabs activeTab={activeTab} />}
         <div className="main" style={{ display: showHome }}>
           <SignedInHome {...this.props} />
         </div>
@@ -63,6 +67,9 @@ export default Relay.createContainer(TabWrapper, {
       fragment on Login {
         email,
         emailVerified,
+        profile {
+          birthYear
+        }
         ${TopBar.getFragment('login')},
         ${SignedInHome.getFragment('login')},
         ${Profile.getFragment('login')},

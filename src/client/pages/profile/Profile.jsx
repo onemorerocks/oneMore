@@ -239,6 +239,7 @@ class Profile extends Component {
     this.setState(this._buildInitStateObj());
     this.refs.vanilla.refs.component.reset();
     this.refs.kinks.refs.component.reset();
+    window.scrollTo(0, 0);
   };
 
   render() {
