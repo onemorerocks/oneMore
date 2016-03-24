@@ -1,56 +1,54 @@
 version: '2'
 
-elasticsearch:
-  image: elasticsearch
-  ports:
-    - "9200:9200"
-    - "9300:9300"
+services:
+  elasticsearch:
+    image: elasticsearch:2.2.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
 
-aerospike:
-  build: ./aerospike
-  ports:
-    - "3000-3003:3000-3003"
+  aerospike:
+    build: ./aerospike
+    ports:
+      - "3000-3003:3000-3003"
 
-aerospike-amc:
-  build: ./aerospike-amc
-  ports:
-    - "8081:8081"
+  aerospike-amc:
+    build: ./aerospike-amc
+    ports:
+      - "8081:8081"
 
-thumbor:
-  image: apsl/thumbor:latest
-  volumes:
-    - data:/data
-    - logs:/logs
-  ports:
-    - "80:80"
-  environment:
-    DETECTORS: "['thumbor.detectors.face_detector','thumbor.detectors.feature_detector',]"
+  thumbor:
+    image: apsl/thumbor:5.2.1e
+    ports:
+      - "80:80"
+    environment:
+      DETECTORS: "['thumbor.detectors.face_detector','thumbor.detectors.feature_detector',]"
 
-mongo:
-  image: mongo
-  ports:
-    - "27017:27017"
-  command: mongod --smallfiles --oplogSize 128
+  mongo:
+    image: mongo:3.2
+    ports:
+      - "27017:27017"
+    command: mongod --smallfiles --oplogSize 128
 
-mongo-express:
-  image: knickers/mongo-express
-  ports:
-    - "5001:8081"
-  environment:
-    ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
+  mongo-express:
+    image: knickers/mongo-express
+    ports:
+      - "5001:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
 
-rocketchat:
-  image: rocketchat/rocket.chat
-  ports:
-    - "8080:3000"
-  environment:
-    MONGO_URL: "mongodb://docker_mongo_1:27017/rocketchat"
-    ROOT_URL: "http://192.168.99.100:8080"
+  rocketchat:
+    image: rocketchat/rocket.chat:0.23.0
+    ports:
+      - "8080:3000"
+    environment:
+      MONGO_URL: "mongodb://docker_mongo_1:27017/rocketchat"
+      ROOT_URL: "http://192.168.99.100:8080"
 
-errbit:
-  build: ./errbit
-  ports:
-    - "5000:5000"
-  environment:
-    PORT: 5000
-    MONGODB_URL: "mongodb://docker_mongo_1/errbit"
+  errbit:
+    build: ./errbit
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      MONGODB_URL: "mongodb://docker_mongo_1/errbit"

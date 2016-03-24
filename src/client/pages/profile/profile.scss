@@ -77,9 +77,11 @@
     margin-bottom: 2rem;
   }
 
-  .button.cancel {
-    background-color: $secondary-color;
-    margin-right: 1rem;
+  .button {
+    &.cancel {
+      background-color: $secondary-color;
+      margin-right: 1rem;
+    }
   }
 
   @keyframes colorJump {
