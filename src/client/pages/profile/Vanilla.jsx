@@ -9,25 +9,30 @@ import './profile.scss';
 class Vanilla extends Component {
 
   static propTypes = {
-    login: React.PropTypes.object,
-    onChange: React.PropTypes.func
+    login: React.PropTypes.object
   };
 
   constructor(props) {
     super(props);
+    this.state = this._buildInitStateObj();
+  }
 
+  _buildInitStateObj = () => {
     const stateObj = {};
 
     starIds.forEach((id) => {
-      stateObj[id] = props.login.profile[id];
+      stateObj[id] = this.props.login.profile[id];
     });
 
-    this.state = stateObj;
-  }
+    return stateObj;
+  };
+
+  reset = () => {
+    this.setState(this._buildInitStateObj());
+  };
 
   _handleOnChange = (state) => {
     this.setState(state);
-    this.props.onChange(state);
   };
 
   render() {

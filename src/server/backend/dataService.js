@@ -45,6 +45,8 @@ export function updateProfile(jwt, profile) {
   return dao.get('logins', jwt.email).then((login) => {
     profile.id = login.profileId;
     delete profile.clientMutationId;
-    return dao.blindSet('profiles', login.profileId, profile);
+    return dao.blindSet('profiles', login.profileId, profile).then(() => {
+      return profile;
+    });
   });
 }

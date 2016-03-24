@@ -105,19 +105,25 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
+    this.state = this._buildInitStateObj();
+  }
 
+  _buildInitStateObj = () => {
     const stateObj = {
       submitDisabled: false,
-      errors: [],
-      forceShow: new Set()
+      errors: []
     };
 
     allIds.forEach((id) => {
-      stateObj[id] = props.login.profile[id];
+      if (this.props.login.profile[id]) {
+        stateObj[id] = this.props.login.profile[id];
+      } else {
+        stateObj[id] = '';
+      }
     });
 
-    this.state = stateObj;
-  }
+    return stateObj;
+  };
 
   _handleSubmit = (e) => {
     e.preventDefault();
@@ -132,6 +138,20 @@ class Profile extends Component {
 
     allIds.forEach((id) => {
       obj[id] = this.state[id];
+    });
+
+    const vanillaState = this.refs.vanilla.refs.component.state;
+    allIds.forEach((id) => {
+      if (vanillaState[id]) {
+        obj[id] = vanillaState[id];
+      }
+    });
+
+    const kinksState = this.refs.kinks.refs.component.state;
+    allIds.forEach((id) => {
+      if (kinksState[id]) {
+        obj[id] = kinksState[id];
+      }
     });
 
     Relay.Store.commitUpdate(
@@ -215,8 +235,10 @@ class Profile extends Component {
     return this._handleOnChange(event, true);
   };
 
-  _childOnChange = (state) => {
-    this.setState(state);
+  _handleReset = () => {
+    this.setState(this._buildInitStateObj());
+    this.refs.vanilla.refs.component.reset();
+    this.refs.kinks.refs.component.reset();
   };
 
   render() {
@@ -454,7 +476,7 @@ class Profile extends Component {
                     <option value="black">Black</option>
                     <option value="blond">Blond</option>
                     <option value="brown">Brown</option>
-                    <option value="brown">Dyed (blue, green, red, etc)</option>
+                    <option value="dyed">Dyed (blue, green, red, etc)</option>
                     <option value="gray">Gray</option>
                     <option value="red">Red</option>
                     <option value="white">White</option>
@@ -581,11 +603,15 @@ class Profile extends Component {
               </fieldset>
             </div>
           </div>
-          <Vanilla login={this.props.login} onChange={this._childOnChange} />
-          <Kinks login={this.props.login} onChange={this._childOnChange} />
+          <Vanilla login={this.props.login} ref="vanilla" />
+          <Kinks login={this.props.login} ref="kinks" />
           <div className="row">
             <div className="small-12 columns save-row">
-              <input type="submit" className="button float-right" disabled={this.state.submitDisabled} value="Save Profile" />
+              <div className="float-right">
+                <input type="button" className="button cancel" disabled={this.state.submitDisabled} value="Reset"
+                       onClick={this._handleReset} />
+                <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
+              </div>
             </div>
           </div>
         </form>

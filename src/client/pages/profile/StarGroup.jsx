@@ -38,7 +38,7 @@ export default class StarGroup extends Component {
           return (
             <span key={rowModel.id}>
               {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
-              {value && <span>I {feeling} <strong>{rowModel.text}</strong></span>}
+              {value && <span>I <span className="feeling">{feeling}</span> <strong>{rowModel.text}</strong></span>}
               {this.stars(rowModel.id)}
             </span>
           );

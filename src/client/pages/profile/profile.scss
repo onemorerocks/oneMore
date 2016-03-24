@@ -77,4 +77,25 @@
     margin-bottom: 2rem;
   }
 
+  .button.cancel {
+    background-color: $secondary-color;
+    margin-right: 1rem;
+  }
+
+  @keyframes colorJump {
+    from {
+      color: darken($primary-color, 10%);
+    }
+
+    to {
+      color: darken($primary-color, 35%);
+    }
+  }
+
+  .feeling {
+    color: darken($primary-color, 35%);
+    animation-name: colorJump;
+    animation-duration: 0.25s;
+  }
+
 }
