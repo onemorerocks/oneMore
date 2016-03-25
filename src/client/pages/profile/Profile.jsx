@@ -10,6 +10,7 @@ import RadioGroup from 'react-radio';
 import Vanilla from './Vanilla.jsx';
 import Kinks from './Kinks.jsx';
 import FormGroup from './FormGroup.jsx';
+import Photos from './Photos.jsx';
 
 import './profile.scss';
 
@@ -604,8 +605,11 @@ class Profile extends Component {
               </fieldset>
             </div>
           </div>
+
           <Vanilla login={this.props.login} ref="vanilla" />
           <Kinks login={this.props.login} ref="kinks" />
+          <Photos />
+
           <div className="row">
             <div className="small-12 columns save-row">
               <div className="float-right">

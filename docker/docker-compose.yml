@@ -20,9 +20,12 @@ services:
   thumbor:
     image: apsl/thumbor:5.2.1e
     ports:
-      - "80:80"
+      - "9999:8000"
     environment:
       DETECTORS: "['thumbor.detectors.face_detector','thumbor.detectors.feature_detector',]"
+      UPLOAD_ENABLED: 'True'
+      UPLOAD_MAX_SIZE: 5242880
+      UPLOAD_DELETE_ALLOWED: 'True'
 
   mongo:
     image: mongo:3.2

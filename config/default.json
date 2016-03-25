@@ -8,5 +8,6 @@
   "emailHost": "smtp.someone.com",
   "emailPort": 25,
   "domain": "http://localhost:8000",
-  "sendEmails": false
+  "sendEmails": false,
+  "thumborUrl": "http://192.168.99.100:9999"
 }

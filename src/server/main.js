@@ -9,6 +9,7 @@ import signupController from './api/signupController';
 import verifyEmailController from './api/verifyEmailController';
 import logoutController from './api/logoutController';
 import graphqlController from './api/graphqlController';
+import photosController from './api/photosController';
 
 const server = new Hapi.Server();
 server.connection({ port: config.port });
@@ -47,6 +48,18 @@ server.register([Inert], (error) => {
     method: 'POST',
     path: '/api/graphql',
     handler: graphqlController
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/api/photos',
+    handler: photosController,
+    config: {
+      payload: {
+        maxBytes: 5242880,
+        output: 'stream'
+      }
+    }
   });
 
   server.route({

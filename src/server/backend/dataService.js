@@ -50,3 +50,18 @@ export function updateProfile(jwt, profile) {
     });
   });
 }
+
+export function addPhoto(jwt, location) {
+  return getProfileByReq(jwt).then((profile) => {
+
+    if (!profile.photos) {
+      profile.photos = [];
+    }
+
+    profile.photos.push(location);
+
+    return dao.blindSet('profiles', profile.id, profile).then(() => {
+      return profile;
+    });
+  });
+}

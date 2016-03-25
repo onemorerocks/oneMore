@@ -58,11 +58,17 @@ export const profileKinksCheckboxModel = [
     label: 'Cumpetition',
     value: 'cumpetition'
   }, {
-    label: 'Daddy-son role play',
-    value: 'daddy'
+    label: 'Docking',
+    value: 'docking'
   }, {
-    label: 'Doctor-patient role play',
-    value: 'doctor'
+    label: 'Edging',
+    value: 'edging'
+  }, {
+    label: 'Feet',
+    value: 'feet'
+  }, {
+    label: 'Frottage / cock2cock',
+    value: 'frot'
   }, {
     label: 'Fisting',
     value: 'fisting'
@@ -82,7 +88,7 @@ export const profileKinksCheckboxModel = [
     label: 'Macro / micro fantasies',
     value: 'macro'
   }, {
-    label: 'Man-smell / body odor',
+    label: 'Man-smell',
     value: 'smell'
   }, {
     label: 'Pig play',
@@ -93,6 +99,9 @@ export const profileKinksCheckboxModel = [
   }, {
     label: 'Pup play',
     value: 'pup'
+  }, {
+    label: 'Role playing',
+    value: 'roleplaying'
   }, {
     label: 'Rubber',
     value: 'rubber'
@@ -105,6 +114,9 @@ export const profileKinksCheckboxModel = [
   }, {
     label: 'Scat',
     value: 'scat'
+  }, {
+    label: 'Sounding',
+    value: 'sounding'
   }, {
     label: 'Spanking / paddling',
     value: 'spank'
