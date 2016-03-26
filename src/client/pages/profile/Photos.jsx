@@ -7,7 +7,8 @@ import axios from 'axios';
 class Photos extends Component {
 
   static propTypes = {
-    login: React.PropTypes.object
+    login: React.PropTypes.object,
+    relay: React.PropTypes.object
   };
 
   constructor(props) {
@@ -38,18 +39,19 @@ class Photos extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="small-12 columns">
+          <div className="small-12 medium-4 large-3 columns">
             <Dropzone onDrop={this.onDrop}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           </div>
-        </div>
-        <div className="row">
           {profile.photos.map((photoHash, i) => {
+            if (!photoHash) {
+              return;
+            }
             const lastClass = i === profile.photos.length - 1 ? 'end' : '';
             return (
               <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass}>
-                <img src={`/api/photos/${photoHash}?size=small`} />
+                <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} />
               </div>
             );
           })}

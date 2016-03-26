@@ -61,8 +61,11 @@ class Kinks extends Component {
             <StarGroup groupModel={groupModel} onChange={this._handleOnChange} data={this.state} key={'stargroup' + i} />)
           }
           <div className="small-12 medium-6 large-4 columns end">
-            <ReactSelect multi options={profileKinksCheckboxModel} clearable={false} value={this.state.kinks}
-                         onChange={this._handleOnKinkChange} />
+            <label className="intoLabel">
+              I'm Into
+              <ReactSelect multi options={profileKinksCheckboxModel} clearable={false} value={this.state.kinks}
+                           onChange={this._handleOnKinkChange} placeholder="" />
+            </label>
           </div>
         </div>
       </div>

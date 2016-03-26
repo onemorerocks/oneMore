@@ -73,8 +73,32 @@
     height: 5rem;
   }
 
+  .intoLabel {
+    @include breakpoint(medium) {
+      margin-top: -1.51rem;
+    }
+  }
+
+  .Select--multi {
+    .Select-value {
+      background-color: lighten($primary-color, 40%);
+      border-color: lighten($primary-color, 20%);
+    }
+
+    .Select-value-icon {
+      border-right-color: lighten($primary-color, 20%);
+    }
+  }
+
+  .Select-value-icon,
+  .Select-value-label {
+    color: $black;
+  }
+
   .Select-control {
-    margin-bottom: 2rem;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 1rem;
   }
 
   .button {

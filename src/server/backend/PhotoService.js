@@ -34,8 +34,8 @@ export default class PhotoService {
 
       let sizeParams = '';
 
-      if (size === 'small') {
-        sizeParams = '/200x200';
+      if (size) {
+        sizeParams = '/' + size;
       }
 
       const format = accept.indexOf('webp') !== -1 ? 'webp' : 'jpeg';
