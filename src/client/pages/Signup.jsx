@@ -5,6 +5,8 @@ import Request from 'axios';
 
 import FormErrors from '../components/FormErrors.jsx';
 
+import './signup.scss';
+
 export default class Signup extends Component {
 
   static propTypes = {
@@ -19,14 +21,22 @@ export default class Signup extends Component {
       password2: '',
       nickname: '',
       errors: [],
-      submitDisabled: false
+      submitDisabled: false,
+      agreeChecked: false
     };
   }
 
   handleChange = (prop) => {
     return (event) => {
       const newState = {};
-      newState[prop] = event.target.value;
+      let value = event.target.value;
+
+      if (event.target.type === 'checkbox') {
+        value = event.target.checked;
+      }
+
+      newState[prop] = value;
+      console.log('newstate', event.target.type);
       this.setState(newState);
     };
   };
@@ -97,7 +107,7 @@ export default class Signup extends Component {
 
     return (
       <DocumentTitle title="oneMore - Sign Up">
-        <div className="row">
+        <div className="row signup">
           <div className="small-12 columns">
             <h1>Sign Up</h1>
             <FormErrors errors={state.errors} />
@@ -121,7 +131,12 @@ export default class Signup extends Component {
                      onChange={this.handleChange('password2')} required="true" placeholder="Reenter Password"
                      maxLength="100" />
 
-              <input disabled={state.submitDisabled} className="button" type="submit" value="Sign Up" />
+              <label className="agreeCheckbox">
+                <input type="checkbox" value={state.agreeChecked} onChange={this.handleChange('agreeChecked')} />
+                I am at least 18 years and I accept the Terms and Conditions of Use Agreement and the Privacy Policy.
+              </label>
+
+              <input disabled={state.submitDisabled || !state.agreeChecked} className="button" type="submit" value="Sign Up" />
             </form>
           </div>
         </div>
