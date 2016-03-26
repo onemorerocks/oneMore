@@ -52,16 +52,9 @@ export function updateProfile(jwt, profile) {
 }
 
 export function addPhoto(jwt, location) {
-  return getProfileByReq(jwt).then((profile) => {
-
-    if (!profile.photos) {
-      profile.photos = [];
-    }
-
-    profile.photos.push(location);
-
-    return dao.blindSet('profiles', profile.id, profile).then(() => {
-      return profile;
+  return getLoginByReq(jwt).then((login) => {
+    return dao.insertIntoList('profiles', login.profileId, 'photos', [location]).then(() => {
+      return true;
     });
   });
 }

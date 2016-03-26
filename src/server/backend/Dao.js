@@ -2,6 +2,8 @@ import aerospike from 'aerospike';
 import config from '../config';
 import newError from './newError';
 
+const op = aerospike.operator;
+
 export default class Dao {
 
   _connect() {
@@ -89,6 +91,25 @@ export default class Dao {
           reject(newError(err));
         }
       });
+    });
+  }
+
+  insertIntoList(table, key, field, array) {
+    return this._connectPromise((client, resolve, reject) => {
+      const ops = array.map((item) => {
+        return op.listAppend(field, item);
+      });
+      const dbkey = aerospike.key('onemore', table, key);
+      client.operate(dbkey, ops, (err, record) => {
+        if (err.code === aerospike.status.AEROSPIKE_OK) {
+          resolve(record);
+        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
+          reject(newError('Record not found in table: ' + table + '.' + key));
+        } else {
+          reject(newError(err));
+        }
+      });
+
     });
   }
 
