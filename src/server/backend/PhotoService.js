@@ -35,13 +35,13 @@ export default class PhotoService {
       let sizeParams = '';
 
       if (size === 'small') {
-        sizeParams = '/300x200/smart';
+        sizeParams = '/200x200';
       }
 
       const format = accept.indexOf('webp') !== -1 ? 'webp' : 'jpeg';
 
       const options = {
-        url: config.thumborUrl + `/unsafe${sizeParams}/filters:format(${format})/` + params,
+        url: config.thumborUrl + `/unsafe${sizeParams}/smart/filters:format(${format})/` + params,
         timeout: 5000
       };
 

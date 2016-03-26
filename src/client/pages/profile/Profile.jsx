@@ -608,7 +608,7 @@ class Profile extends Component {
 
           <Vanilla login={this.props.login} ref="vanilla" />
           <Kinks login={this.props.login} ref="kinks" />
-          <Photos />
+          <Photos login={this.props.login} />
 
           <div className="row">
             <div className="small-12 columns save-row">
@@ -633,6 +633,7 @@ export default Relay.createContainer(Profile, {
         ${ProfileMutation.getFragment('login')},
         ${Vanilla.getFragment('login')},
         ${Kinks.getFragment('login')},
+        ${Photos.getFragment('login')},
         profile {
           nickname,
           weightUnits,

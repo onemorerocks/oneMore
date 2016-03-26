@@ -189,7 +189,8 @@ export const profileNumberFields = [
 ];
 
 export const profileStringListFields = [
-  'kinks'
+  'kinks',
+  'photos'
 ];
 
 const flattenModel = (model, array) => {
@@ -201,7 +202,7 @@ const flattenModel = (model, array) => {
 };
 
 export const starIds = [];
-export const kinkIds = [];
+export const kinkIds = ['kinks'];
 
 flattenModel(profileStarsModel, starIds);
 flattenModel(profileKinksModel, kinkIds);
@@ -230,5 +231,4 @@ profileNumberFields.forEach((id) => {
 
 profileStringListFields.forEach((id) => {
   allIds.push(id);
-  kinkIds.push(id);
 });
