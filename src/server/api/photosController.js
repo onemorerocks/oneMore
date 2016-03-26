@@ -1,10 +1,10 @@
-import PhotoUploadService from '../backend/PhotoUploadService';
+import PhotoService from '../backend/PhotoService';
 import Auth from '../backend/Auth';
 
-const service = new PhotoUploadService();
+const service = new PhotoService();
 const auth = new Auth();
 
-export default function photosController(req, reply) {
+export const photosControllerPost = (req, reply) => {
 
   const token = req.state.token ? req.state.token : req.headers.token;
 
@@ -13,4 +13,18 @@ export default function photosController(req, reply) {
   });
 
   reply(promise);
-}
+};
+
+export const photosControllerGet = (req, reply) => {
+
+  const token = req.state.token ? req.state.token : req.headers.token;
+  const params = req.params.hash;
+  const size = req.query.size;
+  const accept = req.headers.accept;
+
+  const promise = auth.validateEncodedJwt(token).then((jwt) => {
+    return service.get(params, size, accept);
+  });
+
+  reply(promise);
+};
