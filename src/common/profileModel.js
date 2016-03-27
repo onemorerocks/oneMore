@@ -193,6 +193,10 @@ export const profileStringListFields = [
   'photos'
 ];
 
+export const excludeSavingFields = [
+  'photos'
+];
+
 const flattenModel = (model, array) => {
   model.forEach((groupModel) => {
     groupModel.rows.forEach((row) => {

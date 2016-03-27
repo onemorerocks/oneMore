@@ -43,6 +43,9 @@ export default class Signup extends Component {
 
   submit = (event) => {
     event.preventDefault();
+    if (!this.state.agreeChecked || this.state.submitDisabled) {
+      return;
+    }
 
     const errors = [];
 
@@ -133,7 +136,7 @@ export default class Signup extends Component {
 
               <label className="agreeCheckbox">
                 <input type="checkbox" value={state.agreeChecked} onChange={this.handleChange('agreeChecked')} />
-                I am at least 18 years and I accept the Terms and Conditions of Use Agreement and the Privacy Policy.
+                I am at least 18 years and I accept the Terms-of-Service Agreement.
               </label>
 
               <input disabled={state.submitDisabled || !state.agreeChecked} className="button" type="submit" value="Sign Up" />

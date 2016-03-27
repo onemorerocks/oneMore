@@ -4,7 +4,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import FormErrors from '../../components/FormErrors.jsx';
-import { allIds } from '../../../common/profileModel';
+import { allIds, excludeSavingFields } from '../../../common/profileModel';
 import ProfileMutation from './ProfileMutation';
 import RadioGroup from 'react-radio';
 import Vanilla from './Vanilla.jsx';
@@ -153,6 +153,10 @@ class Profile extends Component {
       if (kinksState[id]) {
         obj[id] = kinksState[id];
       }
+    });
+
+    excludeSavingFields.forEach((field) => {
+      delete obj[field];
     });
 
     Relay.Store.commitUpdate(
@@ -613,8 +617,8 @@ class Profile extends Component {
           <div className="row">
             <div className="small-12 columns save-row">
               <div className="float-right">
-                <input type="button" className="button cancel" disabled={this.state.submitDisabled} value="Reset"
-                       onClick={this._handleReset} />
+                {profile.birthYear && <input type="button" className="button cancel" disabled={this.state.submitDisabled} value="Reset"
+                       onClick={this._handleReset} />}
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>
             </div>

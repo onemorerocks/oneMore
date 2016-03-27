@@ -44,7 +44,7 @@ class Photos extends Component {
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           </div>
-          {profile.photos.map((photoHash, i) => {
+          {profile.photos && profile.photos.map((photoHash, i) => {
             if (!photoHash) {
               return;
             }
