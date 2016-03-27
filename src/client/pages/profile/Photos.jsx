@@ -40,20 +40,21 @@ class Photos extends Component {
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-3 columns">
-            <Dropzone onDrop={this.onDrop}>
+            <Dropzone onDrop={this.onDrop} accept="image/*">
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           </div>
           {profile.photos && profile.photos.map((photoHash, i) => {
-            if (!photoHash) {
-              return;
+            if (photoHash) {
+              const lastClass = i === profile.photos.length - 1 ? 'end' : '';
+              return (
+                <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass}>
+                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} />
+                </div>
+              );
+            } else {
+              return null;
             }
-            const lastClass = i === profile.photos.length - 1 ? 'end' : '';
-            return (
-              <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass}>
-                <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} />
-              </div>
-            );
           })}
         </div>
       </div>

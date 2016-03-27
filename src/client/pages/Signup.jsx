@@ -36,7 +36,6 @@ export default class Signup extends Component {
       }
 
       newState[prop] = value;
-      console.log('newstate', event.target.type);
       this.setState(newState);
     };
   };

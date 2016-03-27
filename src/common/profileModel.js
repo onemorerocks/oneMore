@@ -106,7 +106,7 @@ export const profileKinksCheckboxModel = [
     label: 'Rubber',
     value: 'rubber'
   }, {
-    label: 'Sadism / masochism',
+    label: 'S&M (sadism & masochism)',
     value: 'sm'
   }, {
     label: 'Saline / silicone',
