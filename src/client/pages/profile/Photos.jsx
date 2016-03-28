@@ -13,9 +13,15 @@ class Photos extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isUploading: false
+    };
   }
 
   onDrop = (res) => {
+
+    this.setState({ isUploading: true });
 
     const promises = res.map((file) => {
       const data = new FormData();
@@ -25,6 +31,7 @@ class Photos extends Component {
 
     Promise.all(promises).then(() => {
       this.props.relay.forceFetch();
+      this.setState({ isUploading: false });
     });
   };
 
@@ -40,9 +47,10 @@ class Photos extends Component {
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-3 columns">
-            <Dropzone onDrop={this.onDrop} accept="image/*">
-              <div>Try dropping some files here, or click to select files to upload.</div>
-            </Dropzone>
+            {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className="dropzone">
+              <div>Drag and drop photos here, or click to select photos to upload.</div>
+            </Dropzone>}
+            {this.state.isUploading && <div className="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" /></div>}
           </div>
           {profile.photos && profile.photos.map((photoHash, i) => {
             if (photoHash) {

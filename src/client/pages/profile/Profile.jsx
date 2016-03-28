@@ -604,7 +604,7 @@ class Profile extends Component {
                 <label>
                   Description (1000 character max)
                   <textarea className="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
-                            name="description" />
+                            name="description" className="description" />
                 </label>
               </fieldset>
             </div>
