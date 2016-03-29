@@ -1,0 +1,32 @@
+@import '../../global';
+
+.profile {
+
+  .dropzone {
+    padding: 0.5rem;
+    height: 208px;
+    width: 208px;
+    border: dashed 2px lighten($black, 50%);
+
+    &.gears {
+      text-align: center;
+      padding: 2rem;
+    }
+  }
+
+  .gearsImg {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+.modelPhotoContainer {
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  cursor: pointer;
+}

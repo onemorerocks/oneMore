@@ -3,6 +3,9 @@ import React from 'react';
 import Relay from 'react-relay';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import Modal from 'react-modal';
+
+import './photos.scss';
 
 class Photos extends Component {
 
@@ -35,11 +38,23 @@ class Photos extends Component {
     });
   };
 
+  thumbnailHandler = (event) => {
+    this.setState({ showPhoto: event.target.name });
+  };
+
+  modalClickHandler = (event) => {
+    this.setState({ showPhoto: null });
+  };
+
   render() {
     const profile = this.props.login.profile;
 
     return (
       <div>
+        <Modal isOpen={!!this.state.showPhoto}>
+          <div className="modelPhotoContainer" style={{backgroundImage: `url(/api/photos/${this.state.showPhoto})`}}
+               onClick={this.modalClickHandler} />
+        </Modal>
         <div className="row">
           <div className="small-12 columns">
             <h3>Photos</h3>
@@ -56,8 +71,9 @@ class Photos extends Component {
             if (photoHash) {
               const lastClass = i === profile.photos.length - 1 ? 'end' : '';
               return (
-                <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass}>
-                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} />
+                <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass} key={'photo' + i}>
+                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
+                       name={photoHash} />
                 </div>
               );
             } else {
