@@ -52,7 +52,7 @@ class Photos extends Component {
     return (
       <div>
         <Modal isOpen={!!this.state.showPhoto}>
-          <div className="modelPhotoContainer" style={{backgroundImage: `url(/api/photos/${this.state.showPhoto})`}}
+          <div className="modelPhotoContainer" style={{ backgroundImage: `url(/api/photos/${this.state.showPhoto})` }}
                onClick={this.modalClickHandler} />
         </Modal>
         <div className="row">

@@ -7,6 +7,7 @@ import Tabs from '../components/Tabs.jsx';
 import SignedInHome from './SignedInHome.jsx';
 import Home from './Home.jsx';
 import EmailSent from './EmailSent.jsx';
+import Guys from './Guys.jsx';
 import './tabWrapper.scss';
 
 class TabWrapper extends Component {
@@ -29,6 +30,7 @@ class TabWrapper extends Component {
     }
 
     let showHome = 'none';
+    let showGuys = 'none';
     let showProfile = 'none';
     let activeTab;
 
@@ -38,6 +40,9 @@ class TabWrapper extends Component {
       if (this.props.location.pathname === '/') {
         showHome = 'block';
         activeTab = 'home';
+      } else if (this.props.location.pathname === '/guys') {
+        showGuys = 'block';
+        activeTab = 'guys';
       } else if (this.props.location.pathname === '/profile') {
         showProfile = 'block';
         activeTab = 'profile';
@@ -50,6 +55,9 @@ class TabWrapper extends Component {
         {activeTab && <Tabs activeTab={activeTab} />}
         <div className="main" style={{ display: showHome }}>
           <SignedInHome {...this.props} />
+        </div>
+        <div className="main" style={{ display: showGuys }}>
+          <Guys {...this.props} />
         </div>
         <div className="main" style={{ display: showProfile }}>
           <Profile {...this.props} />
@@ -72,6 +80,7 @@ export default Relay.createContainer(TabWrapper, {
         }
         ${TopBar.getFragment('login')},
         ${SignedInHome.getFragment('login')},
+        ${Guys.getFragment('login')},
         ${Profile.getFragment('login')},
         ${EmailSent.getFragment('login')}
       }

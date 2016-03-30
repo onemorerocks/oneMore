@@ -12,6 +12,7 @@ export default (
     <IndexRoute component={TabWrapper} queries={homeQuery} />
     <Route path="/signup" component={Signup} />
     <Route path="/login" component={Login} />
+    <Route path="/guys" queries={homeQuery} component={TabWrapper} />
     <Route path="/profile" queries={homeQuery} component={TabWrapper} />
   </Route>
 );

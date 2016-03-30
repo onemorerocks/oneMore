@@ -1,5 +1,6 @@
 import {
-  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLID, GraphQLInt, GraphQLFloat, GraphQLList
+  GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLBoolean, GraphQLNonNull, GraphQLInt, GraphQLFloat, GraphQLList
+  // GraphQLID
 } from 'graphql';
 
 import {
@@ -7,7 +8,7 @@ import {
   // connectionArgs, connectionDefinitions, connectionFromArray
 } from 'graphql-relay';
 
-import { getLogin, getLoginByReq, getProfile, updateProfile } from './dataService';
+import { getLogin, getLoginByReq, getProfile, updateProfile, queryProfiles } from './dataService';
 
 import {
   kinkIds, starIds, profileStringFields, profileIntFields, profileNumberFields, profileStringListFields
@@ -87,6 +88,15 @@ const loginType = new GraphQLObjectType({
     },
     profile: {
       type: profileType
+    },
+    profileSearch: {
+      type: new GraphQLList(profileType),
+      args: {
+        query: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: (jwt, { query }) => queryProfiles(query)
     }
   }),
   interfaces: [nodeInterface]
@@ -113,16 +123,6 @@ export const schema = new GraphQLSchema({
       login: {
         type: loginType,
         resolve: (jwt) => getLoginByReq(jwt)
-      },
-      profile: {
-        type: profileType,
-        args: {
-          id: {
-            name: 'id',
-            type: new GraphQLNonNull(GraphQLID)
-          }
-        },
-        resolve: (jwt, { id }) => getProfile(id)
       },
       node: nodeField
     })

@@ -56,6 +56,26 @@ export default class Dao {
     });
   }
 
+  getBatch(table, keys) {
+    return this._connectPromise((client, resolve, reject) => {
+      const dbkeys = keys.map((key) => aerospike.key('onemore', table, key));
+      client.batchGet(dbkeys, (err, results) => {
+        if (err.code === aerospike.status.AEROSPIKE_OK) {
+          const records = results.map((result) => {
+            if (result.record) {
+              return result.record;
+            } else {
+              return null;
+            }
+          });
+          resolve(records);
+        } else {
+          reject(newError(err));
+        }
+      });
+    });
+  }
+
   _createPolicy = {
     exists: aerospike.policy.exists.CREATE
   };

@@ -1,4 +1,5 @@
 import Dao from './Dao';
+import { indexProfile, searchProfiles } from './elasticService';
 
 const dao = new Dao();
 
@@ -46,9 +47,26 @@ export function updateProfile(jwt, profile) {
     profile.id = login.profileId;
     delete profile.clientMutationId;
     return dao.blindSet('profiles', login.profileId, profile).then(() => {
-      return getProfile(login.profileId);
+      return getProfile(login.profileId).then((newProfile) => {
+        return indexProfile(newProfile).then((indexResult) => {
+          return newProfile;
+        });
+      });
     });
   });
+}
+
+export function queryProfiles(query) {
+  if (query) {
+    return searchProfiles(query).then((profileIds) => {
+      if (profileIds && profileIds.length > 0) {
+        return dao.getBatch('profiles', profileIds);
+      }
+      return [];
+    });
+  } else {
+    return [];
+  }
 }
 
 export function addPhoto(jwt, location) {

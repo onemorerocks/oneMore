@@ -9,5 +9,6 @@
   "emailPort": 25,
   "domain": "http://localhost:8000",
   "sendEmails": false,
-  "thumborUrl": "http://192.168.99.100:9999"
+  "thumborUrl": "http://192.168.99.100:9999",
+  "elasticsearchUrl": "http://192.168.99.100:9200"
 }

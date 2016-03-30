@@ -168,6 +168,7 @@ class Profile extends Component {
         },
         onFailure: (err) => {
           this.setState({ submitDisabled: false, errors: ['There was a server error.  Please try again shortly.'] });
+          window.scrollTo(0, 0);
         }
       }
     );
@@ -618,7 +619,7 @@ class Profile extends Component {
             <div className="small-12 columns save-row">
               <div className="float-right">
                 {profile.birthYear && <input type="button" className="button cancel" disabled={this.state.submitDisabled} value="Reset"
-                       onClick={this._handleReset} />}
+                                             onClick={this._handleReset} />}
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>
             </div>
