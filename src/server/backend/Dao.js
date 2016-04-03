@@ -56,10 +56,10 @@ export default class Dao {
     });
   }
 
-  getBatch(table, keys) {
+  getBatch(table, keys, bins) {
     return this._connectPromise((client, resolve, reject) => {
       const dbkeys = keys.map((key) => aerospike.key('onemore', table, key));
-      client.batchGet(dbkeys, (err, results) => {
+      client.batchSelect(dbkeys, bins, (err, results) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           const records = results.map((result) => {
             if (result.record) {

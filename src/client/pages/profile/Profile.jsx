@@ -470,7 +470,8 @@ class Profile extends Component {
                     <option value="hreen">Green</option>
                     <option value="hazel">Hazel</option>
                     <option value="heterochromia">Heterochromia (2 distinct colors)</option>
-                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="violet">Violet</option>
                   </select>
                 </label>
               </div>

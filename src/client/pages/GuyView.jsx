@@ -6,21 +6,12 @@ import DocumentTitle from 'react-document-title';
 class Guys extends Component {
 
   static propTypes = {
-    login: React.PropTypes.object,
-    relay: React.PropTypes.object
+    login: React.PropTypes.object
   };
 
   constructor(props) {
     super(props);
   }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const query = '*';
-    this.props.relay.setVariables({
-      query
-    });
-  };
 
   render() {
     const profiles = this.props.login.profileSearch;

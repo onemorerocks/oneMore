@@ -60,7 +60,7 @@ export function queryProfiles(query) {
   if (query) {
     return searchProfiles(query).then((profileIds) => {
       if (profileIds && profileIds.length > 0) {
-        return dao.getBatch('profiles', profileIds);
+        return dao.getBatch('profiles', profileIds, ['id', 'nickname', 'photos']);
       }
       return [];
     });

@@ -49,8 +49,14 @@ export const profileKinksCheckboxModel = [
     label: 'Boots',
     value: 'boots'
   }, {
+    label: 'Bukakke',
+    value: 'bukakke'
+  }, {
     label: 'Businessmen / suits',
     value: 'suits'
+  }, {
+    label: 'Circle jerks',
+    value: 'circlejerk'
   }, {
     label: 'Cross-dressing',
     value: 'cd'
@@ -58,8 +64,14 @@ export const profileKinksCheckboxModel = [
     label: 'Cumpetition',
     value: 'cumpetition'
   }, {
+    label: 'Daddy / son',
+    value: 'daddy'
+  }, {
     label: 'Docking',
     value: 'docking'
+  }, {
+    label: 'Doctor / medical play',
+    value: 'medical'
   }, {
     label: 'Edging',
     value: 'edging'
@@ -79,6 +91,9 @@ export const profileKinksCheckboxModel = [
     label: 'Gaining / encouraging',
     value: 'gaining'
   }, {
+    label: 'Kilts',
+    value: 'kilts'
+  }, {
     label: 'Latex',
     value: 'latex'
   }, {
@@ -93,6 +108,9 @@ export const profileKinksCheckboxModel = [
   }, {
     label: 'Pig play',
     value: 'pig'
+  }, {
+    label: 'Pnp',
+    value: 'pnp'
   }, {
     label: 'Public sex / exhibitionism',
     value: 'public'
@@ -118,7 +136,7 @@ export const profileKinksCheckboxModel = [
     label: 'Sounding',
     value: 'sounding'
   }, {
-    label: 'Spanking / paddling',
+    label: 'Spanking',
     value: 'spank'
   }, {
     label: 'Speedos / lycra',

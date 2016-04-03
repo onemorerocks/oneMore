@@ -40,7 +40,7 @@ class TabWrapper extends Component {
       if (this.props.location.pathname === '/') {
         showHome = 'block';
         activeTab = 'home';
-      } else if (this.props.location.pathname === '/guys') {
+      } else if (this.props.location.pathname.startsWith('/guys')) {
         showGuys = 'block';
         activeTab = 'guys';
       } else if (this.props.location.pathname === '/profile') {
@@ -53,6 +53,7 @@ class TabWrapper extends Component {
       <div>
         <TopBar login={this.props.login} />
         {activeTab && <Tabs activeTab={activeTab} />}
+        {!activeTab && <br />}
         <div className="main" style={{ display: showHome }}>
           <SignedInHome {...this.props} />
         </div>

@@ -1,7 +1,13 @@
+@import '../global';
+
 .tabs {
 
   .tabs-title > a {
     font-size: 1rem;
+
+    @include breakpoint(small only) {
+      padding: 1.1rem;
+    }
   }
 
   margin-bottom: 1rem;

@@ -12,7 +12,8 @@ export default class Tabs extends Component {
   static _tabs = [{
     id: 'home',
     url: '/',
-    label: 'Home'
+    label: 'Home',
+    hideOnSmall: true
   }, {
     id: 'guys',
     url: '/guys',
@@ -25,34 +26,42 @@ export default class Tabs extends Component {
     id: 'profile',
     url: '/profile',
     label: 'Profile'
+  }, {
+    id: 'chat',
+    url: '/chat',
+    label: 'Chat'
   }];
 
   constructor(props) {
     super(props);
   }
 
-  render() {
-
-    const renderTab = (tab) => {
-      let liClass = 'tabs-title';
-      let selected = false;
-      if (this.props.activeTab === tab.id) {
-        liClass += ' is-active';
-        selected = true;
-      }
-      return (
-        <li key={tab.id} className={liClass}>
-          <Link to={tab.url} aria-selected={selected}>{tab.label}</Link>
-        </li>
-      );
-    };
-
+  Tab = (props) => {
+    const tab = props.tab;
+    let liClass = 'tabs-title';
+    let selected = false;
+    if (this.props.activeTab === tab.id) {
+      liClass += ' is-active';
+      selected = true;
+    }
+    if (tab.hideOnSmall) {
+      liClass += ' show-for-medium';
+    }
     return (
-      <ul className="tabs show-for-medium">
-        {Tabs._tabs.map((tab) => {
-          return renderTab(tab);
-        })}
-      </ul>
+      <li key={tab.id} className={liClass}>
+        <Link to={tab.url} aria-selected={selected}>{tab.label}</Link>
+      </li>
+    );
+  };
+
+  render() {
+    const Tab = this.Tab;
+    return (
+      <div>
+        <ul className="tabs">
+          {Tabs._tabs.map((tab, i) => <Tab tab={tab} key={'tab' + i} />)}
+        </ul>
+      </div>
     );
   }
 

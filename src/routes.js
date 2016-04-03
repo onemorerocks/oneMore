@@ -13,6 +13,7 @@ export default (
     <Route path="/signup" component={Signup} />
     <Route path="/login" component={Login} />
     <Route path="/guys" queries={homeQuery} component={TabWrapper} />
+    <Route path="/guys/:profileId" queries={homeQuery} component={TabWrapper} />
     <Route path="/profile" queries={homeQuery} component={TabWrapper} />
   </Route>
 );
