@@ -4,9 +4,7 @@ import { indexProfile, searchProfiles } from './elasticService';
 const dao = new Dao();
 
 export function getProfile(profileId) {
-  return dao.get('profiles', profileId).then((profile) => {
-    return profile;
-  });
+  return dao.get('profiles', profileId);
 }
 
 export function getLogin(email) {

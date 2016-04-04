@@ -97,6 +97,18 @@ const loginType = new GraphQLObjectType({
         }
       },
       resolve: (jwt, { query }) => queryProfiles(query)
+    },
+    getProfile: {
+      type: profileType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: (jwt, { id }) => {
+        const decoded = fromGlobalId(id);
+        return getProfile(decoded.id);
+      }
     }
   }),
   interfaces: [nodeInterface]
