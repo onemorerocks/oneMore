@@ -21,6 +21,7 @@ class Guys extends Component {
   _handleSubmit = (event) => {
     event.preventDefault();
     const query = '*';
+    this.setState({ selectedProfile: '' });
     this.props.relay.setVariables({
       query
     });
@@ -54,7 +55,11 @@ class Guys extends Component {
           {profiles && profiles.map((profile, i) => {
 
             if (profile.id === selectedProfile) {
-              return <GuyView login={this.props.login} key={'view' + profile.id} profileId={profile.id} />;
+              return (
+                <div className="column" key={'view' + profile.id}>
+                  <GuyView login={this.props.login} profileId={profile.id} />
+                </div>
+              );
             }
 
             const lastClass = i === profiles.length - 1 ? 'end' : '';

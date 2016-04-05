@@ -4,6 +4,9 @@ import { indexProfile, searchProfiles } from './elasticService';
 const dao = new Dao();
 
 export function getProfile(profileId) {
+  if (!profileId) {
+    return null;
+  }
   return dao.get('profiles', profileId);
 }
 

@@ -8,13 +8,15 @@ import SignedInHome from './SignedInHome.jsx';
 import Home from './Home.jsx';
 import EmailSent from './EmailSent.jsx';
 import Guys from './Guys.jsx';
+import GuyView from './GuyView.jsx';
 import './tabWrapper.scss';
 
 class TabWrapper extends Component {
 
   static propTypes = {
     login: React.PropTypes.object,
-    location: React.PropTypes.object
+    location: React.PropTypes.object,
+    routeParams: React.PropTypes.object
   };
 
   constructor(props) {
@@ -31,6 +33,7 @@ class TabWrapper extends Component {
 
     let showHome = 'none';
     let showGuys = 'none';
+    let showGuyView = 'none';
     let showProfile = 'none';
     let activeTab;
 
@@ -41,7 +44,11 @@ class TabWrapper extends Component {
         showHome = 'block';
         activeTab = 'home';
       } else if (this.props.location.pathname.startsWith('/guys')) {
-        showGuys = 'block';
+        if (this.props.routeParams.profileId) {
+          showGuyView = true;
+        } else {
+          showGuys = 'block';
+        }
         activeTab = 'guys';
       } else if (this.props.location.pathname === '/profile') {
         showProfile = 'block';
@@ -59,6 +66,9 @@ class TabWrapper extends Component {
         </div>
         <div className="main" style={{ display: showGuys }}>
           <Guys {...this.props} />
+        </div>
+        <div className="main" style={{ display: showGuyView }}>
+          <GuyView {...this.props} profileId={this.props.routeParams.profileId} />
         </div>
         <div className="main" style={{ display: showProfile }}>
           <Profile {...this.props} />
@@ -82,6 +92,7 @@ export default Relay.createContainer(TabWrapper, {
         ${TopBar.getFragment('login')},
         ${SignedInHome.getFragment('login')},
         ${Guys.getFragment('login')},
+        ${GuyView.getFragment('login')},
         ${Profile.getFragment('login')},
         ${EmailSent.getFragment('login')}
       }
