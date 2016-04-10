@@ -358,7 +358,7 @@ class Profile extends Component {
                     <input className="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <a href="http://www.webmd.com/diet/waist-measurement" className="float-right"
+                <a href="http://www.webmd.com/diet/waist-measurement" className="float-right underlined-link"
                    target="_blank">Not pants size</a>
                 <select id="waist" defaultValue="" value={state.waist} onChange={this._handleOnChange} name="waist">
                   {!state.waist && <option disabled hidden value="" />}
@@ -399,8 +399,8 @@ class Profile extends Component {
                 <label className="hor-label-container" htmlFor="cockGirth">
                   Cock Girth
                 </label>
-                <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png" className="float-right"
-                   target="_blank">How to measure</a>
+                <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png"
+                   className="float-right underlined-link" target="_blank">How to measure</a>
                 <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleOnChange} name="cockGirth">
                   {!state.cockGirth && <option disabled hidden value="" />}
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
