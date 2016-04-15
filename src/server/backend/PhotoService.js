@@ -29,19 +29,11 @@ export default class PhotoService {
     });
   }
 
-  get(params, size, accept) {
+  doGet(path) {
     return new Promise((resolve, reject) => {
 
-      let sizeParams = '';
-
-      if (size) {
-        sizeParams = '/' + size;
-      }
-
-      const format = accept.indexOf('webp') !== -1 ? 'webp' : 'jpeg';
-
       const options = {
-        url: config.thumborUrl + `/unsafe${sizeParams}/smart/filters:format(${format})/` + params,
+        url: config.thumborUrl + path,
         timeout: 5000
       };
 
@@ -58,6 +50,33 @@ export default class PhotoService {
           reject(newError(error));
         });
     });
+  }
+
+  get(hash, size, accept) {
+
+    let sizeParams = '';
+
+    if (size) {
+      sizeParams = '/' + size;
+    }
+
+    const format = accept.indexOf('webp') !== -1 ? 'webp' : 'jpeg';
+    const filter = `filters:format(${format})`;
+
+    const path = `/unsafe${sizeParams}/smart/${filter}/` + hash;
+    return this.doGet(path);
+  }
+
+  getMeta(hash, size) {
+
+    let sizeParams = '';
+
+    if (size) {
+      sizeParams = '/' + size;
+    }
+
+    const path = `/unsafe/meta${sizeParams}/smart/` + hash;
+    return this.doGet(path);
   }
 
 }

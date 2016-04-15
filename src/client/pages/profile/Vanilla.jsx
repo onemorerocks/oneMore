@@ -71,6 +71,8 @@ export default Relay.createContainer(Vanilla, {
           mutualMast,
           givesRim,
           getsRim,
+          poppers,
+          fourtwenty,
           nipplePlay,
           kissing,
           cuddling

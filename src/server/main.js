@@ -9,7 +9,7 @@ import signupController from './api/signupController';
 import verifyEmailController from './api/verifyEmailController';
 import logoutController from './api/logoutController';
 import graphqlController from './api/graphqlController';
-import { photosControllerPost, photosControllerGet } from './api/photosController';
+import { photosControllerPost, photosControllerGet, photosControllerGetMeta } from './api/photosController';
 
 const server = new Hapi.Server();
 server.connection({ port: config.port });
@@ -60,6 +60,12 @@ server.register([Inert], (error) => {
         output: 'stream'
       }
     }
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/api/photos/meta/{hash}',
+    handler: photosControllerGetMeta
   });
 
   server.route({
