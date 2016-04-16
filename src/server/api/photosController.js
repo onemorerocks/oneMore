@@ -33,10 +33,9 @@ export const photosControllerGetMeta = (req, reply) => {
 
   const token = req.state.token ? req.state.token : req.headers.token;
   const hash = req.params.hash;
-  const size = req.query.size;
 
   const promise = auth.validateEncodedJwt(token).then((jwt) => {
-    return service.getMeta(hash, size);
+    return service.getMeta(hash);
   });
 
   reply(promise);

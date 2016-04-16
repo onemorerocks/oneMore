@@ -67,15 +67,8 @@ export default class PhotoService {
     return this.doGet(path);
   }
 
-  getMeta(hash, size) {
-
-    let sizeParams = '';
-
-    if (size) {
-      sizeParams = '/' + size;
-    }
-
-    const path = `/unsafe/meta${sizeParams}/smart/` + hash;
+  getMeta(hash) {
+    const path = '/unsafe/meta/smart/' + hash;
     return this.doGet(path);
   }
 

@@ -47,40 +47,46 @@ class Guys extends Component {
 
     return (
       <DocumentTitle title="oneMore - Guys">
-        <div className="row">
+        <div className="row guyview">
           <div key={profile.id} className={'small-12 columns'}>
-            <div>
-              {profile.photos && profile.photos.map((photoHash, i) => {
-                if (photoHash) {
-                  const lastClass = i === profile.photos.length - 1 ? 'end' : '';
-                  return (
-                    <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass} key={'photo' + i}>
-                      <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
-                           name={photoHash} />
-                    </div>
-                  );
-                } else {
-                  return null;
-                }
-              })}
-            </div>
-            <div>
+            <h1>
               {profile.nickname}
+            </h1>
+          </div>
+          <div className={'small-12 medium-6 large-4 columns'}>
+            {profile.photos && profile.photos.map((photoHash, i) => {
+              if (photoHash) {
+                return (
+                  <div key={photoHash} key={'photo' + i}>
+                    <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
+                         name={photoHash} />
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </div>
+          <div className={'small-12 medium-6 large-8 columns'}>
+            <div>
+              <div className="textlabel">Weight</div>
+              <div>{weight} {prefs.weightUnits}</div>
             </div>
             <div>
-              {weight} {prefs.weightUnits}
+              <div>Height</div>
+              <div>{height}</div>
             </div>
             <div>
-              {height}
+              <div>Waist</div>
+              <div>{waist}</div>
             </div>
             <div>
-              {waist}
+              <div>Cock Length</div>
+              <div>{cockLength}</div>
             </div>
             <div>
-              {cockLength}
-            </div>
-            <div>
-              {cockGirth}
+              <div>Cock Girth</div>
+              <div>{cockGirth}</div>
             </div>
           </div>
         </div>
