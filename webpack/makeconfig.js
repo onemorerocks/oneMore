@@ -4,6 +4,10 @@ import constants from './constants';
 import path from 'path';
 import webpack from 'webpack';
 import ip from 'ip';
+import webpackIsomorphicAssets from './assets';
+import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
+
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicAssets);
 
 const devtools = 'inline-source-map';
 
@@ -77,26 +81,31 @@ export default function makeConfig(isDevelopment) {
           }
         })
       ];
-      if (isDevelopment) plugins.push(
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-      );
-      else plugins.push(
-        // Render styles into separate cacheable file to prevent FOUC and
-        // optimize for critical rendering path.
-        new ExtractTextPlugin('app-[hash].css', {
-          allChunks: true
-        }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            screw_ie8: true, // eslint-disable-line camelcase
-            warnings: false // Because uglify reports irrelevant warnings.
-          }
-        })
-      );
+      if (isDevelopment) {
+        plugins.push(
+          new webpack.optimize.OccurenceOrderPlugin(),
+          new webpack.HotModuleReplacementPlugin(),
+          new webpack.NoErrorsPlugin(),
+          webpackIsomorphicToolsPlugin.development()
+        );
+      } else {
+        plugins.push(
+          // Render styles into separate cacheable file to prevent FOUC and
+          // optimize for critical rendering path.
+          new ExtractTextPlugin('app-[hash].css', {
+            allChunks: true
+          }),
+          new webpack.optimize.DedupePlugin(),
+          new webpack.optimize.OccurenceOrderPlugin(),
+          new webpack.optimize.UglifyJsPlugin({
+            compress: {
+              screw_ie8: true, // eslint-disable-line camelcase
+              warnings: false // Because uglify reports irrelevant warnings.
+            }
+          }),
+          webpackIsomorphicToolsPlugin
+        );
+      }
       return plugins;
     })(),
     postcss: () => {

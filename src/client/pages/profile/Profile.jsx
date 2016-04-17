@@ -255,8 +255,6 @@ class Profile extends Component {
       return <noscript />;
     }
 
-    console.log('styles', styles);
-
     const state = this.state;
 
     return (
@@ -634,7 +632,7 @@ class Profile extends Component {
 
 }
 
-export default Relay.createContainer(cssModules(Profile, styles, { errorWhenNotFound: false }), {
+export default Relay.createContainer(cssModules(Profile, styles), {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {

@@ -1,15 +1,19 @@
+require('babel-register');
+require('babel-polyfill');
+
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 const config = require('./config');
+const rootDir = require('path').resolve(__dirname, '..', '..');
+const webpackIsomorphicAssets = require('../../webpack/assets').default;
 
 if (!process.env.NODE_ENV) {
   throw new Error(
-    'Environment variable NODE_ENV isn\'t set. Remember it\'s up your production enviroment to set NODE_ENV and maybe other variables.');
+    'Environment variable NODE_ENV must be set to development or production.'
+  );
 }
 
-require('babel-core/register');
-
-// To ignore webpack custom loaders on server.
-config.webpackStylesExtensions.forEach((ext) => {
-  require.extensions['.' + ext] = () => {};
-});
-
-require('./main');
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(webpackIsomorphicAssets)
+  .development(!config.isProduction)
+  .server(rootDir, () => {
+    require('./main');
+  });
