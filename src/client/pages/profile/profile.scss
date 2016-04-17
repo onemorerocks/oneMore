@@ -1,148 +1,142 @@
 @import '../../global';
 
-.profile {
+.mainProfile {
+  .fieldset {
+    padding-top: 0;
+    margin-bottom: 2rem;
+    border: 0;
+    @include breakpoint(medium) {
+      min-height: 15.2rem;
+    }
 
-  .mainProfile {
-    .fieldset {
-      padding-top: 0;
-      margin-bottom: 2rem;
-      border: 0;
-      @include breakpoint(medium) {
-        min-height: 15.2rem;
-      }
+    @include breakpoint(small only) {
+      margin-bottom: 0;
+      padding: 0;
+    }
 
-      @include breakpoint(small only) {
-        margin-bottom: 0;
-        padding: 0;
-      }
+    &.short {
+      min-height: 10rem;
+    }
 
-      &.short {
+    &.shortOnLarge {
+      @include breakpoint(large) {
         min-height: 10rem;
       }
-
-      &.shortOnLarge {
-        @include breakpoint(large) {
-          min-height: 10rem;
-        }
-      }
     }
   }
+}
 
-  .description {
-    height: 10rem;
+.description {
+  height: 10rem;
+  resize: none;
+}
+
+.fieldset {
+  padding-bottom: 0;
+  padding-right: 0.5rem;
+  @include breakpoint(medium) {
+    min-height: 17rem;
+  }
+  margin-top: 0;
+  margin-bottom: rem-calc(30);
+}
+
+.hor-label-container {
+  display: inline-block;
+}
+
+.hor-label {
+  display: inline-block;
+  margin-left: 1rem;
+  height: 0;
+}
+
+.hor-radio-container {
+  display: inline-block;
+  @include breakpoint(small only) {
+    float: right;
+  }
+}
+
+.hor-left-label {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.hor-input {
+  margin-right: 0.25rem;
+  display: inline-block;
+}
+
+.single-width {
+  width: 4rem;
+}
+
+.profile-inputbox {
+  height: 5rem;
+}
+
+.intoLabel {
+  @include breakpoint(medium) {
+    margin-top: -1.51rem;
+  }
+}
+
+.Select--multi {
+  .Select-value {
+    background-color: lighten($primary-color, 40%);
+    border-color: lighten($primary-color, 20%);
   }
 
-  .fieldset {
-    padding-bottom: 0;
-    padding-right: 0.5rem;
-    @include breakpoint(medium) {
-      min-height: 17rem;
-    }
-    margin-top: 0;
-    margin-bottom: rem-calc(30);
+  .Select-value-icon {
+    border-right-color: lighten($primary-color, 20%);
   }
+}
 
-  .hor-label-container {
-    display: inline-block;
+.Select-value-icon,
+.Select-value-label {
+  color: $black;
+}
+
+.Select-control {
+  border-radius: 0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.Select-option {
+  &.is-focused {
+    background-color: lighten($primary-color, 40%);
   }
+}
 
-  .hor-label {
-    display: inline-block;
-    margin-left: 1rem;
-    height: 0;
-  }
-
-  .hor-radio-container {
-    display: inline-block;
-    @include breakpoint(small only) {
-      float: right;
-    }
-  }
-
-  .hor-left-label {
-    display: inline-block;
+.button {
+  &.cancel {
+    background-color: $secondary-color;
     margin-right: 1rem;
   }
+}
 
-  .hor-input {
-    margin-right: 0.25rem;
-    display: inline-block;
+@keyframes colorJump {
+  from {
+    color: darken($primary-color, 10%);
   }
 
-  .single-width {
-    width: 4rem;
-  }
-
-  .profile-inputbox {
-    height: 5rem;
-  }
-
-  .intoLabel {
-    @include breakpoint(medium) {
-      margin-top: -1.51rem;
-    }
-  }
-
-  .Select--multi {
-    .Select-value {
-      background-color: lighten($primary-color, 40%);
-      border-color: lighten($primary-color, 20%);
-    }
-
-    .Select-value-icon {
-      border-right-color: lighten($primary-color, 20%);
-    }
-  }
-
-  .Select-value-icon,
-  .Select-value-label {
-    color: $black;
-  }
-
-  .Select-control {
-    border-radius: 0;
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .Select-option {
-    &.is-focused {
-      background-color: lighten($primary-color, 40%);
-    }
-  }
-
-  .button {
-    &.cancel {
-      background-color: $secondary-color;
-      margin-right: 1rem;
-    }
-  }
-
-  @keyframes colorJump {
-    from {
-      color: darken($primary-color, 10%);
-    }
-
-    to {
-      color: darken($primary-color, 35%);
-    }
-  }
-
-  .feeling {
+  to {
     color: darken($primary-color, 35%);
-    animation-name: colorJump;
-    animation-duration: 0.25s;
   }
+}
 
-  .description {
-    resize: none;
-  }
+.feeling {
+  color: darken($primary-color, 35%);
+  animation-name: colorJump;
+  animation-duration: 0.25s;
+}
 
-  .save-row {
-    margin-top: 1rem;
-  }
+.save-row {
+  margin-top: 1rem;
+}
 
-  .underlined-link {
-    text-decoration: underline;
-  }
+.underlined-link {
+  text-decoration: underline;
 }

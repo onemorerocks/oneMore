@@ -7,28 +7,9 @@ import ip from 'ip';
 
 const devtools = 'inline-source-map';
 
-const loaders = {
-  'css': '',
-  'scss': '!sass-loader'
-};
-
 const serverIp = ip.address();
 
 export default function makeConfig(isDevelopment) {
-
-  function stylesLoaders() {
-    return Object.keys(loaders).map(ext => {
-      const prefix = 'css-loader!postcss-loader';
-      const extLoaders = prefix + loaders[ext];
-      const loader = isDevelopment
-        ? `style-loader!${extLoaders}`
-        : ExtractTextPlugin.extract('style-loader', extLoaders);
-      return {
-        loader: loader,
-        test: new RegExp(`\\.(${ext})$`)
-      };
-    });
-  }
 
   const config = {
     hotPort: constants.HOT_RELOAD_PORT,
@@ -64,7 +45,18 @@ export default function makeConfig(isDevelopment) {
           "plugins": []
         },
         test: /\.(js|jsx)$/
-      }].concat(stylesLoaders())
+      },{
+        loader: isDevelopment
+          ? `style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass-loader`
+          : ExtractTextPlugin.extract('style-loader', ''),
+        exclude: /(global\.scss)/,
+        test: /\.(scss|css)$/
+      },{
+        loader: isDevelopment
+          ? `style-loader?sourceMap!css-loader!postcss-loader!sass-loader`
+          : ExtractTextPlugin.extract('style-loader', ''),
+        test: /\.global.scss$/
+      }]
     },
     output: isDevelopment ? {
       path: constants.BUILD_DIR,

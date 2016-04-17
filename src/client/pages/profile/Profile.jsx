@@ -11,8 +11,8 @@ import Vanilla from './Vanilla.jsx';
 import Kinks from './Kinks.jsx';
 import FormGroup from './FormGroup.jsx';
 import Photos from './Photos.jsx';
-
-import './profile.scss';
+import styles from './profile.scss';
+import cssModules from 'react-css-modules';
 
 const years = [];
 for (let i = 1998; i >= 1919; i--) {
@@ -255,13 +255,15 @@ class Profile extends Component {
       return <noscript />;
     }
 
+    console.log('styles', styles);
+
     const state = this.state;
 
     return (
       <DocumentTitle title="oneMore - Profile">
-        <form onSubmit={this._handleSubmit} className="profile">
+        <form onSubmit={this._handleSubmit}>
 
-          <div className="row mainProfile">
+          <div className="row" styleName="mainProfile">
             <div className="small-12 columns">
               <FormErrors errors={this.state.errors} />
 
@@ -632,7 +634,7 @@ class Profile extends Component {
 
 }
 
-export default Relay.createContainer(Profile, {
+export default Relay.createContainer(cssModules(Profile, styles, { errorWhenNotFound: false }), {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {

@@ -2,6 +2,9 @@ import Component from 'react-pure-render/component';
 import React from 'react';
 import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
+import cssModules from 'react-css-modules';
+import styles from './guyView.scss';
+import { Row } from 'react-foundation';
 
 class Guys extends Component {
 
@@ -47,7 +50,7 @@ class Guys extends Component {
 
     return (
       <DocumentTitle title="oneMore - Guys">
-        <div className="row guyview">
+        <Row>
           <div key={profile.id} className={'small-12 columns'}>
             <h1>
               {profile.nickname}
@@ -69,7 +72,7 @@ class Guys extends Component {
           </div>
           <div className={'small-12 medium-6 large-8 columns'}>
             <div>
-              <div className="textlabel">Weight</div>
+              <div styleName="label">Weight</div>
               <div>{weight} {prefs.weightUnits}</div>
             </div>
             <div>
@@ -89,14 +92,14 @@ class Guys extends Component {
               <div>{cockGirth}</div>
             </div>
           </div>
-        </div>
+        </Row>
       </DocumentTitle>
     );
   }
 
 }
 
-export default Relay.createContainer(Guys, {
+export default Relay.createContainer(cssModules(Guys, styles), {
 
   initialVariables: {
     id: ''

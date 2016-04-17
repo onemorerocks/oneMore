@@ -1,4 +1,4 @@
-import './foundation.scss';
+import './foundation.global.scss';
 import Component from 'react-pure-render/component';
 import React from 'react';
 import Toasts from '../components/Toasts.jsx';
