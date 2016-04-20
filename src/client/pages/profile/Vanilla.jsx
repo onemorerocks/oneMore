@@ -4,8 +4,6 @@ import Relay from 'react-relay';
 import { starIds, profileStarsModel } from '../../../common/profileModel';
 import StarGroup from './StarGroup.jsx';
 
-import './profile.scss';
-
 class Vanilla extends Component {
 
   static propTypes = {

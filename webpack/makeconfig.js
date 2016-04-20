@@ -51,15 +51,15 @@ export default function makeConfig(isDevelopment) {
         test: /\.(js|jsx)$/
       },{
         loader: isDevelopment
-          ? `style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!sass-loader`
+          ? `style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]_[local]!postcss-loader!sass-loader`
           : ExtractTextPlugin.extract('style-loader', ''),
-        exclude: /(global\.scss)/,
+        exclude: /(global\.scss|node_modules)/,
         test: /\.(scss|css)$/
       },{
         loader: isDevelopment
           ? `style-loader?sourceMap!css-loader!postcss-loader!sass-loader`
           : ExtractTextPlugin.extract('style-loader', ''),
-        test: /\.global.scss$/
+        test: /(\.global\.scss|node_modules.*\.scss)$/
       }]
     },
     output: isDevelopment ? {

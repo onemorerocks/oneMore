@@ -12,7 +12,7 @@ import Kinks from './Kinks.jsx';
 import FormGroup from './FormGroup.jsx';
 import Photos from './Photos.jsx';
 import styles from './profile.scss';
-import cssModules from 'react-css-modules';
+import cssModules from '../../lib/cssModules';
 
 const years = [];
 for (let i = 1998; i >= 1919; i--) {
@@ -300,16 +300,16 @@ class Profile extends Component {
             </FormGroup>
             <FormGroup>
               <div>
-                <label className="hor-label-container" htmlFor="weight">
+                <label styleName="hor-label-container" htmlFor="weight">
                   Weight
                 </label>
                 <RadioGroup name="weightUnits" value={state.weightUnits} onChange={this._handleWeightUnits}
-                            className="hor-radio-container">
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="lb" required />lb
+                            styleName="hor-radio-container">
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="lb" required />lb
                   </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="kg" />kg
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="kg" />kg
                   </label>
                 </RadioGroup>
                 <select id="weight" defaultValue="" value={state.weight} onChange={this._handleOnChange} name="weight"
@@ -324,16 +324,16 @@ class Profile extends Component {
                 </select>
               </div>
               <div>
-                <label className="hor-label-container" htmlFor="height">
+                <label styleName="hor-label-container" htmlFor="height">
                   Height
                 </label>
                 <RadioGroup name="heightUnits" value={state.heightUnits} onChange={this._handleHeightUnits}
-                            className="hor-radio-container">
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="feet" required />feet
+                            styleName="hor-radio-container">
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="feet" required />feet
                   </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="cm" />cm
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
                 <select id="height" defaultValue="" value={state.height} onChange={this._handleOnChange} name="height">
@@ -347,18 +347,18 @@ class Profile extends Component {
                 </select>
               </div>
               <div>
-                <label className="hor-label-container" htmlFor="waist">
+                <label styleName="hor-label-container" htmlFor="waist">
                   Waist
                 </label>
-                <RadioGroup name="waistUnits" value={state.waistUnits} onChange={this._handleWaistUnits} className="hor-radio-container">
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="inches" required />inches
+                <RadioGroup name="waistUnits" value={state.waistUnits} onChange={this._handleWaistUnits} styleName="hor-radio-container">
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="inches" required />inches
                   </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="cm" />cm
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <a href="http://www.webmd.com/diet/waist-measurement" className="float-right underlined-link"
+                <a href="http://www.webmd.com/diet/waist-measurement" className="float-right" styleName="underlined-link"
                    target="_blank">Not pants size</a>
                 <select id="waist" defaultValue="" value={state.waist} onChange={this._handleOnChange} name="waist">
                   {!state.waist && <option disabled hidden value="" />}
@@ -373,15 +373,15 @@ class Profile extends Component {
             </FormGroup>
             <FormGroup>
               <div>
-                <label className="hor-label-container" htmlFor="cockLength">
+                <label styleName="hor-label-container" htmlFor="cockLength">
                   Cock Length
                 </label>
-                <RadioGroup name="cockUnits" value={state.cockUnits} onChange={this._handleCockUnits} className="hor-radio-container">
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="inches" required />inches
+                <RadioGroup name="cockUnits" value={state.cockUnits} onChange={this._handleCockUnits} styleName="hor-radio-container">
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="inches" required />inches
                   </label>
-                  <label className="hor-label">
-                    <input className="hor-input" type="radio" value="cm" />cm
+                  <label styleName="hor-label">
+                    <input styleName="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
                 <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength} name="cockLength">
@@ -396,11 +396,11 @@ class Profile extends Component {
                 </select>
               </div>
               {state.cockLength !== 0 && <div>
-                <label className="hor-label-container" htmlFor="cockGirth">
+                <label className={styles['hor-label-container']} htmlFor="cockGirth">
                   Cock Girth
                 </label>
                 <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png"
-                   className="float-right underlined-link" target="_blank">How to measure</a>
+                   className="float-right" styleName="underlined-link" target="_blank">How to measure</a>
                 <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleOnChange} name="cockGirth">
                   {!state.cockGirth && <option disabled hidden value="" />}
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
@@ -423,7 +423,7 @@ class Profile extends Component {
                 </label>
               </div>}
             </FormGroup>
-            <FormGroup className="shortOnLarge">
+            <FormGroup className={styles.shortOnLarge}>
               <div>
                 <label>
                   Ethnicity
@@ -457,7 +457,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="short">
+            <FormGroup className={styles.short}>
               <div>
                 <label>
                   Eye Color
@@ -492,7 +492,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="short">
+            <FormGroup className={styles.short}>
               <div>
                 <label>
                   Body Hair
@@ -521,7 +521,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="short">
+            <FormGroup className={styles.short}>
               <div>
                 <label>
                   HIV Status
@@ -547,7 +547,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="short">
+            <FormGroup className={styles.short}>
               <div>
                 <label>
                   Mannerisms & Speech
@@ -575,7 +575,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className="short">
+            <FormGroup className={styles.short}>
               <div>
                 <label>
                   Tobacco
@@ -602,11 +602,11 @@ class Profile extends Component {
               </div>
             </FormGroup>
             <div className="small-12 medium-12 large-6 columns end">
-              <fieldset className="fieldset short">
+              <fieldset styleName="fieldset short">
                 <label>
                   Description (1000 character max)
-                  <textarea className="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
-                            name="description" className="description" />
+                  <textarea styleName="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
+                            name="description" />
                 </label>
               </fieldset>
             </div>
@@ -617,10 +617,11 @@ class Profile extends Component {
           <Photos login={this.props.login} />
 
           <div className="row">
-            <div className="small-12 columns save-row">
+            <div className="small-12 columns" styleName="save-row">
               <div className="float-right">
-                {profile.birthYear && <input type="button" className="button cancel" disabled={this.state.submitDisabled} value="Reset"
-                                             onClick={this._handleReset} />}
+                {profile.birthYear &&
+                <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
+                       onClick={this._handleReset} />}
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>
             </div>

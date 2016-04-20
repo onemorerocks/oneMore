@@ -9,7 +9,8 @@ import Home from './Home.jsx';
 import EmailSent from './EmailSent.jsx';
 import Guys from './Guys.jsx';
 import GuyView from './GuyView.jsx';
-import './tabWrapper.scss';
+import cssModules from '../lib/cssModules';
+import styles from './tabWrapper.scss';
 
 class TabWrapper extends Component {
 
@@ -26,9 +27,9 @@ class TabWrapper extends Component {
   render() {
 
     if (!this.props.login.email) {
-      return <Home {...this.props} />;
+      return <Home {...this.props} styles={null} />;
     } else if (!this.props.login.emailVerified) {
-      return <EmailSent {...this.props} />;
+      return <EmailSent {...this.props} styles={null} />;
     }
 
     let showHome = 'none';
@@ -61,17 +62,17 @@ class TabWrapper extends Component {
         <TopBar login={this.props.login} />
         {activeTab && <Tabs activeTab={activeTab} />}
         {!activeTab && <br />}
-        <div className="main" style={{ display: showHome }}>
-          <SignedInHome {...this.props} />
+        <div styleName="main" style={{ display: showHome }}>
+          <SignedInHome {...this.props} styles={null} />
         </div>
-        <div className="main" style={{ display: showGuys }}>
-          <Guys {...this.props} />
+        <div styleName="main" style={{ display: showGuys }}>
+          <Guys {...this.props} styles={null} />
         </div>
-        <div className="main" style={{ display: showGuyView }}>
-          <GuyView {...this.props} profileId={this.props.routeParams.profileId} />
+        <div styleName="main" style={{ display: showGuyView }}>
+          <GuyView {...this.props} profileId={this.props.routeParams.profileId} styles={null} />
         </div>
-        <div className="main" style={{ display: showProfile }}>
-          <Profile {...this.props} />
+        <div styleName="main" style={{ display: showProfile }}>
+          <Profile {...this.props} styles={null} />
         </div>
         <footer>&nbsp;</footer>
       </div>
@@ -80,7 +81,7 @@ class TabWrapper extends Component {
 
 }
 
-export default Relay.createContainer(TabWrapper, {
+export default Relay.createContainer(cssModules(TabWrapper, styles), {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {

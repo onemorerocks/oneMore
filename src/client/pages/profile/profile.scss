@@ -82,39 +82,9 @@
   }
 }
 
-.Select--multi {
-  .Select-value {
-    background-color: lighten($primary-color, 40%);
-    border-color: lighten($primary-color, 20%);
-  }
-
-  .Select-value-icon {
-    border-right-color: lighten($primary-color, 20%);
-  }
-}
-
-.Select-value-icon,
-.Select-value-label {
-  color: $black;
-}
-
-.Select-control {
-  border-radius: 0;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.Select-option {
-  &.is-focused {
-    background-color: lighten($primary-color, 40%);
-  }
-}
-
-.button {
-  &.cancel {
-    background-color: $secondary-color;
-    margin-right: 1rem;
-  }
+.cancel {
+  background-color: $secondary-color;
+  margin-right: 1rem;
 }
 
 @keyframes colorJump {

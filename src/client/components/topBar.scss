@@ -1,22 +1,20 @@
 @import '../global';
 
-.title-bar {
-
-  .button {
-    margin-bottom: 0;
-  }
-
-  .email {
-    margin-right: 1rem;
-  }
-
-  .title-bar-title {
-    font-size: 1.45rem;
-    color: $white;
-  }
-
-  .captialized {
-    color: $primary-color;
-  }
-
+.button {
+  margin-bottom: 0;
 }
+
+.email {
+  margin-right: 1rem;
+}
+
+.title {
+  font-size: 1.45rem;
+  color: $white;
+  font-weight: bold;
+}
+
+.captialized {
+  color: $primary-color;
+}
+

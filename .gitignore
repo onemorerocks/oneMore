@@ -13,3 +13,4 @@ passwords.txt
 sgrep
 sgrep.o
 local.json
+webpack-assets.json

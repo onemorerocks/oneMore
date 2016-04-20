@@ -4,8 +4,8 @@ import Relay from 'react-relay';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import Modal from 'react-modal';
-
-import './photos.scss';
+import cssModules from '../../lib/cssModules';
+import styles from './photos.scss';
 
 class Photos extends Component {
 
@@ -52,7 +52,7 @@ class Photos extends Component {
     return (
       <div>
         <Modal isOpen={!!this.state.showPhoto}>
-          <div className="modelPhotoContainer" style={{ backgroundImage: `url(/api/photos/${this.state.showPhoto})` }}
+          <div styleName="modelPhotoContainer" style={{ backgroundImage: `url(/api/photos/${this.state.showPhoto})` }}
                onClick={this.modalClickHandler} />
         </Modal>
         <div className="row">
@@ -62,10 +62,10 @@ class Photos extends Component {
         </div>
         <div className="row">
           <div className="small-12 medium-4 large-3 columns">
-            {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className="dropzone">
+            {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className={styles.dropzone}>
               <div>Drag and drop photos here, or click to select photos to upload.</div>
             </Dropzone>}
-            {this.state.isUploading && <div className="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" /></div>}
+            {this.state.isUploading && <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" /></div>}
           </div>
           {profile.photos && profile.photos.map((photoHash, i) => {
             if (photoHash) {
@@ -86,7 +86,7 @@ class Photos extends Component {
   }
 }
 
-export default Relay.createContainer(Photos, {
+export default Relay.createContainer(cssModules(Photos, styles), {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {

@@ -5,8 +5,9 @@ import { profileKinksModel, kinkIds, profileKinksCheckboxModel } from '../../../
 import StarGroup from './StarGroup.jsx';
 import ReactSelect from 'react-select';
 import 'react-select/scss/default.scss';
-
-import './profile.scss';
+import cssModules from '../../lib/cssModules';
+import styles from './profile.scss';
+import './reactSelect.global.scss';
 
 class Kinks extends Component {
 
@@ -61,7 +62,7 @@ class Kinks extends Component {
             <StarGroup groupModel={groupModel} onChange={this._handleOnChange} data={this.state} key={'stargroup' + i} />)
           }
           <div className="small-12 medium-6 large-4 columns end">
-            <label className="intoLabel">
+            <label styleName="intoLabel">
               I'm Into
               <ReactSelect multi options={profileKinksCheckboxModel} clearable={false} value={this.state.kinks}
                            onChange={this._handleOnKinkChange} placeholder="" />
@@ -73,7 +74,7 @@ class Kinks extends Component {
   }
 }
 
-export default Relay.createContainer(Kinks, {
+export default Relay.createContainer(cssModules(Kinks, styles), {
   fragments: {
     login: () => Relay.QL`
       fragment on Login {

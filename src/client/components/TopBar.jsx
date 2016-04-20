@@ -2,8 +2,8 @@ import Component from 'react-pure-render/component';
 import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
-
-import './topBar.scss';
+import classnames from 'classnames';
+import styles from './topBar.scss';
 
 export class TopBar extends Component {
 
@@ -27,13 +27,14 @@ export class TopBar extends Component {
       <div className="title-bar">
         <div className="title-bar-left">
           <Link to="/">
-            <span className="title-bar-title">one<span className="captialized">More</span></span>
+            <span className={classnames(styles.title)}>one<span className={styles.captialized}>More</span></span>
           </Link>
         </div>
         <div className="title-bar-right">
-          {this.props.login && <span className="email show-for-medium">{this.props.login.email}</span>}
-          {this.props.showLogin && <Link className="medium button" to="/login">Login</Link>}
-          {!this.props.showLogin && <button className="small button" onClick={this._handleLogout}>Logout</button>}
+          {this.props.login && <span className={classnames(styles.email, 'show-for-medium')}>{this.props.login.email}</span>}
+          {this.props.showLogin && <Link className={classnames('medium', 'button', styles.button)} to="/login">Login</Link>}
+          {!this.props.showLogin && <button className={classnames('small', 'button', styles.button)}
+                                            onClick={this._handleLogout}>Logout</button>}
         </div>
       </div>
     );

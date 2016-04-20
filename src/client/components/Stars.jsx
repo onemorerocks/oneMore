@@ -1,11 +1,13 @@
 import Component from 'react-pure-render/component';
 import React from 'react';
 import RadioGroup from 'react-radio';
-import './stars.scss';
+import classnames from 'classnames';
+import cssModules from '../lib/cssModules';
+import styles from './stars.scss';
 
 const stars = [5, 4, 3, 2, 1];
 
-export default class Stars extends Component {
+class Stars extends Component {
 
   static propTypes = {
     id: React.PropTypes.string,
@@ -37,12 +39,13 @@ export default class Stars extends Component {
     const id = this.props.id;
     return (
       <div>
-        <div className="star-rating">
+        <div styleName="star-rating">
           <RadioGroup name={id} value={this.props.value} onChange={this._handleChange}>
             {stars.map((count, i) =>
               [
-                <input className={'input-star input-star-' + count} id={id + count} type="radio" name={'star-' + id} value={5 - i} />,
-                <label className={'label-star label-star-' + count} htmlFor={id + count} />
+                <input styleName={classnames('input-star', { [`input-star-${count}`]: count === 1 })} id={id + count} type="radio"
+                       name={'star-' + id} value={5 - i} />,
+                <label styleName={classnames('label-star', { [`label-star-${count}`]: count === 1 })} htmlFor={id + count} />
               ]
             )}
           </RadioGroup>
@@ -52,3 +55,5 @@ export default class Stars extends Component {
   }
 
 }
+
+export default cssModules(Stars, styles);

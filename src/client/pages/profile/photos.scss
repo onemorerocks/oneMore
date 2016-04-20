@@ -1,24 +1,20 @@
 @import '../../global';
 
-.profile {
+.dropzone {
+  padding: 0.5rem;
+  height: 208px;
+  width: 208px;
+  border: dashed 2px lighten($black, 50%);
 
-  .dropzone {
-    padding: 0.5rem;
-    height: 208px;
-    width: 208px;
-    border: dashed 2px lighten($black, 50%);
-
-    &.gears {
-      text-align: center;
-      padding: 2rem;
-    }
+  &.gears {
+    text-align: center;
+    padding: 2rem;
   }
+}
 
-  .gearsImg {
-    width: 100%;
-    height: 100%;
-  }
-
+.gearsImg {
+  width: 100%;
+  height: 100%;
 }
 
 .modelPhotoContainer {

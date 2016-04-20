@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import cssModules from '../lib/cssModules';
 
-import './tabs.scss';
+import styles from './tabs.scss';
 
-export default class Tabs extends Component {
+class Tabs extends Component {
 
   static propTypes = {
     activeTab: PropTypes.string.isRequired
@@ -38,7 +39,7 @@ export default class Tabs extends Component {
 
   Tab = (props) => {
     const tab = props.tab;
-    let liClass = 'tabs-title';
+    let liClass = styles.title + ' tabs-title';
     let selected = false;
     if (this.props.activeTab === tab.id) {
       liClass += ' is-active';
@@ -58,7 +59,7 @@ export default class Tabs extends Component {
     const Tab = this.Tab;
     return (
       <div>
-        <ul className="tabs">
+        <ul className="tabs" styleName="tabs">
           {Tabs._tabs.map((tab, i) => <Tab tab={tab} key={'tab' + i} />)}
         </ul>
       </div>
@@ -66,3 +67,5 @@ export default class Tabs extends Component {
   }
 
 }
+
+export default cssModules(Tabs, styles);

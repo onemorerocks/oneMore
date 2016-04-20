@@ -3,8 +3,6 @@ import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
 
-import './home.scss';
-
 class SignedInHome extends Component {
 
   static propTypes = {

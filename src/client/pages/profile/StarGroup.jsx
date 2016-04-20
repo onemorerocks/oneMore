@@ -2,8 +2,10 @@ import Component from 'react-pure-render/component';
 import React from 'react';
 import FormGroup from './FormGroup.jsx';
 import Stars from '../../components/Stars.jsx';
+import styles from './profile.scss';
+import cssModules from '../../lib/cssModules';
 
-export default class StarGroup extends Component {
+class StarGroup extends Component {
 
   static propTypes = {
     groupModel: React.PropTypes.object,
@@ -38,7 +40,7 @@ export default class StarGroup extends Component {
           return (
             <span key={rowModel.id}>
               {!value && <span>Do you like <strong>{rowModel.text}</strong>?</span>}
-              {!!value && <span>I <span className="feeling">{feeling}</span> <strong>{rowModel.text}</strong></span>}
+              {!!value && <span>I <span styleName="feeling">{feeling}</span> <strong>{rowModel.text}</strong></span>}
               {this.stars(rowModel.id)}
             </span>
           );
@@ -47,3 +49,5 @@ export default class StarGroup extends Component {
     );
   }
 }
+
+export default cssModules(StarGroup, styles);

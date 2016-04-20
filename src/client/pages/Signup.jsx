@@ -2,12 +2,12 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Request from 'axios';
-
 import FormErrors from '../components/FormErrors.jsx';
+import cssModules from '../lib/cssModules';
 
-import './signup.scss';
+import styles from './signup.scss';
 
-export default class Signup extends Component {
+class Signup extends Component {
 
   static propTypes = {
     history: React.PropTypes.object
@@ -109,7 +109,7 @@ export default class Signup extends Component {
 
     return (
       <DocumentTitle title="oneMore - Sign Up">
-        <div className="row signup">
+        <div className="row">
           <div className="small-12 columns">
             <h1>Sign Up</h1>
             <FormErrors errors={state.errors} />
@@ -133,7 +133,7 @@ export default class Signup extends Component {
                      onChange={this.handleChange('password2')} required="true" placeholder="Reenter Password"
                      maxLength="100" />
 
-              <label className="agreeCheckbox">
+              <label styleName="agreeCheckbox">
                 <input type="checkbox" value={state.agreeChecked} onChange={this.handleChange('agreeChecked')} />
                 I am at least 18 years and I accept the Terms-of-Service Agreement.
               </label>
@@ -147,3 +147,5 @@ export default class Signup extends Component {
   }
 
 }
+
+export default cssModules(Signup, styles);
