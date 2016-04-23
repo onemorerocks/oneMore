@@ -4,9 +4,22 @@ import Relay from 'react-relay';
 import DocumentTitle from 'react-document-title';
 import cssModules from 'react-css-modules';
 import styles from './guyView.scss';
-import { Row } from 'react-foundation';
+import { Row, Column } from 'react-foundation';
+import { enums } from '../../common/profileModel';
 
-class Guys extends Component {
+const LabelAndValue = cssModules((props) => (
+  <div styleName="label-value-container">
+    <div styleName="label">{props.label}</div>
+    <div>{props.value}</div>
+  </div>
+), styles);
+
+LabelAndValue.propTypes = {
+  label: React.PropTypes.string,
+  value: React.PropTypes.any
+};
+
+class GuyView extends Component {
 
   static propTypes = {
     login: React.PropTypes.object,
@@ -48,15 +61,20 @@ class Guys extends Component {
       height = foot + '\'' + inches + '"';
     }
 
+    let ethnicity = enums.ethnicity[profile.ethnicity];
+    if (profile.mixEthnicity) {
+      ethnicity += ' & ' + enums.ethnicity[profile.mixEthnicity];
+    }
+
     return (
       <DocumentTitle title="oneMore - Guys">
         <Row>
-          <div key={profile.id} className={'small-12 columns'}>
+          <Column key={profile.id} small={12}>
             <h1>
               {profile.nickname}
             </h1>
-          </div>
-          <div className={'small-12 medium-6 large-4 columns'}>
+          </Column>
+          <Column small={12} medium={6} large={4}>
             {profile.photos && profile.photos.map((photoHash, i) => {
               if (photoHash) {
                 return (
@@ -69,29 +87,30 @@ class Guys extends Component {
                 return null;
               }
             })}
-          </div>
-          <div className={'small-12 medium-6 large-8 columns'}>
-            <div>
-              <div styleName="label">Weight</div>
-              <div>{weight} {prefs.weightUnits}</div>
-            </div>
-            <div>
-              <div>Height</div>
-              <div>{height}</div>
-            </div>
-            <div>
-              <div>Waist</div>
-              <div>{waist}</div>
-            </div>
-            <div>
-              <div>Cock Length</div>
-              <div>{cockLength}</div>
-            </div>
-            <div>
-              <div>Cock Girth</div>
-              <div>{cockGirth}</div>
-            </div>
-          </div>
+          </Column>
+          <Column small={12} medium={6} large={4}>
+            <LabelAndValue label="Age" value={profile.age} />
+            <LabelAndValue label="Ethnicity" value={ethnicity} />
+            <LabelAndValue label="HIV Status" value={enums.hiv[profile.hiv]} />
+            <LabelAndValue label="Eye Color" value={enums.eye[profile.eye]} />
+            <LabelAndValue label="Safer Sex" value={enums.safer[profile.safer]} />
+            <LabelAndValue label="Mannerisms & Speech" value={enums.masc[profile.masc]} />
+            <LabelAndValue label="Voice" value={enums.voice[profile.voice]} />
+            <LabelAndValue label="Hair" value={enums.hair[profile.hair]} />
+            <LabelAndValue label="Body Hair" value={enums.bodyHair[profile.bodyHair]} />
+            <LabelAndValue label="Facial Hair" value={enums.facialHair[profile.facialHair]} />
+            <LabelAndValue label="Smokes" value={enums.smokes[profile.smokes]} />
+            <LabelAndValue label="Discretion" value={enums.discretion[profile.discretion]} />
+            <LabelAndValue label="Description" value={profile.description} />
+          </Column>
+          <Column small={12} medium={6} large={4}>
+            <LabelAndValue label="Weight" value={weight + ' ' + prefs.weightUnits} />
+            <LabelAndValue label="Height" value={height} />
+            <LabelAndValue label="Waist" value={waist} />
+            <LabelAndValue label="Cock Length" value={cockLength} />
+            <LabelAndValue label="Cock Girth" value={cockGirth} />
+            <LabelAndValue label="Foreskin" value={enums.foreskin[profile.foreskin]} />
+          </Column>
         </Row>
       </DocumentTitle>
     );
@@ -99,7 +118,7 @@ class Guys extends Component {
 
 }
 
-export default Relay.createContainer(cssModules(Guys, styles), {
+export default Relay.createContainer(cssModules(GuyView, styles), {
 
   initialVariables: {
     id: ''
@@ -119,8 +138,7 @@ export default Relay.createContainer(cssModules(Guys, styles), {
           nickname,
           photos,
           weight,
-          birthMonth,
-          birthYear,
+          age,
           weight,
           height,
           waist,

@@ -4,7 +4,7 @@ import React from 'react';
 import Relay from 'react-relay';
 
 import FormErrors from '../../components/FormErrors.jsx';
-import { allIds, excludeSavingFields } from '../../../common/profileModel';
+import { allIds, excludeSavingFields, enums } from '../../../common/profileModel';
 import ProfileMutation from './ProfileMutation';
 import RadioGroup from 'react-radio';
 import Vanilla from './Vanilla.jsx';
@@ -97,6 +97,17 @@ decorateLessMore(cockLengthInches);
 decorateLessMore(cockLengthCms);
 decorateLessMore(cockGirthInches);
 decorateLessMore(cockGirthCms);
+
+const enumOptions = (optEnum, hideFunc) => {
+  return Object.keys(optEnum).map((enumKey, i) => {
+    if (hideFunc) {
+      if (hideFunc(enumKey)) {
+        return null;
+      }
+    }
+    return <option key={i} value={enumKey}>{optEnum[enumKey]}</option>;
+  });
+};
 
 class Profile extends Component {
 
@@ -414,11 +425,9 @@ class Profile extends Component {
               {state.cockLength !== 0 && <div>
                 <label>
                   Foreskin
-                  <select required defaultValue="" value={state.foreskin} onChange={this._handleOnChange} name="foreskin">
+                  <select required value={state.foreskin} onChange={this._handleOnChange} name="foreskin">
                     {!state.foreskin && <option disabled hidden value="" />}
-                    <option value="cut">Cut</option>
-                    <option value="semicut">Semi-cut</option>
-                    <option value="uncut">Uncut</option>
+                    {enumOptions(enums.foreskin)}
                   </select>
                 </label>
               </div>}
@@ -429,14 +438,7 @@ class Profile extends Component {
                   Ethnicity
                   <select required defaultValue="" value={state.ethnicity} onChange={this._handleOnChange} name="ethnicity">
                     {!state.ethnicity && <option disabled hidden value="" />}
-                    <option value="black">Black / African Descent</option>
-                    <option value="asian">East Asian</option>
-                    <option value="latino">Latino</option>
-                    <option value="middleeastern">Middle Eastern / North African</option>
-                    <option value="nativeamerican">Native American / Indigenous</option>
-                    <option value="pacificislander">Pacific Islander</option>
-                    <option value="southasian">South Asian</option>
-                    <option value="white">White / Caucasian</option>
+                    {enumOptions(enums.ethnicity)}
                   </select>
                 </label>
               </div>
@@ -445,14 +447,7 @@ class Profile extends Component {
                   Mixed Ethnicity
                   <select defaultValue="" value={state.mixEthnicity} onChange={this._handleOnChange} name="mixEthnicity">
                     <option value="">Not Mixed</option>
-                    {state.ethnicity !== 'black' && <option value="black">Black / African Descent</option>}
-                    {state.ethnicity !== 'asian' && <option value="asian">East Asian</option>}
-                    {state.ethnicity !== 'latino' && <option value="latino">Latino</option>}
-                    {state.ethnicity !== 'middleeastern' && <option value="middleeastern">Middle Eastern / North African</option>}
-                    {state.ethnicity !== 'nativeamerican' && <option value="nativeamerican">Native American / Indigenous</option>}
-                    {state.ethnicity !== 'pacificislander' && <option value="pacificislander">Pacific Islander</option>}
-                    {state.ethnicity !== 'southasian' && <option value="southasian">South Asian</option>}
-                    {state.ethnicity !== 'white' && <option value="white">White / Caucasian</option>}
+                    {enumOptions(enums.ethnicity, (enumKey) => enumKey === state.ethnicity)}
                   </select>
                 </label>
               </div>
@@ -463,15 +458,7 @@ class Profile extends Component {
                   Eye Color
                   <select required defaultValue="" value={state.eye} onChange={this._handleOnChange} name="eye">
                     {!state.eye && <option disabled hidden value="" />}
-                    <option value="amber">Amber</option>
-                    <option value="blue">Blue</option>
-                    <option value="brown">Brown</option>
-                    <option value="hray">Gray</option>
-                    <option value="hreen">Green</option>
-                    <option value="hazel">Hazel</option>
-                    <option value="heterochromia">Heterochromia (2 distinct colors)</option>
-                    <option value="red">Red</option>
-                    <option value="violet">Violet</option>
+                    {enumOptions(enums.eye)}
                   </select>
                 </label>
               </div>
@@ -480,14 +467,7 @@ class Profile extends Component {
                   Hair Color
                   <select required defaultValue="" value={state.hair} onChange={this._handleOnChange} name="hair">
                     {!state.hair && <option disabled hidden value="" />}
-                    <option value="bald">Bald</option>
-                    <option value="black">Black</option>
-                    <option value="blond">Blond</option>
-                    <option value="brown">Brown</option>
-                    <option value="dyed">Dyed (blue, green, red, etc)</option>
-                    <option value="gray">Gray</option>
-                    <option value="red">Red</option>
-                    <option value="white">White</option>
+                    {enumOptions(enums.hair)}
                   </select>
                 </label>
               </div>
@@ -498,11 +478,7 @@ class Profile extends Component {
                   Body Hair
                   <select required defaultValue="" value={state.bodyHair} onChange={this._handleOnChange} name="bodyHair">
                     {!state.bodyHair && <option disabled hidden value="" />}
-                    <option value="smooth">Smooth</option>
-                    <option value="trimmed">Trimmed</option>
-                    <option value="some">Some hair</option>
-                    <option value="hairy">Hairy</option>
-                    <option value="very">Very hairy</option>
+                    {enumOptions(enums.bodyHair)}
                   </select>
                 </label>
               </div>
@@ -511,12 +487,7 @@ class Profile extends Component {
                   Facial Hair
                   <select required defaultValue="" value={state.facialHair} onChange={this._handleOnChange} name="facialHair">
                     {!state.facialHair && <option disabled hidden value="" />}
-                    <option value="none">None</option>
-                    <option value="beard">Beard</option>
-                    <option value="goatee">Goatee (chin only)</option>
-                    <option value="vandyke">Goatee with moustache</option>
-                    <option value="moustache">Moustache</option>
-                    <option value="stubble">Stubble</option>
+                    {enumOptions(enums.facialHair)}
                   </select>
                 </label>
               </div>
@@ -527,10 +498,7 @@ class Profile extends Component {
                   HIV Status
                   <select required defaultValue="" value={state.hiv} onChange={this._handleOnChange} name="hiv">
                     {!state.hiv && <option disabled hidden value="" />}
-                    <option value="unknown">Don't know</option>
-                    <option value="no">Negative</option>
-                    <option value="yes">Positive</option>
-                    <option value="undetectable">Undetectable</option>
+                    {enumOptions(enums.hiv)}
                   </select>
                 </label>
               </div>
@@ -539,10 +507,7 @@ class Profile extends Component {
                   Safer Sex
                   <select required defaultValue="" value={state.safer} onChange={this._handleOnChange} name="safer">
                     {!state.safer && <option disabled hidden value="" />}
-                    <option value="no">Prefer bareback</option>
-                    <option value="yes">Prefer condoms</option>
-                    <option value="noprep">Prefer bareback - on PrEP</option>
-                    <option value="yesprep">Prefer condoms - on PrEP</option>
+                    {enumOptions(enums.safer)}
                   </select>
                 </label>
               </div>
@@ -553,11 +518,7 @@ class Profile extends Component {
                   Mannerisms & Speech
                   <select required defaultValue="" value={state.masc} onChange={this._handleOnChange} name="masc">
                     {!state.masc && <option disabled hidden value="" />}
-                    <option value="0">Very masculine</option>
-                    <option value="1">Masculine</option>
-                    <option value="2">In the middle</option>
-                    <option value="3">Feminine</option>
-                    <option value="4">Very feminine</option>
+                    {enumOptions(enums.masc)}
                   </select>
                 </label>
               </div>
@@ -565,12 +526,8 @@ class Profile extends Component {
                 <label>
                   Voice
                   <select required defaultValue="" value={state.voice} onChange={this._handleOnChange} name="voice">
-                    {!state.fem && <option disabled hidden value="" />}
-                    <option value="0">Very deep</option>
-                    <option value="1">Deep</option>
-                    <option value="2">Average</option>
-                    <option value="3">High</option>
-                    <option value="4">Very high</option>
+                    {!state.voice && <option disabled hidden value="" />}
+                    {enumOptions(enums.voice)}
                   </select>
                 </label>
               </div>
@@ -581,11 +538,7 @@ class Profile extends Component {
                   Tobacco
                   <select required defaultValue="" value={state.smokes} onChange={this._handleOnChange} name="smokes">
                     {!state.smokes && <option disabled hidden value="" />}
-                    <option value="no">Don't smoke</option>
-                    <option value="cigs">Cigarettes</option>
-                    <option value="both">Cigarettes & Cigars</option>
-                    <option value="cigars">Cigars</option>
-                    <option value="socially">Socially</option>
+                    {enumOptions(enums.smokes)}
                   </select>
                 </label>
               </div>
@@ -594,9 +547,7 @@ class Profile extends Component {
                   Discretion
                   <select required defaultValue="" value={state.discretion} onChange={this._handleOnChange} name="discretion">
                     {!state.discretion && <option disabled hidden value="" />}
-                    <option value="no">Don't need to be discrete</option>
-                    <option value="somewhat">Need to be discrete</option>
-                    <option value="yes">Need to be very discrete</option>
+                    {enumOptions(enums.discretion)}
                   </select>
                 </label>
               </div>

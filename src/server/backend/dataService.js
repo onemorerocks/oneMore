@@ -1,13 +1,25 @@
+import moment from 'moment';
 import Dao from './Dao';
 import { indexProfile, searchProfiles } from './elasticService';
 
 const dao = new Dao();
 
-export function getProfile(profileId) {
+export function getProfile(profileId, otherViewer) {
+
   if (!profileId) {
     return null;
   }
-  return dao.get('profiles', profileId);
+  const promise = dao.get('profiles', profileId);
+
+  return promise.then((profile) => {
+    if (otherViewer) {
+      const birthday = moment(new Date(profile.birthYear, profile.birthMonth));
+      profile.age = moment().diff(birthday, 'years');
+      profile.birthYear = null;
+      profile.birthMonth = null;
+    }
+    return profile;
+  });
 }
 
 export function getLogin(email) {

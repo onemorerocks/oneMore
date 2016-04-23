@@ -188,14 +188,14 @@ export const profileStringFields = [
   'facialHair',
   'smokes',
   'discretion',
-  'description'
+  'description',
+  'masc',
+  'voice'
 ];
 
 export const profileIntFields = [
   'birthMonth',
-  'birthYear',
-  'masc',
-  'voice'
+  'birthYear'
 ];
 
 export const profileNumberFields = [
@@ -254,3 +254,96 @@ profileNumberFields.forEach((id) => {
 profileStringListFields.forEach((id) => {
   allIds.push(id);
 });
+
+export const enums = {
+  foreskin: {
+    cut: 'Cut',
+    semicut: 'Semi-cut',
+    uncut: 'Uncut'
+  },
+  ethnicity: {
+    black: 'Black / African Descent',
+    asian: 'East Asian',
+    latino: 'Latino',
+    middleeastern: 'Middle Eastern / North African',
+    nativeamerican: 'Native American / Indigenous',
+    pacificislander: 'Pacific Islander',
+    southasian: 'South Asian',
+    white: 'White / Caucasian'
+  },
+  hiv: {
+    unknown: "Don't know",
+    no: 'Negative',
+    yes: 'Positive',
+    undetectable: 'Undetectable'
+  },
+  eye: {
+    amber: 'Amber',
+    blue: 'Blue',
+    brown: 'Brown',
+    hray: 'Gray',
+    hreen: 'Green',
+    hazel: 'Hazel',
+    heterochromia: 'Heterochromia (2 distinct colors)',
+    red: 'Red',
+    violet: 'Violet'
+  },
+  hair: {
+    bald: 'Bald',
+    black: 'Black',
+    blond: 'Blond',
+    brown: 'Brown',
+    dyed: 'Dyed (blue, green, red, etc)',
+    gray: 'Gray',
+    red: 'Red',
+    white: 'White'
+  },
+  bodyHair: {
+    smooth: 'Smooth',
+    trimmed: 'Trimmed',
+    some: 'Some hair',
+    hairy: 'Hairy',
+    very: 'Very hairy'
+  },
+  facialHair: {
+    none: 'None',
+    beard: 'Beard',
+    goatee: 'Goatee (chin only)',
+    vandyke: 'Goatee with moustache',
+    moustache: 'Moustache',
+    stubble: 'Stubble'
+  },
+  safer: {
+    no: 'Prefer bareback',
+    yes: 'Prefer condoms',
+    noprep: 'Prefer bareback - on PrEP',
+    yesprep: 'Prefer condoms - on PrEP'
+  },
+  masc: {
+    verymasc: 'Very masculine',
+    masc: 'Masculine',
+    middle: 'In the middle',
+    fem: 'Feminine',
+    veryfem: 'Very feminine'
+  },
+  voice: {
+    verydeep: 'Deep',
+    deep: 'Deeper than average',
+    average: 'Average',
+    high: 'Higher than average',
+    veryhigh: 'High'
+  },
+  smokes: {
+    no: "Don't smoke",
+    cigs: 'Cigarettes',
+    both: 'Cigarettes & Cigars',
+    cigars: 'Cigars',
+    socially: 'Socially'
+  },
+  discretion: {
+    no: "Don't need to be discrete",
+    somewhat: 'Need to be discrete',
+    yes: 'Need to be very discrete'
+  }
+};
+

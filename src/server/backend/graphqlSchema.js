@@ -66,13 +66,14 @@ profileStringListFields.forEach((id) => {
   profileInputFields[id] = { type: new GraphQLList(GraphQLString) };
 });
 
-const fieldObj = {
-  id: globalIdField('Profile')
+const profileFieldObj = {
+  id: globalIdField('Profile'),
+  age: { type: GraphQLInt }
 };
 
 const profileType = new GraphQLObjectType({
   name: 'Profile',
-  fields: () => (Object.assign(fieldObj, profileInputFields)),
+  fields: () => (Object.assign(profileFieldObj, profileInputFields)),
   interfaces: [nodeInterface]
 });
 
@@ -105,9 +106,9 @@ const loginType = new GraphQLObjectType({
           type: new GraphQLNonNull(GraphQLString)
         }
       },
-      resolve: (jwt, { id }) => {
+      resolve: (jwt, { id }, { fieldASTs }) => {
         const decoded = fromGlobalId(id);
-        return getProfile(decoded.id);
+        return getProfile(decoded.id, true);
       }
     }
   }),
