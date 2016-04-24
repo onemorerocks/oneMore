@@ -5,7 +5,7 @@ import DocumentTitle from 'react-document-title';
 import cssModules from 'react-css-modules';
 import styles from './guyView.scss';
 import { Row, Column } from 'react-foundation';
-import { enums } from '../../common/profileModel';
+import { enums, profileStarsModel, profileKinksModel, profileKinksCheckboxModel } from '../../common/profileModel';
 
 const LabelAndValue = cssModules((props) => (
   <div styleName="label-value-container">
@@ -18,6 +18,27 @@ LabelAndValue.propTypes = {
   label: React.PropTypes.string,
   value: React.PropTypes.any
 };
+
+const mapFeeling = (value) => {
+  let feeling = '?';
+  if (value === 1) {
+    feeling = "He doesn't like";
+  } else if (value === 2) {
+    feeling = 'He rarely likes';
+  } else if (value === 3) {
+    feeling = 'He sometimes likes';
+  } else if (value === 4) {
+    feeling = 'He enjoys';
+  } else if (value === 5) {
+    feeling = 'He loves';
+  }
+  return feeling;
+};
+
+const kinkMap = {};
+profileKinksCheckboxModel.forEach((model) => {
+  kinkMap[model.value] = model.label;
+});
 
 class GuyView extends Component {
 
@@ -110,6 +131,26 @@ class GuyView extends Component {
             <LabelAndValue label="Cock Length" value={cockLength} />
             <LabelAndValue label="Cock Girth" value={cockGirth} />
             <LabelAndValue label="Foreskin" value={enums.foreskin[profile.foreskin]} />
+
+            {profileStarsModel.map((groupModel, i) =>
+              groupModel.rows.map((row, j) =>
+                <div>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
+              )
+            )}
+
+            {profileKinksModel.map((groupModel, i) =>
+              groupModel.rows.map((row, j) =>
+                <div>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
+              )
+            )}
+
+            <div className="Select--multi">
+              He's into {profile.kinks.map((kink, i) =>
+              <div className="Select-value">
+                <span className="Select-value-label">{kinkMap[kink]}</span>
+              </div>
+            )}
+            </div>
           </Column>
         </Row>
       </DocumentTitle>
@@ -157,7 +198,27 @@ export default Relay.createContainer(cssModules(GuyView, styles), {
           facialHair,
           smokes,
           discretion,
-          description
+          description,
+
+          givesHead,
+          getsHead,
+          sixtynine,
+          givesFuck,
+          getsFucked,
+          givesHand,
+          getsHand,
+          mutualMast,
+          givesRim,
+          getsRim,
+          poppers,
+          fourtwenty,
+          nipplePlay,
+          kissing,
+          cuddling,
+
+          dom,
+          sub,
+          kinks
         }
       }
     `
