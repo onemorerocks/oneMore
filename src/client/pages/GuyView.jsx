@@ -134,19 +134,19 @@ class GuyView extends Component {
 
             {profileStarsModel.map((groupModel, i) =>
               groupModel.rows.map((row, j) =>
-                <div>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
+                <div key={i + ',' + j}>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
               )
             )}
 
             {profileKinksModel.map((groupModel, i) =>
               groupModel.rows.map((row, j) =>
-                <div>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
+                <div key={i + ',' + j}>{mapFeeling(profile[row.id])} <strong>{row.text}</strong></div>
               )
             )}
 
             <div className="Select--multi">
               He's into {profile.kinks.map((kink, i) =>
-              <div className="Select-value">
+              <div className="Select-value" key={i}>
                 <span className="Select-value-label">{kinkMap[kink]}</span>
               </div>
             )}
