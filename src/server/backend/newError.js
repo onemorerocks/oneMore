@@ -7,8 +7,12 @@ export default (messageOrNestedError, optionalNestedError) => {
     message = null;
   }
 
-  if (message && typeof message === 'object') {
-    message = JSON.stringify(message);
+  if (message) {
+    if (Array.isArray(message)) {
+      message = message.join();
+    } else if (typeof message === 'object') {
+      message = JSON.stringify(message);
+    }
   }
 
   if (!nestedError) {

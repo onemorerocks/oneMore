@@ -10,6 +10,8 @@ function doQuery(req, token) {
   const result = graphql(schema, query, token, variables);
   return result.then((data) => {
     if (data.errors) {
+      console.error('Query', query);
+      console.error('Variables', variables);
       return newError(data.errors);
     }
     return data;

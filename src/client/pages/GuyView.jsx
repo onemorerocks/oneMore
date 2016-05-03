@@ -52,7 +52,7 @@ class GuyView extends Component {
     super(props);
     if (process.env.IS_BROWSER && props.profileId) {
       props.relay.setVariables({
-        id: props.profileId
+        profileId: props.profileId
       });
     }
   }
@@ -162,7 +162,7 @@ class GuyView extends Component {
 export default Relay.createContainer(cssModules(GuyView, styles), {
 
   initialVariables: {
-    id: ''
+    profileId: ''
   },
 
   fragments: {
@@ -174,7 +174,7 @@ export default Relay.createContainer(cssModules(GuyView, styles), {
           waistUnits,
           cockUnits
         },
-        getProfile(id: $id) {
+        getProfile(id: $profileId) {
           id,
           nickname,
           photos,

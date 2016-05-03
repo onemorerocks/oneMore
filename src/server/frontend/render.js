@@ -20,9 +20,7 @@ const appCss = assets.css;
 const GRAPHQL_URL = 'http://localhost:8000/api/graphql';
 
 function getAppHtml(renderProps) {
-  return ReactDOMServer.renderToString(
-    <IsomorphicRouter.RouterContext {...renderProps} />
-  );
+  return ReactDOMServer.renderToString(IsomorphicRouter.render(renderProps));
 }
 
 function getPageHtml(appHtml, hostname, preloadedData) {
@@ -64,14 +62,12 @@ export default function render(req, reply) {
       } else if (error) {
         reject(newError(error));
       } else if (renderProps) {
-        Relay.injectNetworkLayer(
-          new Relay.DefaultNetworkLayer(GRAPHQL_URL, {
-            headers: {
-              token: req.state.token
-            }
-          })
-        );
-        const nestedPromise = IsomorphicRouter.prepareData(renderProps).then(({ data, props }) => {
+        const networkLayer = new Relay.DefaultNetworkLayer(GRAPHQL_URL, {
+          headers: {
+            token: req.state.token
+          }
+        });
+        const nestedPromise = IsomorphicRouter.prepareData(renderProps, networkLayer).then(({ data, props }) => {
           const appHtml = getAppHtml(props);
           return getPageHtml(appHtml, req.info.hostname, JSON.stringify(data));
         });

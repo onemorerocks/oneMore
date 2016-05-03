@@ -108,6 +108,7 @@ const loginType = new GraphQLObjectType({
       },
       resolve: (jwt, { id }, { fieldASTs }) => {
         const decoded = fromGlobalId(id);
+        console.log('uh oh', decoded);
         return getProfile(decoded.id, true);
       }
     }
