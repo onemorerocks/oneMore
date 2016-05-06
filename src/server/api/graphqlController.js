@@ -7,7 +7,7 @@ const auth = new Auth();
 
 function doQuery(req, token) {
   const { query, variables = {} } = req.payload;
-  const result = graphql(schema, query, token, variables);
+  const result = graphql(schema, query, token, token, variables);
   return result.then((data) => {
     if (data.errors) {
       console.error('Query', query);

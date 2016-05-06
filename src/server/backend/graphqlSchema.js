@@ -19,12 +19,12 @@ import {
  * The second defines the way we resolve a node object to its GraphQL type.
  */
 const { nodeInterface, nodeField } = nodeDefinitions(
-  (globalId) => {
+  (globalId, token) => {
     const { type, id } = fromGlobalId(globalId);
     if (type === 'Login') {
-      return getLogin(id);
+      return getLogin(token.email);
     } else if (type === 'Profile') {
-      return getProfile(id);
+      return getProfile(id, true);
     } else {
       return null;
     }
@@ -108,7 +108,6 @@ const loginType = new GraphQLObjectType({
       },
       resolve: (jwt, { id }, { fieldASTs }) => {
         const decoded = fromGlobalId(id);
-        console.log('uh oh', decoded);
         return getProfile(decoded.id, true);
       }
     }
