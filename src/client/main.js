@@ -21,7 +21,7 @@ IsomorphicRelay.injectPreparedData(environment, data);
 
 const rootElement = document.getElementById('app');
 
-match({routes, history: browserHistory}, (error, redirectLocation, renderProps) => {
+match({ routes, history: browserHistory }, (error, redirectLocation, renderProps) => {
   IsomorphicRouter.prepareInitialRender(environment, renderProps).then(props => {
     ReactDOM.render(<Router {...props} />, rootElement);
   });

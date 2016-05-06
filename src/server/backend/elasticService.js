@@ -33,7 +33,7 @@ export function searchProfiles(query) {
       if (error) {
         reject(error);
       } else {
-        const ids = response.hits.hits.map((hit) => hit._id);
+        const ids = response.hits.hits.map((hit) => hit._id); // eslint-disable-line
         resolve(ids);
       }
     });

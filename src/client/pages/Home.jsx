@@ -20,7 +20,7 @@ export default class Home extends Component {
             <div className="small-12 columns">
               <div className="text-center">
                 <h1>Why not invite one more?</h1>
-                <img src="http://hot-disney-cartoon.com/gay/Gay-park-orgy.jpg" />
+                <img src="http://hot-disney-cartoon.com/gay/Gay-park-orgy.jpg" alt="Welcome" />
               </div>
             </div>
           </div>

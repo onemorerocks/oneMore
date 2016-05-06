@@ -40,7 +40,8 @@ function getPageHtml(appHtml, hostname, preloadedData) {
 
   const outputHtml = `<div id="app">${appHtml}</div>` + scriptHtml.trim();
 
-  return '<!DOCTYPE html>' + ReactDOMServer.renderToStaticMarkup(
+  return '<!DOCTYPE html>' +
+    ReactDOMServer.renderToStaticMarkup(
       <Html
         appCssHash={appCss}
         bodyHtml={outputHtml}

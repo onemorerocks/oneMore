@@ -106,7 +106,7 @@ const loginType = new GraphQLObjectType({
           type: new GraphQLNonNull(GraphQLString)
         }
       },
-      resolve: (jwt, { id }, { fieldASTs }) => {
+      resolve: (jwt, { id }) => {
         const decoded = fromGlobalId(id);
         return getProfile(decoded.id, true);
       }

@@ -571,8 +571,9 @@ class Profile extends Component {
             <div className="small-12 columns" styleName="save-row">
               <div className="float-right">
                 {profile.birthYear &&
-                <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
-                       onClick={this._handleReset} />}
+                  <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
+                         onClick={this._handleReset} />
+                }
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>
             </div>

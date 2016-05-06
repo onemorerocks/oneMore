@@ -67,7 +67,7 @@ class Guys extends Component {
               <div key={profile.id} className={'small-12 medium-4 large-3 columns ' + lastClass} onClick={this._handleProfileClick}
                    data-profile={profile.id}>
                 <div>
-                  {profile.photos && <img src={'/api/photos/' + profile.photos[0] + '?size=208x208'} />}
+                  {profile.photos && <img src={'/api/photos/' + profile.photos[0] + '?size=208x208'} alt="Profile" />}
                 </div>
                 <div>
                   {profile.nickname}

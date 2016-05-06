@@ -65,7 +65,9 @@ class Photos extends Component {
             {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className={styles.dropzone}>
               <div>Drag and drop photos here, or click to select photos to upload.</div>
             </Dropzone>}
-            {this.state.isUploading && <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" /></div>}
+            {this.state.isUploading &&
+              <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" alt="loading" /></div>
+            }
           </div>
           {profile.photos && profile.photos.map((photoHash, i) => {
             if (photoHash) {
@@ -73,7 +75,7 @@ class Photos extends Component {
               return (
                 <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass} key={'photo' + i}>
                   <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
-                       name={photoHash} />
+                       name={photoHash} alt="profile thumbnail" />
                 </div>
               );
             } else {

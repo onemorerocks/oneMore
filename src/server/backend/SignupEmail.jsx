@@ -15,14 +15,14 @@ export default class SignupEmail extends Component {
 
     return (
       <html lang="en">
-      <head>
-      </head>
-      <body>
-
-      <h1>Welcome to oneMore</h1>
-      <p>Click <a href={`${config.domain}/email-verify?email=${email}&key=${key}`}>this link</a> to
-        get started by making a profile.</p>
-      </body>
+        <head>
+        </head>
+        <body>
+          <h1>Welcome to oneMore</h1>
+          <p>Click <a href={`${config.domain}/email-verify?email=${email}&key=${key}`}>this link</a> to
+            get started by making a profile.
+          </p>
+        </body>
       </html>
     );
   }

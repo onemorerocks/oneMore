@@ -1,5 +1,5 @@
-require('babel-register');
-require('babel-polyfill');
+require('babel-register'); // eslint-disable-line
+require('babel-polyfill'); // eslint-disable-line
 
 const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 const config = require('./config');
@@ -15,5 +15,5 @@ if (!process.env.NODE_ENV) {
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(webpackIsomorphicAssets)
   .development(!config.isProduction)
   .server(rootDir, () => {
-    require('./main');
+    require('./main'); // eslint-disable-line
   });

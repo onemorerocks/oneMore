@@ -17,7 +17,7 @@ const alertFunc = (a) => {
 
 let alertElement = null;
 if (process.env.IS_BROWSER) {
-  const AlertContainer = require('react-alert');
+  const AlertContainer = require('react-alert'); // eslint-disable-line
   alertElement = <AlertContainer ref={alertFunc} {...alertOptions} />;
 }
 

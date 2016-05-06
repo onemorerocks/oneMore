@@ -1,7 +1,7 @@
 export default () => {
 
   if (process.env.NODE_ENV === 'production') {
-    const AirbrakeClient = require('airbrake-js');
+    const AirbrakeClient = require('airbrake-js'); // eslint-disable-line
     const airbrake = new AirbrakeClient();
     airbrake.setHost('http://192.168.99.100:5000');
     airbrake.setProject('105cd6c8fb856a26f8ab0fa2f866337a', '105cd6c8fb856a26f8ab0fa2f866337a');

@@ -101,7 +101,7 @@ class GuyView extends Component {
                 return (
                   <div key={photoHash} key={'photo' + i}>
                     <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
-                         name={photoHash} />
+                         name={photoHash} alt="User thumbnail" />
                   </div>
                 );
               } else {
@@ -145,10 +145,11 @@ class GuyView extends Component {
             )}
 
             <div className="Select--multi">
-              He's into {profile.kinks.map((kink, i) =>
-              <div className="Select-value" key={i}>
-                <span className="Select-value-label">{kinkMap[kink]}</span>
-              </div>
+              He's into {profile.kinks.map((kink, i) => (
+                <div className="Select-value" key={i}>
+                  <span className="Select-value-label">{kinkMap[kink]}</span>
+                </div>
+              )
             )}
             </div>
           </Column>

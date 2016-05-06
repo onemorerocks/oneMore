@@ -10,7 +10,7 @@ class Tabs extends Component {
     activeTab: PropTypes.string.isRequired
   };
 
-  static _tabs = [{
+  static tabs = [{
     id: 'home',
     url: '/',
     label: 'Home',
@@ -60,7 +60,7 @@ class Tabs extends Component {
     return (
       <div>
         <ul className="tabs" styleName="tabs">
-          {Tabs._tabs.map((tab, i) => <Tab tab={tab} key={'tab' + i} />)}
+          {Tabs.tabs.map((tab, i) => <Tab tab={tab} key={'tab' + i} />)}
         </ul>
       </div>
     );

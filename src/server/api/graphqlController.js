@@ -10,8 +10,8 @@ function doQuery(req, token) {
   const result = graphql(schema, query, token, token, variables);
   return result.then((data) => {
     if (data.errors) {
-      console.error('Query', query);
-      console.error('Variables', variables);
+      console.error('Query', query); // eslint-disable-line
+      console.error('Variables', variables); // eslint-disable-line
       return newError(data.errors);
     }
     return data;
