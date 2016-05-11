@@ -115,6 +115,10 @@ class Profile extends Component {
     login: React.PropTypes.object
   };
 
+  static contextTypes = {
+    relay: Relay.PropTypes.Environment
+  };
+
   constructor(props) {
     super(props);
     this.state = this._buildInitStateObj();
@@ -144,9 +148,9 @@ class Profile extends Component {
       return;
     }
 
-    this.setState({ submitDisabled: true, errors: [] });
+    this.setState({ submitDisabled: false, errors: [] });
 
-    const obj = { login: this.props.login };
+    const obj = { login: this.props.login, id: this.props.login.profile.id };
 
     allIds.forEach((id) => {
       obj[id] = this.state[id];
@@ -170,7 +174,8 @@ class Profile extends Component {
       delete obj[field];
     });
 
-    Relay.Store.commitUpdate(
+    console.log('obj', obj);
+    this.context.relay.commitUpdate(
       new ProfileMutation(obj),
       {
         onSuccess: () => {
@@ -289,7 +294,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Birth Year
-                  <select required defaultValue="" value={state.birthYear} onChange={this._handleOnChange} name="birthYear">
+                  <select required value={state.birthYear} onChange={this._handleOnChange} name="birthYear">
                     {!profile.birthYear && <option disabled hidden value="" />}
                     {years.map((year) => {
                       return <option key={year} value={year}>{year}</option>;
@@ -300,7 +305,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Birth Month
-                  <select required defaultValue="" value={state.birthMonth} onChange={this._handleOnChange} name="birthMonth">
+                  <select required value={state.birthMonth} onChange={this._handleOnChange} name="birthMonth">
                     {!profile.birthMonth && <option disabled hidden value="" />}
                     {months.map((month, i) => {
                       return <option key={month} value={i}>{month}</option>;
@@ -323,7 +328,7 @@ class Profile extends Component {
                     <input styleName="hor-input" type="radio" value="kg" />kg
                   </label>
                 </RadioGroup>
-                <select id="weight" defaultValue="" value={state.weight} onChange={this._handleOnChange} name="weight"
+                <select id="weight" value={state.weight} onChange={this._handleOnChange} name="weight"
                         required>
                   {!state.weight && <option disabled hidden value="" />}
                   {state.weightUnits === 'kg' && kgs.map((kg) => {
@@ -347,7 +352,7 @@ class Profile extends Component {
                     <input styleName="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="height" defaultValue="" value={state.height} onChange={this._handleOnChange} name="height">
+                <select id="height" value={state.height} onChange={this._handleOnChange} name="height">
                   {!state.height && <option disabled hidden value="" />}
                   {state.heightUnits === 'feet' && feet.map((foot) => {
                     return <option key={'heightFeet' + foot.value} value={foot.value}>{foot.label}</option>;
@@ -371,7 +376,7 @@ class Profile extends Component {
                 </RadioGroup>
                 <a href="http://www.webmd.com/diet/waist-measurement" className="float-right" styleName="underlined-link"
                    target="_blank">Not pants size</a>
-                <select id="waist" defaultValue="" value={state.waist} onChange={this._handleOnChange} name="waist">
+                <select id="waist" value={state.waist} onChange={this._handleOnChange} name="waist">
                   {!state.waist && <option disabled hidden value="" />}
                   {state.waistUnits === 'inches' && waistInches.map((inch) => {
                     return <option key={'waistInches' + inch.value} value={inch.value}>{inch.label}</option>;
@@ -395,7 +400,7 @@ class Profile extends Component {
                     <input styleName="hor-input" type="radio" value="cm" />cm
                   </label>
                 </RadioGroup>
-                <select id="cockLength" defaultValue="" value={state.cockLength} onChange={this._handleCockLength} name="cockLength">
+                <select id="cockLength" value={state.cockLength} onChange={this._handleCockLength} name="cockLength">
                   {!state.cockLength && <option disabled hidden value="" />}
                   <option value={0}>Don't have a cock</option>
                   {state.cockUnits === 'inches' && cockLengthInches.map((inch) => {
@@ -412,7 +417,7 @@ class Profile extends Component {
                 </label>
                 <a href="http://www.bestenhancements.com/wp-content/uploads/2013/09/How-to-measure-your-penis.png"
                    className="float-right" styleName="underlined-link" target="_blank">How to measure</a>
-                <select id="cockGirth" defaultValue="" value={state.cockGirth} onChange={this._handleOnChange} name="cockGirth">
+                <select id="cockGirth" value={state.cockGirth} onChange={this._handleOnChange} name="cockGirth">
                   {!state.cockGirth && <option disabled hidden value="" />}
                   {state.cockUnits === 'inches' && cockGirthInches.map((inch) => {
                     return <option key={'cockGirthInches' + inch.value} value={inch.value}>{inch.label}</option>;
@@ -436,7 +441,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Ethnicity
-                  <select required defaultValue="" value={state.ethnicity} onChange={this._handleOnChange} name="ethnicity">
+                  <select required value={state.ethnicity} onChange={this._handleOnChange} name="ethnicity">
                     {!state.ethnicity && <option disabled hidden value="" />}
                     {enumOptions(enums.ethnicity)}
                   </select>
@@ -445,7 +450,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Mixed Ethnicity
-                  <select defaultValue="" value={state.mixEthnicity} onChange={this._handleOnChange} name="mixEthnicity">
+                  <select value={state.mixEthnicity} onChange={this._handleOnChange} name="mixEthnicity">
                     <option value="">Not Mixed</option>
                     {enumOptions(enums.ethnicity, (enumKey) => enumKey === state.ethnicity)}
                   </select>
@@ -456,7 +461,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Eye Color
-                  <select required defaultValue="" value={state.eye} onChange={this._handleOnChange} name="eye">
+                  <select required value={state.eye} onChange={this._handleOnChange} name="eye">
                     {!state.eye && <option disabled hidden value="" />}
                     {enumOptions(enums.eye)}
                   </select>
@@ -465,7 +470,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Hair Color
-                  <select required defaultValue="" value={state.hair} onChange={this._handleOnChange} name="hair">
+                  <select required value={state.hair} onChange={this._handleOnChange} name="hair">
                     {!state.hair && <option disabled hidden value="" />}
                     {enumOptions(enums.hair)}
                   </select>
@@ -476,7 +481,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Body Hair
-                  <select required defaultValue="" value={state.bodyHair} onChange={this._handleOnChange} name="bodyHair">
+                  <select required value={state.bodyHair} onChange={this._handleOnChange} name="bodyHair">
                     {!state.bodyHair && <option disabled hidden value="" />}
                     {enumOptions(enums.bodyHair)}
                   </select>
@@ -485,7 +490,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Facial Hair
-                  <select required defaultValue="" value={state.facialHair} onChange={this._handleOnChange} name="facialHair">
+                  <select required value={state.facialHair} onChange={this._handleOnChange} name="facialHair">
                     {!state.facialHair && <option disabled hidden value="" />}
                     {enumOptions(enums.facialHair)}
                   </select>
@@ -496,7 +501,7 @@ class Profile extends Component {
               <div>
                 <label>
                   HIV Status
-                  <select required defaultValue="" value={state.hiv} onChange={this._handleOnChange} name="hiv">
+                  <select required value={state.hiv} onChange={this._handleOnChange} name="hiv">
                     {!state.hiv && <option disabled hidden value="" />}
                     {enumOptions(enums.hiv)}
                   </select>
@@ -505,7 +510,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Safer Sex
-                  <select required defaultValue="" value={state.safer} onChange={this._handleOnChange} name="safer">
+                  <select required value={state.safer} onChange={this._handleOnChange} name="safer">
                     {!state.safer && <option disabled hidden value="" />}
                     {enumOptions(enums.safer)}
                   </select>
@@ -516,7 +521,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Mannerisms & Speech
-                  <select required defaultValue="" value={state.masc} onChange={this._handleOnChange} name="masc">
+                  <select required value={state.masc} onChange={this._handleOnChange} name="masc">
                     {!state.masc && <option disabled hidden value="" />}
                     {enumOptions(enums.masc)}
                   </select>
@@ -525,7 +530,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Voice
-                  <select required defaultValue="" value={state.voice} onChange={this._handleOnChange} name="voice">
+                  <select required value={state.voice} onChange={this._handleOnChange} name="voice">
                     {!state.voice && <option disabled hidden value="" />}
                     {enumOptions(enums.voice)}
                   </select>
@@ -536,7 +541,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Tobacco
-                  <select required defaultValue="" value={state.smokes} onChange={this._handleOnChange} name="smokes">
+                  <select required value={state.smokes} onChange={this._handleOnChange} name="smokes">
                     {!state.smokes && <option disabled hidden value="" />}
                     {enumOptions(enums.smokes)}
                   </select>
@@ -545,7 +550,7 @@ class Profile extends Component {
               <div>
                 <label>
                   Discretion
-                  <select required defaultValue="" value={state.discretion} onChange={this._handleOnChange} name="discretion">
+                  <select required value={state.discretion} onChange={this._handleOnChange} name="discretion">
                     {!state.discretion && <option disabled hidden value="" />}
                     {enumOptions(enums.discretion)}
                   </select>
@@ -594,6 +599,7 @@ export default Relay.createContainer(cssModules(Profile, styles), {
         ${Kinks.getFragment('login')},
         ${Photos.getFragment('login')},
         profile {
+          id,
           nickname,
           weightUnits,
           birthMonth,

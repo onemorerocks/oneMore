@@ -2,7 +2,7 @@ version: '2'
 
 services:
   elasticsearch:
-    image: elasticsearch:2.2.1
+    image: elasticsearch:2.3.2
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -13,7 +13,7 @@ services:
       - "3000-3003:3000-3003"
 
   aerospike-amc:
-    build: ./aerospike-amc
+    image: mrbar42/aerospike-amc
     ports:
       - "8081:8081"
 
@@ -45,7 +45,7 @@ services:
       ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
 
   rocketchat:
-    image: rocketchat/rocket.chat:0.23.0
+    image: rocketchat/rocket.chat:0.30.0
     ports:
       - "8080:3000"
     environment:

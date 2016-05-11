@@ -121,7 +121,7 @@ const profileMutation = mutationWithClientMutationId({
   outputFields: {
     updatedProfile: {
       type: profileType,
-      resolve: (input, _, { rootValue }) => updateProfile(rootValue, input)
+      resolve: (input, _, token) => updateProfile(token, input)
     }
   },
   mutateAndGetPayload: (input) => {
