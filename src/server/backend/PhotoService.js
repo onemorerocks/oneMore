@@ -6,15 +6,15 @@ import { addPhoto } from './dataService';
 export default class PhotoService {
 
   _uploadToThumbor(stream) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       stream.pipe(request.post(config.thumborUrl + '/image', (error, response, body) => {
         if (error) {
-          return reject(newError('thumbor upload error', error));
+          throw newError('thumbor upload error', error);
         }
         if (response.statusCode !== 201) {
           const err = newError(
             'thumbor upload error, httpStatus:' + response.statusCode + '\n' + JSON.stringify(response.headers) + '\n' + body);
-          return reject(err);
+          throw newError(err);
         }
         return resolve(response.headers.location);
       }));
@@ -30,7 +30,7 @@ export default class PhotoService {
   }
 
   doGet(path) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       const options = {
         url: config.thumborUrl + path,
@@ -42,12 +42,12 @@ export default class PhotoService {
           if (response.statusCode !== 200) {
             const err = newError(
               'thumbor get error, httpStatus:' + response.statusCode + '\n' + JSON.stringify(response.headers));
-            return reject(err);
+            throw newError(err);
           }
           return resolve(response);
         })
         .on('error', (error) => {
-          reject(newError(error));
+          throw newError(error);
         });
     });
   }

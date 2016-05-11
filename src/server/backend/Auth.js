@@ -154,7 +154,7 @@ export default class Auth {
   }
 
   _checkPasswordDictionary(password) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       const ps = spawn('./sgrep-1.0/sgrep', ['-ic', password, 'passwords.txt']);
 
@@ -164,12 +164,12 @@ export default class Auth {
         } else if (data.indexOf('0') >= 0) {
           resolve(false);
         } else {
-          reject(new Error('Unexpected result: ' + data));
+          throw newError('Unexpected result: ' + data);
         }
       });
 
       ps.stderr.on('data', (data) => {
-        reject(new Error(data));
+        throw newError(data);
       });
 
     });

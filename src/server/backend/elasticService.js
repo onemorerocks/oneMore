@@ -1,12 +1,13 @@
 import elasticsearch from 'elasticsearch';
 import config from '../config';
+import newError from '../backend/newError';
 
 const client = new elasticsearch.Client({
   host: config.elasticsearchUrl
 });
 
 export function indexProfile(profile) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     client.index({
       index: 'onemore',
       type: 'profile',
@@ -14,7 +15,7 @@ export function indexProfile(profile) {
       body: profile
     }, (error, response) => {
       if (error) {
-        reject(error);
+        throw newError(error);
       } else {
         resolve(response);
       }
@@ -23,7 +24,7 @@ export function indexProfile(profile) {
 }
 
 export function searchProfiles(query) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     client.search({
       index: 'onemore',
       q: query,
@@ -31,7 +32,7 @@ export function searchProfiles(query) {
       _source: false
     }, (error, response) => {
       if (error) {
-        reject(error);
+        throw newError(error);
       } else {
         const ids = response.hits.hits.map((hit) => hit._id); // eslint-disable-line
         resolve(ids);

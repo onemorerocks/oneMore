@@ -4,6 +4,7 @@ import SignupEmail from '../backend/SignupEmail.jsx';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import cookies from '../backend/cookies';
+import newError from '../backend/newError';
 
 const emailService = new Email();
 const authService = new Auth();
@@ -61,7 +62,7 @@ export default function signupController(req, reply) {
     } else if (result.status === 'resendPasswordMismatch') {
       return req.generateResponse('Password Mismatch').code(422);
     } else {
-      throw new Error('Unexpected signup result', result);
+      throw newError('Unexpected signup result', result);
     }
   });
 

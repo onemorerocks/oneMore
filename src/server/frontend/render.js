@@ -54,14 +54,14 @@ function getPageHtml(appHtml, hostname, preloadedData) {
 export default function render(req, reply) {
   const location = createHistory().createLocation(req.url.path);
 
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise((resolve) => {
     match({ routes, location }, (error, redirectLocation, renderProps) => {
 
       if (redirectLocation) {
         const response = req.generateResponse().redirect(302, redirectLocation.pathname + redirectLocation.search);
         resolve(response);
       } else if (error) {
-        reject(newError(error));
+        throw newError(error);
       } else if (renderProps) {
         const networkLayer = new Relay.DefaultNetworkLayer(GRAPHQL_URL, {
           headers: {

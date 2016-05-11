@@ -12,12 +12,12 @@ export default class Dao {
       hosts: [{ addr: config.aerospikeAddress, port: config.aerospikePort }]
     });
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       rawClient.connect((err, client) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(client);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
     });
@@ -25,8 +25,8 @@ export default class Dao {
 
   _connectPromise(cb) {
     return this._connect().then((client) => {
-      return new Promise((resolve, reject) => {
-        cb(client, resolve, reject);
+      return new Promise((resolve) => {
+        cb(client, resolve);
       }).then((result) => {
         client.close();
         return result;
@@ -42,7 +42,7 @@ export default class Dao {
   }
 
   get(table, key) {
-    return this._connectPromise((client, resolve, reject) => {
+    return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.get(dbkey, (err, record, metadata) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
@@ -50,14 +50,14 @@ export default class Dao {
         } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
           resolve(null);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
     });
   }
 
   getBatch(table, keys, bins) {
-    return this._connectPromise((client, resolve, reject) => {
+    return this._connectPromise((client, resolve) => {
       const dbkeys = keys.map((key) => aerospike.key('onemore', table, key));
       client.batchSelect(dbkeys, bins, (err, results) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
@@ -70,7 +70,7 @@ export default class Dao {
           });
           resolve(records);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
     });
@@ -81,7 +81,7 @@ export default class Dao {
   };
 
   createIfDoesNotExist(table, key, data) {
-    return this._connectPromise((client, resolve, reject) => {
+    return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._createPolicy, (err, putKey) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
@@ -89,7 +89,7 @@ export default class Dao {
         } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_EXISTS) {
           resolve(false);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
     });
@@ -100,22 +100,22 @@ export default class Dao {
   };
 
   blindSet(table, key, data) {
-    return this._connectPromise((client, resolve, reject) => {
+    return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._setPolicy, (err, putKey) => {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(putKey);
         } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
-          reject(newError('Record not found in table: ' + table + '.' + key));
+          throw newError('Record not found in table: ' + table + '.' + key);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
     });
   }
 
   insertIntoList(table, key, field, array) {
-    return this._connectPromise((client, resolve, reject) => {
+    return this._connectPromise((client, resolve) => {
       const ops = array.map((item) => {
         return op.listAppend(field, item);
       });
@@ -124,9 +124,9 @@ export default class Dao {
         if (err.code === aerospike.status.AEROSPIKE_OK) {
           resolve(record);
         } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
-          reject(newError('Record not found in table: ' + table + '.' + key));
+          throw newError('Record not found in table: ' + table + '.' + key);
         } else {
-          reject(newError(err));
+          throw newError(err);
         }
       });
 

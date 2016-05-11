@@ -20,7 +20,7 @@ export default (messageOrNestedError, optionalNestedError) => {
   } else if (message) {
     return new Error(message + '\ncaused by:\n' + nestedError.stack);
   } else {
-    return new Error(nestedError.stack);
+    return new Error(nestedError.stack + '\n---END OF NESTED ERROR---');
   }
 
 };

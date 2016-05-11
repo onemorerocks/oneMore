@@ -174,7 +174,6 @@ class Profile extends Component {
       delete obj[field];
     });
 
-    console.log('obj', obj);
     this.context.relay.commitUpdate(
       new ProfileMutation(obj),
       {

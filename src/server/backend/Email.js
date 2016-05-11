@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 import config from '../config';
+import newError from './newError';
 
 export default class Email {
 
@@ -18,7 +19,7 @@ export default class Email {
   }
 
   sendEmail(to, subject, html) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       if (!config.sendEmails) {
         resolve(false);
@@ -33,7 +34,7 @@ export default class Email {
         html
       }, (error, response) => {
         if (error) {
-          reject(new Error(error));
+          throw newError(error);
         } else {
           resolve(response);
         }
