@@ -41,7 +41,7 @@ export default class ProfileMutation extends Relay.Mutation {
   getConfigs() {
     return [{
       type: 'FIELDS_CHANGE',
-      fieldIDs: { updatedProfile: this.props.id }
+      fieldIDs: { updatedProfile: this.props.login.profile.id }
     }];
   }
 }

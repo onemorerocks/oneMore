@@ -148,9 +148,9 @@ class Profile extends Component {
       return;
     }
 
-    this.setState({ submitDisabled: false, errors: [] });
+    this.setState({ submitDisabled: true, errors: [] });
 
-    const obj = { login: this.props.login, id: this.props.login.profile.id };
+    const obj = { login: this.props.login };
 
     allIds.forEach((id) => {
       obj[id] = this.state[id];
@@ -598,7 +598,6 @@ export default Relay.createContainer(cssModules(Profile, styles), {
         ${Kinks.getFragment('login')},
         ${Photos.getFragment('login')},
         profile {
-          id,
           nickname,
           weightUnits,
           birthMonth,
