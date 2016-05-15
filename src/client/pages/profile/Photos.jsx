@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import Modal from 'react-modal';
+import { Row, Column } from 'react-foundation';
 import cssModules from '../../lib/cssModules';
 import styles from './photos.scss';
 
@@ -60,29 +61,28 @@ class Photos extends Component {
             <h3>Photos</h3>
           </div>
         </div>
-        <div className="row">
-          <div className="small-12 medium-4 large-3 columns">
+        <Row upOnLarge={3} upOnMedium={2} upOnSmall={1} verticalAlignment="stretch">
+          <Column>
             {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className={styles.dropzone}>
               <div>Drag and drop photos here, or click to select photos to upload.</div>
             </Dropzone>}
             {this.state.isUploading &&
-              <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" alt="loading" /></div>
+            <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" alt="loading" /></div>
             }
-          </div>
+          </Column>
           {profile.photos && profile.photos.map((photoHash, i) => {
             if (photoHash) {
-              const lastClass = i === profile.photos.length - 1 ? 'end' : '';
               return (
-                <div key={photoHash} className={'small-12 medium-4 large-3 columns ' + lastClass} key={'photo' + i}>
-                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
-                       name={photoHash} alt="profile thumbnail" />
-                </div>
+                <Column key={photoHash}>
+                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=442x332`} onClick={this.thumbnailHandler} name={photoHash}
+                       alt="profile thumbnail" />
+                </Column>
               );
             } else {
               return null;
             }
           })}
-        </div>
+        </Row>
       </div>
     );
   }

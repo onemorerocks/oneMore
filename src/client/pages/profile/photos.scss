@@ -2,9 +2,10 @@
 
 .dropzone {
   padding: 0.5rem;
-  height: 208px;
-  width: 208px;
+  height: calc(100% - 1rem);
+  width: 100%;
   border: dashed 2px lighten($black, 50%);
+  display: inline-block;
 
   &.gears {
     text-align: center;

@@ -22,7 +22,7 @@ services:
       - "8081:8081"
 
   thumbor:
-    image: apsl/thumbor:5.2.1e
+    image: apsl/thumbor:6.0.1
     ports:
       - "9999:8000"
     volumes:

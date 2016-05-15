@@ -34,7 +34,7 @@ export default class PhotoService {
 
       const options = {
         url: config.thumborUrl + path,
-        timeout: 5000
+        timeout: 10000
       };
 
       request.get(options)

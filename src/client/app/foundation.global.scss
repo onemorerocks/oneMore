@@ -1,12 +1,18 @@
 // Global variables and styles
 @import 'foundation-settings';
 
+$global-flexbox: true;
+
 // Components
 @import '../../../node_modules/foundation-sites/scss/foundation';
 
 @mixin foundation-includes {
   @include foundation-global-styles;
-  @include foundation-grid;
+
+  //@include foundation-grid;
+  @include foundation-flex-grid;
+  @include foundation-flex-classes;
+
   @include foundation-typography;
   @include foundation-button;
   @include foundation-forms;
