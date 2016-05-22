@@ -1,5 +1,5 @@
 {
-  "aerospikeAddress": "192.168.99.100",
+  "aerospikeAddress": "127.0.0.1",
   "aerospikePort": 3000,
   "port": 8000,
   "emailFrom": "my@email.com",
@@ -9,6 +9,6 @@
   "emailPort": 25,
   "domain": "http://localhost:8000",
   "sendEmails": false,
-  "thumborUrl": "http://192.168.99.100:9999",
-  "elasticsearchUrl": "http://192.168.99.100:9200"
+  "thumborUrl": "http://127.0.0.1:9999",
+  "elasticsearchUrl": "http://127.0.0.1:9200"
 }

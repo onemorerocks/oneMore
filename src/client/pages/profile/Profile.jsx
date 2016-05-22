@@ -2,6 +2,7 @@ import Component from 'react-pure-render/component';
 import DocumentTitle from 'react-document-title';
 import React from 'react';
 import Relay from 'react-relay';
+import { Row, Column } from 'react-foundation';
 
 import FormErrors from '../../components/FormErrors.jsx';
 import { allIds, excludeSavingFields, enums } from '../../../common/profileModel';
@@ -276,12 +277,13 @@ class Profile extends Component {
       <DocumentTitle title="oneMore - Profile">
         <form onSubmit={this._handleSubmit}>
 
-          <div className="row" styleName="mainProfile">
-            <div className="small-12 columns">
+          <Row>
+            <Column>
               <FormErrors errors={this.state.errors} />
-
               <h3>Profile</h3>
-            </div>
+            </Column>
+          </Row>
+          <Row styleName="mainProfile" upOnLarge={3} upOnMedium={2} upOnSmall={1} verticalAlignment="stretch">
             <FormGroup>
               <div>
                 <label>
@@ -436,7 +438,7 @@ class Profile extends Component {
                 </label>
               </div>}
             </FormGroup>
-            <FormGroup className={styles.shortOnLarge}>
+            <FormGroup>
               <div>
                 <label>
                   Ethnicity
@@ -456,7 +458,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className={styles.short}>
+            <FormGroup>
               <div>
                 <label>
                   Eye Color
@@ -476,7 +478,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className={styles.short}>
+            <FormGroup>
               <div>
                 <label>
                   Body Hair
@@ -496,7 +498,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className={styles.short}>
+            <FormGroup>
               <div>
                 <label>
                   HIV Status
@@ -516,7 +518,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className={styles.short}>
+            <FormGroup>
               <div>
                 <label>
                   Mannerisms & Speech
@@ -536,7 +538,7 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <FormGroup className={styles.short}>
+            <FormGroup>
               <div>
                 <label>
                   Tobacco
@@ -556,16 +558,18 @@ class Profile extends Component {
                 </label>
               </div>
             </FormGroup>
-            <div className="small-12 medium-12 large-6 columns end">
-              <fieldset styleName="fieldset short">
-                <label>
+          </Row>
+          <Row styleName="mainProfile">
+            <Column small={12} large={6}>
+              <fieldset styleName="fieldset" className="fieldset">
+                <label styleName="description-label">
                   Description (1000 character max)
-                  <textarea styleName="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
-                            name="description" />
+                      <textarea styleName="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
+                                name="description" />
                 </label>
               </fieldset>
-            </div>
-          </div>
+            </Column>
+          </Row>
 
           <Vanilla login={this.props.login} ref="vanilla" />
           <Kinks login={this.props.login} ref="kinks" />
@@ -575,8 +579,8 @@ class Profile extends Component {
             <div className="small-12 columns" styleName="save-row">
               <div className="float-right">
                 {profile.birthYear &&
-                  <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
-                         onClick={this._handleReset} />
+                <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
+                       onClick={this._handleReset} />
                 }
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>

@@ -15,7 +15,7 @@ export default class FormGroup extends Component {
 
   render() {
     return (
-      <div className="small-12 medium-6 large-4 columns end">
+      <div className="column">
         <fieldset className={classnames('fieldset', styles.fieldset, this.props.className)}>
           {this.props.children}
         </fieldset>

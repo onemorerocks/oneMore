@@ -1,6 +1,7 @@
 import Component from 'react-pure-render/component';
 import React from 'react';
 import Relay from 'react-relay';
+import { Row, Column } from 'react-foundation';
 import { starIds, profileStarsModel } from '../../../common/profileModel';
 import StarGroup from './StarGroup.jsx';
 
@@ -42,13 +43,15 @@ class Vanilla extends Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="small-12 columns">
+        <Row>
+          <Column>
             <h3>Vanilla Sex</h3>
-          </div>
+          </Column>
+        </Row>
+        <Row upOnLarge={3} upOnMedium={2} upOnSmall={1} verticalAlignment="stretch">
           {profileStarsModel.map((groupModel, i) =>
             <StarGroup groupModel={groupModel} onChange={this._handleOnChange} data={this.state} key={'stargroup' + i} />)}
-        </div>
+        </Row>
       </div>
     );
   }

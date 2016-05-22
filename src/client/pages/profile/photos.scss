@@ -3,6 +3,7 @@
 .dropzone {
   padding: 0.5rem;
   height: calc(100% - 1rem);
+  min-height: 13rem;
   width: 100%;
   border: dashed 2px lighten($black, 50%);
   display: inline-block;

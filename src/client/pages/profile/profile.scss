@@ -5,37 +5,29 @@
     padding-top: 0;
     margin-bottom: 2rem;
     border: 0;
-    @include breakpoint(medium) {
-      min-height: 15.2rem;
-    }
 
     @include breakpoint(small only) {
       margin-bottom: 0;
       padding: 0;
     }
-
-    &.short {
-      min-height: 10rem;
-    }
-
-    &.shortOnLarge {
-      @include breakpoint(large) {
-        min-height: 10rem;
-      }
-    }
   }
 }
 
 .description {
-  height: 10rem;
+  min-height: 7rem;
+  height: calc(100% - 1.875rem);
   resize: none;
+}
+
+.description-label {
+  height: 100%;
 }
 
 .fieldset {
   padding-bottom: 0;
   padding-right: 0.5rem;
   @include breakpoint(medium) {
-    min-height: 17rem;
+    height: calc(100% - 1.875rem);
   }
   margin-top: 0;
   margin-bottom: rem-calc(30);
