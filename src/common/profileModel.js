@@ -207,12 +207,10 @@ export const profileNumberFields = [
 ];
 
 export const profileStringListFields = [
-  'kinks',
-  'photos'
+  'kinks'
 ];
 
 export const excludeSavingFields = [
-  'photos'
 ];
 
 const flattenModel = (model, array) => {

@@ -84,7 +84,8 @@ export function queryProfiles(query) {
 
 export function addPhoto(jwt, location) {
   return getLoginByReq(jwt).then((login) => {
-    return dao.insertIntoList('profiles', login.profileId, 'photos', [location]).then(() => {
+    const data = { hash: location, content: [] };
+    return dao.insertIntoList('profiles', login.profileId, 'photos', [data]).then(() => {
       return true;
     });
   });

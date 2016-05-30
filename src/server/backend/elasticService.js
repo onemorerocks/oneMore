@@ -8,11 +8,15 @@ const client = new elasticsearch.Client({
 
 export function indexProfile(profile) {
   return new Promise((resolve) => {
+
+    const indexBody = profile;
+    delete indexBody.photos;
+
     client.index({
       index: 'onemore',
       type: 'profile',
       id: profile.id,
-      body: profile
+      body: indexBody
     }, (error, response) => {
       if (error) {
         throw newError(error);

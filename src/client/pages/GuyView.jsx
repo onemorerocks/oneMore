@@ -96,12 +96,12 @@ class GuyView extends Component {
             </h1>
           </Column>
           <Column small={12} medium={6} large={4}>
-            {profile.photos && profile.photos.map((photoHash, i) => {
-              if (photoHash) {
+            {profile.photos && profile.photos.map((photo, i) => {
+              if (photo && photo.hash) {
                 return (
-                  <div key={photoHash} key={'photo' + i}>
-                    <img className="thumbnail" src={`/api/photos/${photoHash}?size=208x208`} onClick={this.thumbnailHandler}
-                         name={photoHash} alt="User thumbnail" />
+                  <div key={'photo' + i}>
+                    <img className="thumbnail" src={`/api/photos/${photo.hash}?size=208x208`} onClick={this.thumbnailHandler}
+                         alt="User thumbnail" />
                   </div>
                 );
               } else {
@@ -180,7 +180,9 @@ export default Relay.createContainer(cssModules(GuyView, styles), {
         getProfile(id: $profileId) {
           id,
           nickname,
-          photos,
+          photos {
+            hash
+          },
           weight,
           age,
           weight,

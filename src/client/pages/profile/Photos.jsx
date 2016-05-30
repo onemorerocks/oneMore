@@ -5,6 +5,8 @@ import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { Row, Column } from 'react-foundation';
+
+import PhotoView from './PhotoView';
 import cssModules from '../../lib/cssModules';
 import styles from './photos.scss';
 
@@ -39,14 +41,6 @@ class Photos extends Component {
     });
   };
 
-  thumbnailHandler = (event) => {
-    this.setState({ showPhoto: event.target.name });
-  };
-
-  modalClickHandler = (event) => {
-    this.setState({ showPhoto: null });
-  };
-
   render() {
     const profile = this.props.login.profile;
 
@@ -66,16 +60,15 @@ class Photos extends Component {
             {!this.state.isUploading && <Dropzone onDrop={this.onDrop} accept="image/*" className={styles.dropzone}>
               <div>Drag and drop photos here, or click to select photos to upload.</div>
             </Dropzone>}
-            {this.state.isUploading &&
-            <div styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" alt="loading" /></div>
+            {this.state.isUploading && <div
+              styleName="dropzone gears"><img src="/assets/img/gears.svg" className="gearsImg" alt="loading" /></div>
             }
           </Column>
-          {profile.photos && profile.photos.map((photoHash, i) => {
-            if (photoHash) {
+          {profile.photos && profile.photos.map((photo, i) => {
+            if (photo) {
               return (
-                <Column key={photoHash}>
-                  <img className="thumbnail" src={`/api/photos/${photoHash}?size=442x332`} onClick={this.thumbnailHandler} name={photoHash}
-                       alt="profile thumbnail" />
+                <Column key={'photo' + i}>
+                  <PhotoView photo={photo} />
                 </Column>
               );
             } else {
@@ -93,7 +86,10 @@ export default Relay.createContainer(cssModules(Photos, styles), {
     login: () => Relay.QL`
       fragment on Login {
         profile {
-          photos
+          photos {
+            hash,
+            content
+          }
         }
       }
     `

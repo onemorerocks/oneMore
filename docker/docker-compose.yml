@@ -47,13 +47,6 @@ services:
       - mongo-data:/data/configdb
       - mongo-config:/data/db
 
-  mongo-express:
-    image: knickers/mongo-express
-    ports:
-      - "5001:8081"
-    environment:
-      ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
-
   rocketchat:
     image: rocketchat/rocket.chat:0.30.0
     ports:
@@ -71,6 +64,16 @@ services:
     environment:
       PORT: 5000
       MONGODB_URL: "mongodb://docker_mongo_1/errbit"
+
+  mongo-express:
+    image: knickers/mongo-express
+    ports:
+      - "5001:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
+
+  elastichq:
+    image: geertvb/elastichq
 
   cadvisor:
     image: google/cadvisor

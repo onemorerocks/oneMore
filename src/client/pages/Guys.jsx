@@ -67,7 +67,9 @@ class Guys extends Component {
               <div key={profile.id} className={'small-12 medium-4 large-3 columns ' + lastClass} onClick={this._handleProfileClick}
                    data-profile={profile.id}>
                 <div>
-                  {profile.photos && <img src={'/api/photos/' + profile.photos[0] + '?size=208x208'} alt="Profile" />}
+                  {profile.photos && profile.photos[0] && profile.photos[0].hash && <img
+                    src={'/api/photos/' + profile.photos[0].hash + '?size=208x208'} alt="Profile" />
+                  }
                 </div>
                 <div>
                   {profile.nickname}
@@ -95,7 +97,9 @@ export default Relay.createContainer(Guys, {
         profileSearch(query: $query) {
           id,
           nickname,
-          photos
+          photos {
+            hash
+          }
         }
       }
     `

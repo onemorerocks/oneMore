@@ -68,7 +68,27 @@ profileStringListFields.forEach((id) => {
 
 const profileFieldObj = {
   id: globalIdField('Profile'),
-  age: { type: GraphQLInt }
+  age: { type: GraphQLInt },
+  photos: {
+    type: new GraphQLList(new GraphQLObjectType({
+      name: 'Photo',
+      fields: () => ({
+        hash: {
+          type: GraphQLString
+        },
+        content: {
+          type: new GraphQLList(GraphQLString)
+        },
+        year: {
+          type: GraphQLInt
+        },
+        private: {
+          type: GraphQLBoolean
+        }
+      })
+    }))
+  },
+  mainPhotoHash: { type: GraphQLString }
 };
 
 const profileType = new GraphQLObjectType({

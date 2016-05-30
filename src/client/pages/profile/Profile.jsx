@@ -564,8 +564,8 @@ class Profile extends Component {
               <fieldset styleName="fieldset" className="fieldset">
                 <label styleName="description-label">
                   Description (1000 character max)
-                      <textarea styleName="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
-                                name="description" />
+                  <textarea styleName="description" maxLength="1000" value={state.description} onChange={this._handleOnChange}
+                            name="description" />
                 </label>
               </fieldset>
             </Column>
@@ -578,9 +578,9 @@ class Profile extends Component {
           <div className="row">
             <div className="small-12 columns" styleName="save-row">
               <div className="float-right">
-                {profile.birthYear &&
-                <input type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
-                       onClick={this._handleReset} />
+                {profile.birthYear && <input
+                  type="button" className="button" styleName="cancel" disabled={this.state.submitDisabled} value="Reset"
+                  onClick={this._handleReset} />
                 }
                 <input type="submit" className="button" disabled={this.state.submitDisabled} value="Save Profile" />
               </div>
