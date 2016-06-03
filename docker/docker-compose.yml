@@ -2,7 +2,7 @@ version: '2'
 
 services:
   elasticsearch:
-    image: elasticsearch:2.3.2
+    build: ./elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -71,9 +71,6 @@ services:
       - "5001:8081"
     environment:
       ME_CONFIG_MONGODB_SERVER: "docker_mongo_1"
-
-  elastichq:
-    image: geertvb/elastichq
 
   cadvisor:
     image: google/cadvisor
