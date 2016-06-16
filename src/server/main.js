@@ -10,6 +10,7 @@ import verifyEmailController from './api/verifyEmailController';
 import logoutController from './api/logoutController';
 import graphqlController from './api/graphqlController';
 import { photosControllerPost, photosControllerGet, photosControllerGetMeta } from './api/photosController';
+import { reIndexController } from './api/adminController';
 
 const server = new Hapi.Server();
 server.connection({ port: config.port });
@@ -72,6 +73,12 @@ server.register([Inert], (error) => {
     method: 'GET',
     path: '/api/photos/{hash}',
     handler: photosControllerGet
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/api/admin/reindex',
+    handler: reIndexController
   });
 
   server.route({

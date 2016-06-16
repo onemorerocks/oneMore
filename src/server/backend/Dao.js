@@ -8,16 +8,16 @@ export default class Dao {
 
   _connect() {
 
-    const rawClient = aerospike.client({
+    const clientOptions = {
       hosts: [{ addr: config.aerospikeAddress, port: config.aerospikePort }]
-    });
+    };
 
     return new Promise((resolve) => {
-      rawClient.connect((err, client) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
-          resolve(client);
-        } else {
+      aerospike.connect(clientOptions, (err, client) => {
+        if (err) {
           throw newError(err);
+        } else {
+          resolve(client);
         }
       });
     });
@@ -28,11 +28,11 @@ export default class Dao {
       return new Promise((resolve) => {
         cb(client, resolve);
       }).then((result) => {
-        client.close();
+        client.close(false);
         return result;
       }).catch((reason) => {
         try {
-          client.close();
+          client.close(false);
         } catch (e) {
           throw newError('could not close connection', e);
         }
@@ -45,9 +45,9 @@ export default class Dao {
     return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.get(dbkey, (err, record, metadata) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
+        if (!err) {
           resolve(record);
-        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
+        } else if (err === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
           resolve(null);
         } else {
           throw newError(err);
@@ -60,7 +60,7 @@ export default class Dao {
     return this._connectPromise((client, resolve) => {
       const dbkeys = keys.map((key) => aerospike.key('onemore', table, key));
       client.batchSelect(dbkeys, bins, (err, results) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
+        if (!err) {
           const records = results.map((result) => {
             if (result.record) {
               return result.record;
@@ -84,9 +84,9 @@ export default class Dao {
     return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._createPolicy, (err, putKey) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
+        if (!err) {
           resolve(putKey);
-        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_EXISTS) {
+        } else if (err === aerospike.status.AEROSPIKE_ERR_RECORD_EXISTS) {
           resolve(false);
         } else {
           throw newError(err);
@@ -103,9 +103,9 @@ export default class Dao {
     return this._connectPromise((client, resolve) => {
       const dbkey = aerospike.key('onemore', table, key);
       client.put(dbkey, data, null, this._setPolicy, (err, putKey) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
+        if (!err) {
           resolve(putKey);
-        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
+        } else if (err === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
           throw newError('Record not found in table: ' + table + '.' + key);
         } else {
           throw newError(err);
@@ -121,13 +121,37 @@ export default class Dao {
       });
       const dbkey = aerospike.key('onemore', table, key);
       client.operate(dbkey, ops, (err, record) => {
-        if (err.code === aerospike.status.AEROSPIKE_OK) {
+        if (!err) {
           resolve(record);
-        } else if (err.code === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
+        } else if (err === aerospike.status.AEROSPIKE_ERR_RECORD_NOT_FOUND) {
           throw newError('Record not found in table: ' + table + '.' + key);
         } else {
           throw newError(err);
         }
+      });
+
+    });
+  }
+
+  scan(table, goodFunc, errorFunc) {
+    return this._connectPromise((client, resolve) => {
+      const scan = client.scan('onemore', table);
+      scan.concurrent = true;
+      scan.nobins = false;
+
+      const stream = scan.foreach();
+      stream.on('data', (record) => {
+        goodFunc(record);
+      });
+
+      stream.on('error', (error) => {
+        if (errorFunc) {
+          errorFunc(error);
+        }
+      });
+
+      stream.on('end', () => {
+        resolve(true);
       });
 
     });

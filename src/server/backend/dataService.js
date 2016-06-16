@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Dao from './Dao';
-import { indexProfile, searchProfiles } from './elasticService';
+import { indexProfile, searchProfiles, deleteIndex, indexExists } from './elasticService';
+import newError from './newError';
 
 const dao = new Dao();
 
@@ -88,5 +89,20 @@ export function addPhoto(jwt, location) {
     return dao.insertIntoList('profiles', login.profileId, 'photos', [data]).then(() => {
       return true;
     });
+  });
+}
+
+
+const doScan = () => dao.scan('profiles', (profile) => indexProfile(profile), (error) => {
+  throw newError(error);
+});
+
+export function reIndex() {
+  return indexExists().then((exists) => {
+    if (exists) {
+      return deleteIndex().then(() => doScan());
+    } else {
+      return doScan();
+    }
   });
 }

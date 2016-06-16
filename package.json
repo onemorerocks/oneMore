@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "add-to-homescreen": "^3.2.6",
-    "aerospike": "^1.0.56",
+    "aerospike": "^2.1.0",
     "airbrake-js": "0.5.8",
     "autoprefixer": "^6.3.6",
     "axios": "^0.11.0",

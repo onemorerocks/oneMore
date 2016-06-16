@@ -44,3 +44,31 @@ export function searchProfiles(query) {
     });
   });
 }
+
+export function indexExists() {
+  return new Promise((resolve) => {
+    client.indices.exists({
+      index: 'onemore'
+    }, (error, response) => {
+      if (error) {
+        throw newError(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+}
+
+export function deleteIndex() {
+  return new Promise((resolve) => {
+    client.indices.delete({
+      index: 'onemore'
+    }, (error, response) => {
+      if (error) {
+        throw newError(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+}
